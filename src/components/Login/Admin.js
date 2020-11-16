@@ -1,8 +1,9 @@
 import React from "react";
-import { Route, Switch, NavLink } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import routesAdmin from "../../routesAdmin";
 
 export default function Admin() {
+  let history = useHistory();
   function showContent(routes) {
     var result = null;
     if (routes.length > 0) {
@@ -22,35 +23,59 @@ export default function Admin() {
   return (
     <div>
       <h3>Admin</h3>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/admin/quanlydaytro">
-          Quan ly Day tro
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/admin/quanlydaytro");
+        }}
+      >
+        Quan ly Day tro
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/admin/quanlyphongtro">
-          Quan ly Phong tro
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/admin/quanlyphongtro");
+        }}
+      >
+        Quan ly Phong tro
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/admin/quanlynguoi">
-          Quan ly Nguoi
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/admin/quanlynguoi");
+        }}
+      >
+        Quan ly Nguoi
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/admin/thongke">
-          Thong ke
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/admin/thongke");
+        }}
+      >
+        Thong ke
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/admin/yeucau">
-          Yeu cau
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/admin/yeucau");
+        }}
+      >
+        Yeu cau
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/admin/thongbao">
-          Thong bao
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/admin/thongbao");
+        }}
+      >
+        Thong bao
       </button>
       <Switch>{showContent(routesAdmin)}</Switch>
     </div>

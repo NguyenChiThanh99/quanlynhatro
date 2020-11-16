@@ -1,8 +1,9 @@
 import React from "react";
-import { Route, Switch, NavLink } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import routesUser from "../../routesUser";
 
 export default function User() {
+  let history = useHistory();
   function showContent(routes) {
     var result = null;
     if (routes.length > 0) {
@@ -21,26 +22,42 @@ export default function User() {
   }
   return (
     <div>
-      <h3>Admin</h3>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/user/thongtinchung">
-          Thong tin chung
-        </NavLink>
+      <h3>User</h3>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/user/thongtinchung");
+        }}
+      >
+        Thong tin chung
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/user/thanhtoan">
-          Thanh toan
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/user/thanhtoan");
+        }}
+      >
+        Thanh toan
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/user/yeucau">
-          Yeu cau
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/user/yeucau");
+        }}
+      >
+        Yeu cau
       </button>
-      <button type="button" class="btn btn-dark">
-        <NavLink className="nav-link" to="/user/thongbao">
-          Thong bao
-        </NavLink>
+      <button
+        type="button"
+        class="btn btn-dark"
+        onClick={() => {
+          history.push("/user/thongbao");
+        }}
+      >
+        Thong bao
       </button>
       <Switch>{showContent(routesUser)}</Switch>
     </div>

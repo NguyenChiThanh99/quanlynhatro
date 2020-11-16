@@ -1,30 +1,29 @@
 import React from "react";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-export function Home() {
+export default function DayTro() {
   let history = useHistory();
   return (
-    <div className="container">
-      <h3>Login</h3>
+    <div>
+      <h3>Day tro</h3>
       <button
         type="button"
         class="btn btn-dark"
         onClick={() => {
-          history.push("/admin");
+          history.push("/admin/quanlydaytro/daytro/daytrodetail");
         }}
       >
-        Admin
+        Day tro Detail
       </button>
       <button
         type="button"
         class="btn btn-dark"
         onClick={() => {
-          history.push("/user");
+          history.push("/admin/quanlydaytro/daytro/phongtro");
         }}
       >
-        User
+        Phong tro
       </button>
     </div>
   );
 }
-export default Home;
