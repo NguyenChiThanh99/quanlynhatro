@@ -1,12 +1,16 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+import logo from '../../images/logo.png';
+
 export function Home() {
   let history = useHistory();
   return (
     <div className="login">
       <div className="header">
-        {/* <img src="./img/logo.png" alt="" style="height: ;"> */}
+        <div className="logo">
+          <img id="img-logo" src={logo} alt="Logo" />
+        </div>
       </div>
       <div className="body">
         <div className="formlogin">
@@ -29,9 +33,18 @@ export function Home() {
               <span className="material-icons icon2">help</span>
               <p className="quenmktext">Quên mật khẩu</p>
             </div>
-            <div className="box-btn">
-              <button className="btn2">Đăng nhập</button>
-              <button className="btn">Đăng nhập</button>
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+                marginTop: 20,
+              }}
+            >
+              <div className="box-btn">
+                <div className="btn2"> </div>
+                <button className="btn">Đăng nhập</button>
+              </div>
             </div>
           </div>
         </div>
