@@ -54,7 +54,7 @@ export default function QuanLyDayTro() {
               </div>
               <button className="btn">
                 <i className="material-icons" id="icon-btn">add_circle</i>
-                Thêm dãy trọ
+                Thêm dãy mới
               </button>
             </div>
           </div>

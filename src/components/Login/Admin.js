@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import routesAdmin from "../../routesAdmin";
 
 import logo from "../../images/logo.png";
 import avatar from "../../images/avatar.png";
-import avatar_nhatro from "../../images/avatar_nhatro.jpg"
+import avatar_nhatro from "../../images/avatar_nhatro.jpg";
 
 export default function Admin() {
   let history = useHistory();
@@ -24,6 +24,65 @@ export default function Admin() {
     }
     return result;
   }
+
+  const [daytro, setDaytro] = useState("nav-item nav-item-click");
+  const [phongtro, setPhongtro] = useState("nav-item");
+  const [nguoi, setNguoi] = useState("nav-item");
+  const [thongke, setThongke] = useState("nav-item");
+  const [yeucau, setYeucau] = useState("nav-item");
+  const [thongbao, setThongbao] = useState("nav-item");
+
+  const handleMenu = (menuItem) => {
+    if (menuItem === 1) {
+      setDaytro("nav-item nav-item-click");
+      setPhongtro("nav-item");
+      setNguoi("nav-item");
+      setThongke("nav-item");
+      setYeucau("nav-item");
+      setThongbao("nav-item");
+      history.push("/admin/quanlydaytro");
+    } else if (menuItem === 2) {
+      setDaytro("nav-item");
+      setPhongtro("nav-item nav-item-click");
+      setNguoi("nav-item");
+      setThongke("nav-item");
+      setYeucau("nav-item");
+      setThongbao("nav-item");
+      history.push("/admin/quanlyphongtro");
+    } else if (menuItem === 3) {
+      setDaytro("nav-item");
+      setPhongtro("nav-item");
+      setNguoi("nav-item nav-item-click");
+      setThongke("nav-item");
+      setYeucau("nav-item");
+      setThongbao("nav-item");
+      history.push("/admin/quanlynguoi");
+    } else if (menuItem === 4) {
+      setDaytro("nav-item");
+      setPhongtro("nav-item");
+      setNguoi("nav-item");
+      setThongke("nav-item nav-item-click");
+      setYeucau("nav-item");
+      setThongbao("nav-item");
+      history.push("/admin/thongke");
+    } else if (menuItem === 5) {
+      setDaytro("nav-item");
+      setPhongtro("nav-item");
+      setNguoi("nav-item");
+      setThongke("nav-item");
+      setYeucau("nav-item nav-item-click");
+      setThongbao("nav-item");
+      history.push("/admin/yeucau");
+    } else if (menuItem === 6) {
+      setDaytro("nav-item");
+      setPhongtro("nav-item");
+      setNguoi("nav-item");
+      setThongke("nav-item");
+      setYeucau("nav-item");
+      setThongbao("nav-item nav-item nav-item-click");
+      history.push("/admin/thongbao");
+    }
+  };
   return (
     <div>
       <div className="header">
@@ -64,32 +123,62 @@ export default function Admin() {
           </div>
           <div className="line" />
           <ul className="ul-nav">
-            <li className="nav-item nav-item-click">
+            <li
+              className={daytro}
+              onClick={() => {
+                handleMenu(1);
+              }}
+            >
               <i className="material-icons icon-left">arrow_right</i>
               <i className="material-icons icon-right">location_city</i>
               <span className="text-nav">Quản lý dãy trọ</span>
             </li>
-            <li className="nav-item">
+            <li
+              className={phongtro}
+              onClick={() => {
+                handleMenu(2);
+              }}
+            >
               <i className="material-icons icon-left">arrow_right</i>
               <i className="material-icons icon-right">meeting_room</i>
               <span className="text-nav">Quản lý phòng trọ</span>
             </li>
-            <li className="nav-item">
+            <li
+              className={nguoi}
+              onClick={() => {
+                handleMenu(3);
+              }}
+            >
               <i className="material-icons icon-left">arrow_right</i>
               <i className="material-icons icon-right">accessibility</i>
               <span className="text-nav">Quản lý người</span>
             </li>
-            <li className="nav-item">
+            <li
+              className={thongke}
+              onClick={() => {
+                handleMenu(4);
+              }}
+            >
               <i className="material-icons icon-left">arrow_right</i>
               <i className="material-icons icon-right">assessment</i>
               <span className="text-nav">Thống kê</span>
             </li>
-            <li className="nav-item">
+            <li
+              className={yeucau}
+              onClick={() => {
+                handleMenu(5);
+              }}
+            >
               <i className="material-icons icon-left">arrow_right</i>
               <i className="material-icons icon-right">build</i>
               <span className="text-nav">Yêu cầu</span>
             </li>
-            <li className="nav-item">
+            <li
+              className={thongbao}
+              onClick={() => {
+                handleMenu(6);
+              }}
+            >
               <i className="material-icons icon-left">arrow_right</i>
               <i className="material-icons icon-right">notifications</i>
               <span className="text-nav">Thông báo</span>
@@ -99,62 +188,5 @@ export default function Admin() {
         <Switch>{showContent(routesAdmin)}</Switch>
       </div>
     </div>
-    // <div>
-    //   <h3>Admin</h3>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/quanlydaytro");
-    //     }}
-    //   >
-    //     Quan ly Day tro
-    //   </button>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/quanlyphongtro");
-    //     }}
-    //   >
-    //     Quan ly Phong tro
-    //   </button>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/quanlynguoi");
-    //     }}
-    //   >
-    //     Quan ly Nguoi
-    //   </button>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/thongke");
-    //     }}
-    //   >
-    //     Thong ke
-    //   </button>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/yeucau");
-    //     }}
-    //   >
-    //     Yeu cau
-    //   </button>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/thongbao");
-    //     }}
-    //   >
-    //     Thong bao
-    //   </button>
-    // </div>
   );
 }
