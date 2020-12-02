@@ -11,7 +11,7 @@ export default function ThongBao() {
               <div className="btn2">
               </div>
               <button className="btn">
-                <i className="material-icons" id="icon-btn">add_circle</i>
+                <i className="material-icons-round" id="icon-btn">add_circle</i>
                 Thêm thông báo
               </button>
             </div>
@@ -24,7 +24,7 @@ export default function ThongBao() {
               <tr>
                 <th className="sort">
                   <p className="sort_text">Thời gian</p>
-                  <span className="material-icons icon">arrow_downward</span>
+                  <span className="material-icons-round icon">arrow_downward</span>
                 </th>
                 <th>
                   <p>Nội dung</p>

@@ -1,3 +1,38 @@
+@font-face {
+  font-family: 'Roboto-Black';
+  src: local('Roboto'), url(./fonts/Roboto-Black.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto-Bold';
+    font-weight: 900;
+    src: local('Roboto'), url(./fonts/Roboto-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto-Light';
+    font-weight: 900;
+    src: local('Roboto'), url(./fonts/Roboto-Light.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto-Medium';
+  font-weight: 900;
+  src: local('Roboto'), url(./fonts/Roboto-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  font-weight: 900;
+  src: local('Roboto'), url(./fonts/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto-Thin';
+  font-weight: 900;
+  src: local('Roboto'), url(./fonts/Roboto-Thin.ttf) format('truetype');
+}
+
 body {
   display: block;
   margin: 0px;
@@ -55,11 +90,12 @@ span {
 .header #username {
   padding-left: 10px;
   color: #333333;
+  font-family: Roboto-Regular;
 }
 
 .header #img-logo {
   width: 200px;
-  height: 45px;
+  height: auto;
   margin-left: 30px;
 }
 
@@ -75,14 +111,15 @@ span {
   background: #F6F5F5;
   border-radius: 8px;
   width: 90%;
-  height: 48px;
+  height: 40px;
   padding-left: 60px;
   font-size: 18px;
+  font-family: Roboto-Regular;
 }
 
 .header #input-search::placeholder {
   color: #828282;
-  font-weight: 300;
+  font-family: Roboto-Light;
 }
 
 .header #input-search:hover {
@@ -188,6 +225,7 @@ span {
   font-size: 18px;
   line-height: 21px;
   color: white;
+  font-family: Roboto-Medium;
 }
 
 .nav .title {
@@ -223,6 +261,7 @@ span {
   text-align: center;
   color: white;
   padding-left: 14px;
+  font-family: Roboto-Medium;
 }
 
 .nav .line {
@@ -260,22 +299,24 @@ span {
   padding: 0px 50px;
   height: 80vh;
   overflow-y: scroll;
+  padding-top: 25px;
 }
 
 .quanlydaytro .dropdown {
   align-self: center;
   color: #333333;
   font-size: 18px;
+  font-family: Roboto-Regular;
 }
 
 .quanlydaytro .card {
   width: 235px;
-  height: 225px;
+  height: 220px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 0 2px black;
   overflow: hidden;
-  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .quanlydaytro .card #img-card {
@@ -288,6 +329,18 @@ span {
   flex-direction: column;
   align-items: flex-start;
   margin-left: 15px;
+}
+
+.quanlydaytro .card .box-name h4 {
+  color: #333333;
+  font-family: Roboto-Medium;
+}
+
+
+.quanlydaytro .card .box-name span {
+  color: #828282;
+  font-size: 16px;
+  font-family: Roboto-Regular;
 }
 
 .row {
@@ -322,16 +375,23 @@ span {
   padding-right: 4%;
 }
 
+.row h3 {
+  font-family: Roboto-Medium;
+  color: #151515;
+}
+
 .quanlynguoithue .array-item {
   display: grid;
   grid-template-columns: auto auto auto;
   padding: 25px 50px;
+  padding-top: 25px;
 }
 
 .quanlynguoithue .dropdown {
   align-self: center;
   color: #333333;
   font-size: 18px;
+  font-family: Roboto-Regular;
 }
 
 .quanlynguoithue .card {
@@ -352,7 +412,16 @@ span {
   margin-left: 15px;
 }
 
+.quanlynguoithue .card .box-name h4 {
+  font-family: Roboto-Regular;
+  color: #333333;
+}
 
+.quanlynguoithue .card .box-name span {
+  font-size: 16px;
+  font-family: Roboto-Regular;
+  color: #828282;
+}
 
                                                       /* Componnent button */
 .box-btn {
@@ -375,6 +444,7 @@ span {
   color: white;
   justify-content: center;
   border-width: 0;
+  font-family: Roboto-Regular;
 }
 
 .box-btn .btn2 {
@@ -538,6 +608,7 @@ span {
 .yeucau .table p{
   margin-top: 0px;
   margin-bottom: 0px;
+  font-family: Roboto-Medium;
 }
 .yeucau .table td{
   padding-left: 16px;
@@ -545,6 +616,7 @@ span {
   padding-top: 8px;
   padding-bottom: 8px;
   color: #828282;
+  font-family: Roboto-Regular;
 }
 .yeucau .table th{
   padding-left: 16px;
@@ -560,7 +632,15 @@ span {
 }
 .yeucau .table .icon2{
   color: #EB5757;
-  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.yeucau .table .icon3{
+  color: #219653;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 .yeucau .sort{
   display: table-cell;
@@ -603,6 +683,13 @@ span {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+.thanhtoan .month {
+  font-family: Roboto-Medium;
+  color: #4f4f4f;
+}
+.thanhtoan .chotchiso {
+  font-family: Roboto-Regular;
+}
 .thanhtoan .table td{
   padding-left: 16px;
   padding-right: 16px;
@@ -617,6 +704,7 @@ span {
   padding-bottom: 8px;
   text-align: left;
   color: #4f4f4f;
+  font-family: Roboto-Medium;
 }
 .thanhtoan .table p{
   margin-top: 0px;
@@ -643,43 +731,51 @@ span {
 }
 .thanhtoan .chiso{
   display: inline;
+  font-family: Roboto-Regular;
 }
 .thanhtoan .box-btn {
   margin-top: 8px;
   display: flex;
   position: relative;
+  justify-content: flex-start;
 }
 
 .thanhtoan .box-btn .btn {
   font-size: 14px;
   background: #1f3c88;
-  padding: 8px;
   position: absolute;
   color: white;
-  width: 98%;
   border-width: 0px;
+  width: 150px;
 }
 
 .thanhtoan .box-btn .btn2 {
-  font-size: 14px;
-  background: #070d59;
-  padding: 8px;
+  background: #070D59;
+  width: 150px;
+  height: 36px;
   margin-left: 5px;
   margin-top: 5px;
-  width: 100%;
-  border-width: 0px;
+  border-width: 0;
 }
+
 .thanhtoan .text-top{
   vertical-align: text-top;
 }
+
 .thanhtoan .tien{
   color: #1F3C88 !important;
-  font-weight: bold;
+  font-family: Roboto-Medium;
 }
+
 .thanhtoan .padbot4px{
   padding-bottom: 4px;
 }
+
 .thanhtoan .colorblack{
   color: #4f4f4f;
-  font-weight: 500;
+  font-family: Roboto-Medium;
+}
+
+.thanhtoan .thanhtoan-status {
+  font-family: Roboto-Regular;
 }

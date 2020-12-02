@@ -11,13 +11,13 @@ export default function QuanLyNguoi() {
           <h3>Tất cả người thuê</h3>
           <div className="row">
             <p className="dropdown">Mới nhất</p>
-            <i className="material-icons" style={{padding: '0px 20px 0px 10px', color: '#828282', alignSelf: 'center'}}>arrow_drop_down</i>
+            <i className="material-icons-round" style={{padding: '0px 20px 0px 10px', color: '#828282', alignSelf: 'center'}}>arrow_drop_down</i>
             {/* Compoent button */}
             <div className="box-btn">
               <div className="btn2">
               </div>
               <button className="btn">
-                <i className="material-icons" id="icon-btn">add_circle</i>
+                <i className="material-icons-round" id="icon-btn">add_circle</i>
                 Thêm người mới
               </button>
             </div>

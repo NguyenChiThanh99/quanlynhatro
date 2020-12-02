@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import routesUser from "../../routesUser";
 
-import logo from "../../images/logo.png";
+import logo from "../../images/logo.jpg";
 import avatar from "../../images/avatar.png";
 import avatar_nhatro from "../../images/avatar_nhatro.jpg";
 
@@ -66,7 +66,7 @@ export default function User() {
           <img id="img-logo" src={logo} alt="Logo" />
         </div>
         <div className="search">
-          <i className="material-icons" id="icon-search">
+          <i className="material-icons-round" id="icon-search">
             search
           </i>
           <input
@@ -79,7 +79,7 @@ export default function User() {
           <img id="img-avatar" src={avatar} alt="Avatar" />
           <span id="username">Duy Nhựt</span>
           <i
-            className="material-icons"
+            className="material-icons-round"
             style={{ paddingTop: "3px", paddingLeft: "6px", color: "#828282" }}
           >
             arrow_drop_down
@@ -104,8 +104,8 @@ export default function User() {
                 handleMenu(1);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">person</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">person</i>
               <span className="text-nav">Thông tin chung</span>
             </li>
             <li
@@ -114,8 +114,8 @@ export default function User() {
                 handleMenu(2);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">receipt</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">receipt</i>
               <span className="text-nav">Thanh toán</span>
             </li>
             <li
@@ -124,8 +124,8 @@ export default function User() {
                 handleMenu(3);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">build</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">build</i>
               <span className="text-nav">Yêu cầu</span>
             </li>
             <li
@@ -134,8 +134,8 @@ export default function User() {
                 handleMenu(4);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">notifications</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">notifications</i>
               <span className="text-nav">Thông báo</span>
             </li>
           </ul>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import routesAdmin from "../../routesAdmin";
 
-import logo from "../../images/logo.png";
+import logo from "../../images/logo.jpg";
 import avatar from "../../images/avatar.png";
 import avatar_nhatro from "../../images/avatar_nhatro.jpg";
 
@@ -91,7 +91,7 @@ export default function Admin() {
           <img id="img-logo" src={logo} alt="Logo" />
         </div>
         <div className="search">
-          <i className="material-icons" id="icon-search">
+          <i className="material-icons-round" id="icon-search">
             search
           </i>
           <input
@@ -104,7 +104,7 @@ export default function Admin() {
           <img id="img-avatar" src={avatar} alt="Avatar" />
           <span id="username">Duy Nhựt</span>
           <i
-            className="material-icons"
+            className="material-icons-round"
             style={{ paddingTop: "3px", paddingLeft: "6px", color: "#828282" }}
           >
             arrow_drop_down
@@ -129,8 +129,8 @@ export default function Admin() {
                 handleMenu(1);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">location_city</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">location_city</i>
               <span className="text-nav">Quản lý dãy trọ</span>
             </li>
             <li
@@ -139,8 +139,8 @@ export default function Admin() {
                 handleMenu(2);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">meeting_room</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">meeting_room</i>
               <span className="text-nav">Quản lý phòng trọ</span>
             </li>
             <li
@@ -149,8 +149,8 @@ export default function Admin() {
                 handleMenu(3);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">accessibility</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">accessibility</i>
               <span className="text-nav">Quản lý người</span>
             </li>
             <li
@@ -159,8 +159,8 @@ export default function Admin() {
                 handleMenu(4);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">assessment</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">assessment</i>
               <span className="text-nav">Thống kê</span>
             </li>
             <li
@@ -169,8 +169,8 @@ export default function Admin() {
                 handleMenu(5);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">build</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">build</i>
               <span className="text-nav">Yêu cầu</span>
             </li>
             <li
@@ -179,8 +179,8 @@ export default function Admin() {
                 handleMenu(6);
               }}
             >
-              <i className="material-icons icon-left">arrow_right</i>
-              <i className="material-icons icon-right">notifications</i>
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">notifications</i>
               <span className="text-nav">Thông báo</span>
             </li>
           </ul>

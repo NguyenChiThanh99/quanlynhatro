@@ -13,7 +13,7 @@ export default function YeuCau() {
               <tr>
                 <th className="sort">
                   <p className="sort_text">Thời gian</p>
-                  <span className="material-icons icon">arrow_downward</span>
+                  <span className="material-icons-round icon">arrow_downward</span>
                 </th>
                 <th>
                   <p>Phòng</p>
@@ -27,7 +27,7 @@ export default function YeuCau() {
                 <th>
                   <p>Ghi chú</p>
                 </th>
-                <th>
+                <th style={{ whiteSpace: "nowrap" }}>
                   <p>Trạng thái</p>
                 </th>
               </tr>
@@ -43,7 +43,7 @@ export default function YeuCau() {
                   <input type="text" className="ghichu" />
                 </td>
                 <td>
-                  <span className="material-icons icon2">cancel</span>
+                  <span className="material-icons-round icon3">check_circle</span>
                 </td>
               </tr>
               <tr>
@@ -58,7 +58,7 @@ export default function YeuCau() {
                   <input type="text" className="ghichu" />
                 </td>
                 <td>
-                  <span className="material-icons icon2">cancel</span>
+                  <span className="material-icons-round icon2">cancel</span>
                 </td>
               </tr>
             </tbody>

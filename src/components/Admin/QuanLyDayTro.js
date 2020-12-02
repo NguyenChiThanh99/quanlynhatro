@@ -47,13 +47,13 @@ export default function QuanLyDayTro() {
           <h3 style={{color: '#151515'}}>Tất cả dãy trọ</h3>
           <div className="row">
             <p className="dropdown">Mới nhất</p>
-            <i className="material-icons" style={{padding: '0px 20px 0px 10px', color: '#333333', alignSelf: 'center'}}>arrow_drop_down</i>
+            <i className="material-icons-round" style={{padding: '0px 20px 0px 10px', color: '#333333', alignSelf: 'center'}}>arrow_drop_down</i>
             {/* Compoent button */}
             <div className="box-btn">
               <div className="btn2">
               </div>
               <button className="btn">
-                <i className="material-icons" id="icon-btn">add_circle</i>
+                <i className="material-icons-round" id="icon-btn">add_circle</i>
                 Thêm dãy mới
               </button>
             </div>

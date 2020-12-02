@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import logo from '../../images/logo.png';
+import logo from '../../images/logo.jpg';
 
 export function Home() {
   let history = useHistory();
