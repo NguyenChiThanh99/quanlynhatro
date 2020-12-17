@@ -9,14 +9,31 @@ import logo from "../../images/logo.jpg";
 export function Home() {
   let history = useHistory();
   const login = () => {
+    // const data = {
+    //   email: "nguyenchithanh1999@gmail.com",
+    //   password: "d41nhh",
+    // };
+    // const url = Global.server + "user/login";
+    // const options = {
+    //   method: "POST",
+    //   headers: { "content-type": "application/x-www-form-urlencoded" },
+    //   url,
+    //   data: qs.stringify(data)
+    // };
+    // axios(options)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {});
+
     const data = {
-      userId: "5fc495448178f40024971f30"
-  };
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InJvbGUiOiJVc2VyIiwiZmlyc3Rsb2dpbiI6ZmFsc2UsImlzRGVsZXRlZCI6ZmFsc2UsIl9pZCI6IjVmZGFmZmRhYzZhZDY5MDAyNGM2OTY5YiIsImVtYWlsIjoibmd1eWVuY2hpdGhhbmgxOTk5QGdtYWlsLmNvbSIsIm5hbWUiOiJOZ3V54buFbiBDaMOtIFRoYW5oIiwicGhvbmUiOiIwODM0OTk5MzczIiwiYWRkcmVzcyI6IkvDvSB0w7pjIHjDoSBraHUgQSwgVFAuSENNIiwiY21uZCI6IjMwMTY2MjIyMiIsImJpcnRoZGF5IjoiMTk5OS0xMi0wMlQwMDowMDowMC4wMDBaIiwiZ2VuZGVyIjoiTWFsZSIsImF2YXRhciI6IkFkYWRhIiwiam9iIjoiU2luaCB2acOqbiIsInN0YXJ0RGF0ZSI6IjIwMjAtMTItMTBUMDA6MDA6MDAuMDAwWiIsInByaWNlIjo1MDAwMDAwLCJibG9jayI6IjVmZDJjZWE3ZDVlNGM5MzcxMDA5Y2ZmZSIsInJvb20iOiI1ZmRhMjlmM2M4NjVlMDNmMDA5YWM0NGQiLCJwYXNzd29yZCI6IiQyYSQxMCRpMTl1emJvbTNsSGlBWm5HTEFoU0F1bnhtRVNXajJ4WEdUbmF4d000azhkclQ5S0ltaGYubSIsImNyZWF0ZWRBdCI6IjIwMjAtMTItMTdUMDY6NTE6MDYuNzk2WiIsInVwZGF0ZUF0IjoiMjAyMC0xMi0xN1QwNjo1MTowNi43OTZaIiwiX192IjowfSwiaWF0IjoxNjA4MTk4MzM3LCJleHAiOjE2MDgxOTg5Mzd9.5pQBISOlEFf6dPSsLNEjn6xasCQrzbOb6WQ3EPCngH8"
-    const url = Global.server + "service/getservicebyadminid";
+        userId: "5fc495448178f40024971f30"
+    };
+    const token = ""
+    const url = Global.server + "block/getallblockbyadminid";
     const options = {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { "content-type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${token}`, "Access-Control-Allow-Origin": "*" },
       url,
       data: qs.stringify(data)
     };
