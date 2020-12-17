@@ -19,7 +19,7 @@ export function Home() {
       headers: { "content-type": "application/x-www-form-urlencoded" },
       url,
       // data: qs.stringify(data),
-      data: data,
+      data: JSON.stringify(data)
     };
     axios(options)
       .then((res) => {
