@@ -10,8 +10,8 @@ export function Home() {
   let history = useHistory();
   const login = () => {
     const data = {
-      email: "nguyenchithanh1999@gmail.com",
-      password: "d41nhh",
+      "email": "nguyenchithanh1999@gmail.com",
+      "password": "d41nhh",
     };
     const url = Global.server + "user/login";
     const options = {
@@ -24,7 +24,6 @@ export function Home() {
       .then((res) => {
         console.log(res)
       })
-      .catch((error) => {});
   }
   
   return (
