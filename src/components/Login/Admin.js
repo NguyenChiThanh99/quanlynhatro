@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import routesAdmin from "../../routesAdmin";
 
@@ -25,64 +26,99 @@ export default function Admin() {
     return result;
   }
 
-  const [daytro, setDaytro] = useState("nav-item nav-item-click");
-  const [phongtro, setPhongtro] = useState("nav-item");
-  const [nguoi, setNguoi] = useState("nav-item");
-  const [thongke, setThongke] = useState("nav-item");
-  const [yeucau, setYeucau] = useState("nav-item");
-  const [thongbao, setThongbao] = useState("nav-item");
+  const [menu, setMenu] = useState({
+    daytro: "nav-item nav-item-click",
+    phongtro: "nav-item",
+    nguoi: "nav-item",
+    thongke: "nav-item",
+    yeucau: "nav-item",
+    thongbao: "nav-item",
+    dichvu: "nav-item",
+  });
 
-  const handleMenu = (menuItem) => {
-    if (menuItem === 1) {
-      setDaytro("nav-item nav-item-click");
-      setPhongtro("nav-item");
-      setNguoi("nav-item");
-      setThongke("nav-item");
-      setYeucau("nav-item");
-      setThongbao("nav-item");
-      history.push("/admin/quanlydaytro");
-    } else if (menuItem === 2) {
-      setDaytro("nav-item");
-      setPhongtro("nav-item nav-item-click");
-      setNguoi("nav-item");
-      setThongke("nav-item");
-      setYeucau("nav-item");
-      setThongbao("nav-item");
-      history.push("/admin/quanlyphongtro");
-    } else if (menuItem === 3) {
-      setDaytro("nav-item");
-      setPhongtro("nav-item");
-      setNguoi("nav-item nav-item-click");
-      setThongke("nav-item");
-      setYeucau("nav-item");
-      setThongbao("nav-item");
-      history.push("/admin/quanlynguoi");
-    } else if (menuItem === 4) {
-      setDaytro("nav-item");
-      setPhongtro("nav-item");
-      setNguoi("nav-item");
-      setThongke("nav-item nav-item-click");
-      setYeucau("nav-item");
-      setThongbao("nav-item");
-      history.push("/admin/thongke");
-    } else if (menuItem === 5) {
-      setDaytro("nav-item");
-      setPhongtro("nav-item");
-      setNguoi("nav-item");
-      setThongke("nav-item");
-      setYeucau("nav-item nav-item-click");
-      setThongbao("nav-item");
-      history.push("/admin/yeucau");
-    } else if (menuItem === 6) {
-      setDaytro("nav-item");
-      setPhongtro("nav-item");
-      setNguoi("nav-item");
-      setThongke("nav-item");
-      setYeucau("nav-item");
-      setThongbao("nav-item nav-item nav-item-click");
-      history.push("/admin/thongbao");
+  useEffect(() => {
+    handleMenu();
+    return () => {
+      handleMenu();
+    };
+  }, [window.location.pathname]);
+
+  const handleMenu = () => {
+    if (window.location.pathname.indexOf("quanlydaytro") !== -1) {
+      setMenu({
+        daytro: "nav-item nav-item-click",
+        phongtro: "nav-item",
+        nguoi: "nav-item",
+        thongke: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+        dichvu: "nav-item",
+      })
+    } else if (window.location.pathname.indexOf("quanlyphongtro") !== -1) {
+      setMenu({
+        daytro: "nav-item",
+        phongtro: "nav-item nav-item-click",
+        nguoi: "nav-item",
+        thongke: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+        dichvu: "nav-item",
+      })
+    } else if (window.location.pathname.indexOf("quanlynguoi") !== -1) {
+      setMenu({
+        daytro: "nav-item",
+        phongtro: "nav-item",
+        nguoi: "nav-item nav-item-click",
+        thongke: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+        dichvu: "nav-item",
+      })
+
+    } else if (window.location.pathname.indexOf("thongke") !== -1) {
+      setMenu({
+        daytro: "nav-item",
+        phongtro: "nav-item",
+        nguoi: "nav-item",
+        thongke: "nav-item nav-item-click",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+        dichvu: "nav-item",
+      })
+
+    } else if (window.location.pathname.indexOf("yeucau") !== -1) {
+      setMenu({
+        daytro: "nav-item",
+        phongtro: "nav-item",
+        nguoi: "nav-item",
+        thongke: "nav-item",
+        yeucau: "nav-item nav-item-click",
+        thongbao: "nav-item",
+        dichvu: "nav-item",
+      })
+    } else if (window.location.pathname.indexOf("thongbao") !== -1) {
+      setMenu({
+        daytro: "nav-item",
+        phongtro: "nav-item",
+        nguoi: "nav-item",
+        thongke: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item nav-item-click",
+        dichvu: "nav-item",
+      })
+    } else if (window.location.pathname.indexOf("dichvu") !== -1) {
+      setMenu({
+        daytro: "nav-item",
+        phongtro: "nav-item",
+        nguoi: "nav-item",
+        thongke: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+        dichvu: "nav-item nav-item-click",
+      })
     }
   };
+
   return (
     <div>
       <div className="header">
@@ -124,9 +160,9 @@ export default function Admin() {
           <div className="line" />
           <ul className="ul-nav">
             <li
-              className={daytro}
+              className={menu.daytro}
               onClick={() => {
-                handleMenu(1);
+                history.push("/admin/quanlydaytro");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -134,9 +170,9 @@ export default function Admin() {
               <span className="text-nav">Quản lý dãy trọ</span>
             </li>
             <li
-              className={phongtro}
+              className={menu.phongtro}
               onClick={() => {
-                handleMenu(2);
+                history.push("/admin/quanlyphongtro");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -144,9 +180,9 @@ export default function Admin() {
               <span className="text-nav">Quản lý phòng trọ</span>
             </li>
             <li
-              className={nguoi}
+              className={menu.nguoi}
               onClick={() => {
-                handleMenu(3);
+                history.push("/admin/quanlynguoi");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -154,9 +190,9 @@ export default function Admin() {
               <span className="text-nav">Quản lý người</span>
             </li>
             <li
-              className={thongke}
+              className={menu.thongke}
               onClick={() => {
-                handleMenu(4);
+                history.push("/admin/thongke");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -164,9 +200,9 @@ export default function Admin() {
               <span className="text-nav">Thống kê</span>
             </li>
             <li
-              className={yeucau}
+              className={menu.yeucau}
               onClick={() => {
-                handleMenu(5);
+                history.push("/admin/yeucau");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -174,14 +210,24 @@ export default function Admin() {
               <span className="text-nav">Yêu cầu</span>
             </li>
             <li
-              className={thongbao}
+              className={menu.thongbao}
               onClick={() => {
-                handleMenu(6);
+                history.push("/admin/thongbao");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
               <i className="material-icons-round icon-right">notifications</i>
               <span className="text-nav">Thông báo</span>
+            </li>
+            <li
+              className={menu.dichvu}
+              onClick={() => {
+                history.push("/admin/dichvu");
+              }}
+            >
+              <i className="material-icons-round icon-left">arrow_right</i>
+              <i className="material-icons-round icon-right">room_service</i>
+              <span className="text-nav">Dịch vụ</span>
             </li>
           </ul>
         </div>

@@ -18,7 +18,7 @@ export default function YeuCau() {
           </div>
         </div>
       </div>
-      <div className="body">
+      <div className="body" style={{ height: '80vh', overflowY: 'scroll' }}>
         <div className="table">
           <table>
             <tbody>
@@ -38,6 +38,222 @@ export default function YeuCau() {
                 <th style={{ whiteSpace: "nowrap" }}>
                   <p>Trạng thái</p>
                 </th>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đã fix</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td></td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đang sửa chữa</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đã fix</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td></td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đang sửa chữa</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đã fix</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td></td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đang sửa chữa</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đã fix</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td></td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đang sửa chữa</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đã fix</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td></td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đang sửa chữa</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đã fix</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td></td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
+                  ống nước đường ống nước đường ống nước đường ống nước đường
+                  ống nước đường ống nước
+                </td>
+                <td>Đang sửa chữa</td>
+                <td>
+                  <span className="material-icons-round icon3">check_circle</span>
+                </td>
               </tr>
               <tr>
                 <td>13:09 11/11/2020</td>

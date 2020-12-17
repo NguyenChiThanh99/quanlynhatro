@@ -172,12 +172,11 @@ span {
 .nav {
   display: flex;
   flex-direction: column;
-  width: 22%;
+  width: 17vw;
   margin-right: 0px;
   background-color: #EE6F57;
   height: 90vh;
 }
-
 
 .nav .ul-nav {
   list-style-type: none;
@@ -275,10 +274,9 @@ span {
 
                                                       /* Màn hình quản lý dãy trọ*/
 .quanlydaytro {
-  width: 100%;
+  width: 83vw;
   background-color: #F6F5F5;
 }
-
 .quanlydaytro h4 {
   margin: 5px 0px;
 }
@@ -294,12 +292,9 @@ span {
 }
 
 .quanlydaytro .array-item {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  padding: 0px 50px;
-  height: 80vh;
+  height: 76vh;
   overflow-y: scroll;
-  padding-top: 25px;
+  padding: 25px 0 0 50px;
 }
 
 .quanlydaytro .dropdown {
@@ -310,17 +305,19 @@ span {
 }
 
 .quanlydaytro .card {
-  width: 235px;
+  width: 22%;
   height: 220px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 0 2px black;
   overflow: hidden;
   margin-bottom: 25px;
+  float: left;
+  margin-right: 25px;
 }
 
 .quanlydaytro .card #img-card {
-  width: 245px;
+  width: 100%;
   height: 145px;
 }
 
@@ -357,7 +354,7 @@ span {
 
                                                       /* Màn hình quản lý người thuê*/
 .quanlynguoithue {
-  width: 100%;
+  width: 83vw;
   background-color: #F6F5F5;
 }
 
@@ -381,10 +378,9 @@ span {
 }
 
 .quanlynguoithue .array-item {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  padding: 25px 50px;
-  padding-top: 25px;
+  height: 76vh;
+  overflow-y: scroll;
+  padding: 25px 0 0 50px;
 }
 
 .quanlynguoithue .dropdown {
@@ -395,21 +391,25 @@ span {
 }
 
 .quanlynguoithue .card {
-  width: 300px;
-  height: 100px;
-  display: flex;
+  width: 30%;
+  float: left;
   align-items: center;
+  margin-bottom: 25px;
+  margin-right: 25px;
 }
 
 .quanlynguoithue .card #img-card {
-  width: 65px;
-  height: 65px;
+  width: 20%;
   border-radius: 5px;
+  float: left;
+  border: solid 0.3px #bdbdbd;
 }
 
 .quanlynguoithue .card .box-name {
   align-items: flex-start;
   margin-left: 15px;
+  float: left;
+  width: 73%;
 }
 
 .quanlynguoithue .card .box-name h4 {
@@ -594,13 +594,9 @@ span {
 
 /*admin yêu cầu, thông báo */
 .yeucau {
-}
-.yeucau .nav {
-  background-color: #EE6F57;
-  float: left;
-  width: 20%;
-  height: 800px;
-}
+  width: 83vw;
+} 
+
 .yeucau .table{
   display: flex;
   padding: 24px;
@@ -669,11 +665,8 @@ span {
 }
 
 /* thanh toán */
-.thanhtoan .nav {
-  background-color: #EE6F57;
-  float: left;
-  width: 20%;
-  height: 800px;
+.thanhtoan {
+  width: 83vw;
 }
 .thanhtoan .table{
   display: flex;
@@ -778,4 +771,361 @@ span {
 
 .thanhtoan .thanhtoan-status {
   font-family: Roboto-Regular;
+}
+
+  /* ---------------------------------------------------------------------THÔNG TIN CHUNG*/
+  .thongtinchung {
+    width: 83vw;
+  }
+
+  .thongtinchung .row {
+    justify-content: left;
+  }
+
+  .thongtinchung .option {
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    cursor: default;
+  }
+
+  .option .option-title {
+    color: #828282;
+    font-family: Roboto-Medium;
+  }
+
+  .thongtinchung .option-click {
+    border-bottom: 3px solid #EE6F57;
+  }
+
+  .thongtinchung .option .option-title-click {
+    color: #151515;
+  }
+
+  .thongtinchung .background {
+    background-color: #E5E5E5;
+    padding: 25px;
+  }
+
+  .thongtinchung .option-ca-nhan {
+    background-color: white;
+    height: 100%;
+    display: flex;
+  }
+
+  .thongtinchung .option-o-tro {
+    background-color: white;
+    height: 100%;
+  }
+
+  .thongtinchung .option-thanh-vien {
+    background-color: white;
+  }
+
+  .thongtinchung .box-avatar {
+    padding: 25px 25px;
+  }
+
+  .thongtinchung .avatar {
+    width: 245px;
+    height: 245px;
+    border-radius: 8px;
+  }
+
+  .thongtinchung .avatar-small {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+  }
+
+  .thongtinchung .display-flex {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .thongtinchung #icon-edit {
+    color: #828282;
+  }
+
+  .thongtinchung .text-change-avatar {
+    color: #828282;
+    font-size: 16px;
+    margin-left: 6px;
+    font-family: Roboto-Regular;
+  }
+
+  .thongtinchung .box-thongtin {
+    padding: 25px 25px;
+    width: 100%;
+  }
+
+  .thongtinchung #user-name {
+    font-size: 26px;
+    line-height: 33px;
+    color: #333333;
+    font-family: Roboto-Bold;
+  }
+
+  .thongtinchung #roommate-name {
+    font-size: 18px;
+    color: #333333;
+    font-family: Roboto-Medium;
+    margin-left: 8px;
+  }
+
+  .thongtinchung .box-thongtin-row {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    margin-right: 20%;
+    margin-left: -60px;
+  }
+
+  .thongtinchung .box-thongtin-row2{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-right: 20%;
+  }
+
+  .thongtinchung .row-item3 {
+    height: 60px;
+    width: max-content;
+    display: grid;
+    margin-top: 20px;
+  }
+
+  .thongtinchung .item-title2{
+    color: #4F4F4F;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .thongtinchung .item-infor2{
+    color: #828282;
+    font-size: 18px;
+  }
+
+  .thongtinchung .row-item {
+    padding: 10px 60px;
+  }
+
+  .thongtinchung .row-item2 {
+    padding: 10px 0px;
+  }
+
+  .thongtinchung .item-title{
+    color: #4F4F4F;
+    font-family: Roboto-Medium;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .thongtinchung .item-infor{
+    color: #828282;
+    font-size: 18px;
+    font-family: Roboto-Regular;
+  }
+
+  .thongtinchung .btn-edit-infor {
+    display: flex;
+    width: 80%;
+    justify-content: flex-end;
+    font-family: Roboto-Regular;
+  }
+
+  .thongtinchung .box-column {
+    display: flex;
+  }
+
+  .thongtinchung .column-title {
+    display: grid;
+    height: 240px;
+  }
+
+  .thongtinchung .column-infor {
+    margin-left: 120px;
+    display: grid;
+    height: 240px;
+  }
+
+  .thongtinchung .box-thong-tin-o-tro {
+    padding: 30px 50px 0px 50px;
+  }
+
+  .thongtinchung .thong-tin-phong {
+    margin: 25px;
+    border: 1px solid #828282;
+    padding: 25px 25px 15px 25px;
+    border-radius: 10px;
+  }
+
+  .thongtinchung #title-phong {
+    background: rgba(238, 111, 87, 0.8);
+    padding: 5px;
+    font-family: Roboto-Bold;
+    color: white;
+    border-radius: 6px;
+    display: inline;
+    margin-left: -5px;
+  }
+
+  .thongtinchung .table{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .thongtinchung .option-thanh-vien .table{
+    background-color: white;
+  }
+
+  .thongtinchung .option-thanh-vien table{
+    width: 100%;
+  }
+
+  .thongtinchung .option-thanh-vien .sort{
+    display: flex;
+    }
+
+  .thongtinchung .option-thanh-vien .table td{
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #828282;
+  }
+  .thongtinchung .option-thanh-vien .table th{
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  color: #4f4f4f;
+  font-family: Roboto-Medium;
+  }
+  .thongtinchung p {
+    margin: 0;
+  }
+  .thongtinchung .table table, tr{
+    border: 1px solid #BDBDBD;
+  }
+  .thongtinchung .table table{
+    border-collapse: collapse;
+    background-color: #ffffff;
+  }
+
+                                                                          /* dịch vụ */
+.dichvu {
+  width: 83vw;
+}
+.dichvu .nav {
+  background-color: #ee6f57;
+  float: left;
+  width: 20%;
+  height: 800px;
+}
+.dichvu .table {
+  display: flex;
+  padding: 24px;
+}
+.dichvu .table p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.dichvu .table td {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #828282;
+  font-family: Roboto-Regular;
+}
+.dichvu .table th p {
+  font-size: 18px;
+  font-family: Roboto-Medium;
+}
+.dichvu .table td p {
+  font-size: 16px;
+  font-family: Roboto-Regular;
+}
+.dichvu .table th {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  color: #4f4f4f;
+}
+.dichvu .table .icon {
+  font-size: 20px;
+  vertical-align: middle;
+}
+.dichvu .table .icon2 {
+  color: #eb5757;
+  vertical-align: middle;
+}
+.dichvu .sort {
+  display: table-cell;
+  white-space: nowrap;
+}
+.dichvu .sort_text {
+  display: inline-block;
+  margin-right: 4px;
+}
+.dichvu .table table,
+tr {
+  border: 1px solid #bdbdbd;
+}
+.dichvu .table table {
+  border-collapse: collapse;
+  background-color: #ffffff;
+  margin-right: 12px;
+}
+.dichvu .table .ghichu {
+  border: none;
+  border-bottom: 1px solid #bdbdbd;
+  font-size: 16px;
+  color: #828282;
+}
+.dichvu .table input[type="text"]:focus {
+  outline: none;
+  color: #070d59;
+}
+.dichvu .dropdown-diennuoc {
+  padding: 4px;
+  border: 1px solid #828282;
+  border-radius: 4px;
+  color: #4f4f4f;
+  margin-left: 10px;
+}
+.dichvu .box-btn {
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+.dichvu .box-btn .btn {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: #1F3C88;
+  width: 130px;
+  height: 36px;
+  align-items: center;
+  align-self: center;
+  position: absolute;
+  color: white;
+  justify-content: center;
+  border-width: 0;
+  font-family: Roboto-Regular;
+}
+.dichvu .box-btn .btn2 {
+  background: #070D59;
+  width: 130px;
+  height: 36px;
+  align-items: center;
+  align-self: center;
+  margin-left: 5px;
+  margin-top: 5px;
+  border-width: 0;
 }

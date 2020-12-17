@@ -56,6 +56,62 @@ export default function QuanLyNguoi() {
             <img src={avatar} alt="IMG" id="img-card" />
             <div className="box-name">
               <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1a</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1a</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1a</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1a</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
+              <span>Phòng 1</span>
+            </div>
+          </div>
+          <div className="card">
+            <img src={avatar} alt="IMG" id="img-card" />
+            <div className="box-name">
+              <h4>Nguyễn Đoàn Duy Nhựt</h4>
               <span>Phòng 1</span>
             </div>
           </div>

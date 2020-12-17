@@ -5,6 +5,7 @@ import QuanLyDayTro from "./components/Admin/QuanLyDayTro";
 import QuanLyPhongTro from "./components/Admin/QuanLyPhongTro";
 import QuanLyNguoi from "./components/Admin/QuanLyNguoi";
 import ThongKe from "./components/Admin/ThongKe";
+import DichVu from "./components/Admin/DichVu"
 import YeuCau from "./components/Admin/YeuCau";
 import ThongBao from "./components/Admin/ThongBao";
 import DayTro from "./components/Admin/DayTro"
@@ -67,6 +68,11 @@ const routesAdmin = [
         path: '/admin/thongbao',
         exact: false,
         main: () => <ThongBao />
+    },
+    {
+        path: '/admin/dichvu',
+        exact: false,
+        main: () => <DichVu />
     },
     {
         path: '',

@@ -26,7 +26,7 @@ function App() {
 
   return (
     <Router>
-      <div className="container">
+      <div>
         <Switch>{showContent(routesLogin)}</Switch>
       </div>
     </Router>

@@ -1,10 +1,32 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import qs from "qs";
+import Global from "../Global";
 
 import logo from '../../images/logo.jpg';
 
 export function Home() {
   let history = useHistory();
+  const login = () => {
+    const data = {
+      email: "nguyenduongbaphuag@gmail.com",
+      password: "rmhlfq",
+    };
+    const url = Global.server + "/user/login";
+    const options = {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((error) => {});
+  }
+  
   return (
     <div className="login">
       <div className="header">
@@ -43,7 +65,7 @@ export function Home() {
             >
               <div className="box-btn">
                 <div className="btn2"> </div>
-                <button className="btn">Đăng nhập</button>
+                <button className="btn" onClick={() => {login()}}>Đăng nhập</button>
               </div>
             </div>
           </div>

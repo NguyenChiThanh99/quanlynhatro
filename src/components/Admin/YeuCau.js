@@ -6,7 +6,7 @@ export default function YeuCau() {
       <div className="row">
         <h3>Yêu cầu</h3>
       </div>
-      <div className="body">
+      <div className="body" style={{ height: '80vh', overflowY: 'scroll' }}>
         <div className="table">
           <table>
             <tbody>
@@ -44,6 +44,171 @@ export default function YeuCau() {
                 </td>
                 <td>
                   <span className="material-icons-round icon3">check_circle</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
+                </td>
+              </tr>
+              <tr>
+                <td>13:09 11/11/2020</td>
+                <td>A1</td>
+                <td>Cameron Williamson</td>
+                <td>
+                  Kiểm tra đường ống nước vì chỉ số tăng ống nước vì chỉ số tăng
+                  ống nước vì chỉ số tăng
+                </td>
+                <td>
+                  <input type="text" className="ghichu" />
+                </td>
+                <td>
+                  <span className="material-icons-round icon2">cancel</span>
                 </td>
               </tr>
               <tr>

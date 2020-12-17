@@ -4,7 +4,7 @@ export default function ThanhToan() {
   return (
     <div className="thanhtoan">
       <div className="row">
-        <h3>Thông báo</h3>
+        <h3>Thanh toán</h3>
       </div>
       <div className="body">
         <div className="table">

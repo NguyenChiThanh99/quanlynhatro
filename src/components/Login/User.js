@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import routesUser from "../../routesUser";
 
@@ -25,36 +26,49 @@ export default function User() {
     return result;
   }
 
-  const [thongtinchung, setThongtinchung] = useState("nav-item nav-item-click");
-  const [thanhtoan, setThanhtoan] = useState("nav-item");
-  const [yeucau, setYeucau] = useState("nav-item");
-  const [thongbao, setThongbao] = useState("nav-item");
+  const [menu, setMenu] = useState({
+    thongtinchung: "nav-item nav-item-click",
+    thanhtoan: "nav-item",
+    yeucau: "nav-item",
+    thongbao: "nav-item",
+  });
 
-  const handleMenu = (menuItem) => {
-    if (menuItem === 1) {
-      setThongtinchung("nav-item nav-item-click");
-      setThanhtoan("nav-item");
-      setYeucau("nav-item");
-      setThongbao("nav-item");
-      history.push("/user/thongtinchung");
-    } else if (menuItem === 2) {
-      setThongtinchung("nav-item");
-      setThanhtoan("nav-item nav-item-click");
-      setYeucau("nav-item");
-      setThongbao("nav-item");
-      history.push("/user/thanhtoan");
-    } else if (menuItem === 3) {
-      setThongtinchung("nav-item");
-      setThanhtoan("nav-item");
-      setYeucau("nav-item nav-item-click");
-      setThongbao("nav-item");
-      history.push("/user/yeucau");
-    } else if (menuItem === 4) {
-      setThongtinchung("nav-item");
-      setThanhtoan("nav-item");
-      setYeucau("nav-item");
-      setThongbao("nav-item nav-item-click");
-      history.push("/user/thongbao");
+  useEffect(() => {
+    handleMenu();
+    return () => {
+      handleMenu();
+    };
+  }, [window.location.pathname]);
+
+  const handleMenu = () => {
+    if (window.location.pathname.indexOf("thongtinchung") !== -1) {
+      setMenu({
+        thongtinchung: "nav-item nav-item-click",
+        thanhtoan: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+      });
+    } else if (window.location.pathname.indexOf("thanhtoan") !== -1) {
+      setMenu({
+        thongtinchung: "nav-item",
+        thanhtoan: "nav-item nav-item-click",
+        yeucau: "nav-item",
+        thongbao: "nav-item",
+      });
+    } else if (window.location.pathname.indexOf("yeucau") !== -1) {
+      setMenu({
+        thongtinchung: "nav-item",
+        thanhtoan: "nav-item",
+        yeucau: "nav-item nav-item nav-item-click",
+        thongbao: "nav-item",
+      });
+    } else if (window.location.pathname.indexOf("thongbao") !== -1) {
+      setMenu({
+        thongtinchung: "nav-item",
+        thanhtoan: "nav-item",
+        yeucau: "nav-item",
+        thongbao: "nav-item nav-item nav-item-click",
+      });
     }
   };
 
@@ -64,16 +78,6 @@ export default function User() {
         {/* Hiển thị logo cho header */}
         <div className="logo">
           <img id="img-logo" src={logo} alt="Logo" />
-        </div>
-        <div className="search">
-          <i className="material-icons-round" id="icon-search">
-            search
-          </i>
-          <input
-            type="text"
-            id="input-search"
-            placeholder="Tìm trong nhà trọ..."
-          />
         </div>
         <div className="account">
           <img id="img-avatar" src={avatar} alt="Avatar" />
@@ -99,9 +103,9 @@ export default function User() {
           <div className="line" />
           <ul className="ul-nav">
             <li
-              className={thongtinchung}
+              className={menu.thongtinchung}
               onClick={() => {
-                handleMenu(1);
+                history.push("/user/thongtinchung");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -109,9 +113,9 @@ export default function User() {
               <span className="text-nav">Thông tin chung</span>
             </li>
             <li
-              className={thanhtoan}
+              className={menu.thanhtoan}
               onClick={() => {
-                handleMenu(2);
+                history.push("/user/thanhtoan");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -119,9 +123,9 @@ export default function User() {
               <span className="text-nav">Thanh toán</span>
             </li>
             <li
-              className={yeucau}
+              className={menu.yeucau}
               onClick={() => {
-                handleMenu(3);
+                history.push("/user/yeucau");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
@@ -129,9 +133,9 @@ export default function User() {
               <span className="text-nav">Yêu cầu</span>
             </li>
             <li
-              className={thongbao}
+              className={menu.thongbao}
               onClick={() => {
-                handleMenu(4);
+                history.push("/user/thongbao");
               }}
             >
               <i className="material-icons-round icon-left">arrow_right</i>
