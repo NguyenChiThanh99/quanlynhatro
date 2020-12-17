@@ -18,7 +18,7 @@ export function Home() {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
       url,
-      data: qs.stringify(data),
+      data: data,
     };
     axios(options)
       .then((res) => {
