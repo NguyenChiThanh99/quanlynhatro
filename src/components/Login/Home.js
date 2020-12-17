@@ -9,40 +9,22 @@ import logo from '../../images/logo.jpg';
 export function Home() {
   let history = useHistory();
   const login = () => {
-    // const data = {
-    //   email: "nguyenchithanh1999@gmail.com",
-    //   password: "d41nhh"
-    // };
-    // const url = Global.server + "user/login";
-    // const options = {
-    //   method: "POST",
-    //   headers: { "content-type": "application/x-www-form-urlencoded" },
-    //   url,
-    //   data: qs.stringify(data),
-    // };
-    // axios(options)
-    //   .then((res) => {
-    //     console.log(res)
-    //   })
+    const data = {
+      email: "nguyenchithanh1999@gmail.com",
+      password: "d41nhh"
+    };
     const url = Global.server + "user/login";
-    var bodyFormData = new FormData();
-    bodyFormData.append('email', 'nguyenchithanh1999@gmail.com');
-    bodyFormData.append('password', 'd41nhh');
-    axios({
-      method: 'POST',
-      url: url,
-      data: bodyFormData,
-      headers: {'Content-Type': 'multipart/form-data' }
+    const options = {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        console.log(res)
       })
-      .then(function (response) {
-          //handle success
-          console.log(response);
-      })
-      .catch(function (response) {
-          //handle error
-          console.log(response);
-      });
-  }
+      .catch((error) => {});
   
   return (
     <div className="login">
