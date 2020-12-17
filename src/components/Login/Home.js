@@ -10,8 +10,8 @@ export function Home() {
   let history = useHistory();
   const login = () => {
     const data = {
-      email: "nguyenduongbaphuag@gmail.com",
-      password: "rmhlfq",
+      email: "nguyenchithanh1999@gmail.com",
+      password: "d41nhh",
     };
     const url = Global.server + "user/login";
     const options = {
