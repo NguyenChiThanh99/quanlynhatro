@@ -13,7 +13,7 @@ export function Home() {
       email: "nguyenduongbaphuag@gmail.com",
       password: "rmhlfq",
     };
-    const url = Global.server + "/user/login";
+    const url = Global.server + "user/login";
     const options = {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
