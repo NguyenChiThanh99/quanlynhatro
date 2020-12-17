@@ -16,7 +16,7 @@ export function Home() {
     const url = Global.server + "service/getservicebyadminid";
     const options = {
       method: "POST",
-      headers: { "content-type": "application/x-www-form-urlencoded", 'Authorization': `Basic ${token}`  },
+      headers: { "content-type": "application/x-www-form-urlencoded", 'Authorization': `Bearer ${token}`  },
       url,
       data: qs.stringify(data)
     };
