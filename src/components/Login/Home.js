@@ -4,14 +4,14 @@ import axios from "axios";
 import qs from "qs";
 import Global from "../Global";
 
-import logo from '../../images/logo.jpg';
+import logo from "../../images/logo.jpg";
 
 export function Home() {
   let history = useHistory();
   const login = () => {
     const data = {
       email: "nguyenchithanh1999@gmail.com",
-      password: "d41nhh"
+      password: "d41nhh",
     };
     const url = Global.server + "user/login";
     const options = {
@@ -22,9 +22,10 @@ export function Home() {
     };
     axios(options)
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((error) => {});
+  };
   
   return (
     <div className="login">
@@ -64,7 +65,14 @@ export function Home() {
             >
               <div className="box-btn">
                 <div className="btn2"> </div>
-                <button className="btn" onClick={() => {login()}}>Đăng nhập</button>
+                <button
+                  className="btn"
+                  onClick={() => {
+                    login();
+                  }}
+                >
+                  Đăng nhập
+                </button>
               </div>
             </div>
           </div>
