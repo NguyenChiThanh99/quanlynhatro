@@ -1100,6 +1100,7 @@ tr {
   border-radius: 4px;
   color: #4f4f4f;
   margin-left: 10px;
+  outline: none;
 }
 .dichvu .box-btn {
   display: inline-grid;

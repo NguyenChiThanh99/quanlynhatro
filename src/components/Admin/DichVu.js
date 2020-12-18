@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 export default function DichVu() {
-  const [input, setInput] = useState({dien: "vnd/kWh", nuoc: "vnd/m3"})
+  const [input, setInput] = useState({ dien: "vnd/kWh", nuoc: "vnd/m3" });
 
   const onChange = (event) => {
     var target = event.target;
@@ -50,8 +50,13 @@ export default function DichVu() {
                 </td>
                 <td>
                   <input type="text" className="ghichu" />
-                  <select value={input.dien} onChange={onChange} className="dropdown-diennuoc" name="dien">
-                  <option value="vnd/kWh">VND / kWh</option>
+                  <select
+                    value={input.dien}
+                    onChange={onChange}
+                    className="dropdown-diennuoc"
+                    name="dien"
+                  >
+                    <option value="vnd/kWh">VND / kWh</option>
                     <option value="vnd/thang">VND / Tháng</option>
                   </select>
                 </td>
@@ -62,8 +67,14 @@ export default function DichVu() {
                 </td>
                 <td>
                   <input type="text" className="ghichu" disabled />
-                  <select value={input.nuoc} onChange={onChange} className="dropdown-diennuoc" name="nuoc" disabled>
-                  <option value="vnd/m3">VND / m3</option>
+                  <select
+                    value={input.nuoc}
+                    onChange={onChange}
+                    className="dropdown-diennuoc"
+                    name="nuoc"
+                    disabled
+                  >
+                    <option value="vnd/m3">VND / m3</option>
                     <option value="vnd/thang">VND / Tháng</option>
                   </select>
                 </td>

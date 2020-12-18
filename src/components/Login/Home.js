@@ -32,13 +32,14 @@ export function Home() {
       userId: "5fc495448178f40024971f30",
     };
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InJvbGUiOiJVc2VyIiwiZmlyc3Rsb2dpbiI6ZmFsc2UsImlzRGVsZXRlZCI6ZmFsc2UsIl9pZCI6IjVmZGFmZmRhYzZhZDY5MDAyNGM2OTY5YiIsImVtYWlsIjoibmd1eWVuY2hpdGhhbmgxOTk5QGdtYWlsLmNvbSIsIm5hbWUiOiJOZ3V54buFbiBDaMOtIFRoYW5oIiwicGhvbmUiOiIwODM0OTk5MzczIiwiYWRkcmVzcyI6IkvDvSB0w7pjIHjDoSBraHUgQSwgVFAuSENNIiwiY21uZCI6IjMwMTY2MjIyMiIsImJpcnRoZGF5IjoiMTk5OS0xMi0wMlQwMDowMDowMC4wMDBaIiwiZ2VuZGVyIjoiTWFsZSIsImF2YXRhciI6IkFkYWRhIiwiam9iIjoiU2luaCB2acOqbiIsInN0YXJ0RGF0ZSI6IjIwMjAtMTItMTBUMDA6MDA6MDAuMDAwWiIsInByaWNlIjo1MDAwMDAwLCJibG9jayI6IjVmZDJjZWE3ZDVlNGM5MzcxMDA5Y2ZmZSIsInJvb20iOiI1ZmRhMjlmM2M4NjVlMDNmMDA5YWM0NGQiLCJwYXNzd29yZCI6IiQyYSQxMCRpMTl1emJvbTNsSGlBWm5HTEFoU0F1bnhtRVNXajJ4WEdUbmF4d000azhkclQ5S0ltaGYubSIsImNyZWF0ZWRBdCI6IjIwMjAtMTItMTdUMDY6NTE6MDYuNzk2WiIsInVwZGF0ZUF0IjoiMjAyMC0xMi0xN1QwNjo1MTowNi43OTZaIiwiX192IjowfSwiaWF0IjoxNjA4MzA4MDAzLCJleHAiOjE2MDgzMDk4MDN9.zy_5UsEYtqYlLoVWhvIv67Bw5t0LVL0o0TzWnCg07is";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InJvbGUiOiJVc2VyIiwiZmlyc3Rsb2dpbiI6ZmFsc2UsImlzRGVsZXRlZCI6ZmFsc2UsIl9pZCI6IjVmZGFmZmRhYzZhZDY5MDAyNGM2OTY5YiIsImVtYWlsIjoibmd1eWVuY2hpdGhhbmgxOTk5QGdtYWlsLmNvbSIsIm5hbWUiOiJOZ3V54buFbiBDaMOtIFRoYW5oIiwicGhvbmUiOiIwODM0OTk5MzczIiwiYWRkcmVzcyI6IkvDvSB0w7pjIHjDoSBraHUgQSwgVFAuSENNIiwiY21uZCI6IjMwMTY2MjIyMiIsImJpcnRoZGF5IjoiMTk5OS0xMi0wMlQwMDowMDowMC4wMDBaIiwiZ2VuZGVyIjoiTWFsZSIsImF2YXRhciI6IkFkYWRhIiwiam9iIjoiU2luaCB2acOqbiIsInN0YXJ0RGF0ZSI6IjIwMjAtMTItMTBUMDA6MDA6MDAuMDAwWiIsInByaWNlIjo1MDAwMDAwLCJibG9jayI6IjVmZDJjZWE3ZDVlNGM5MzcxMDA5Y2ZmZSIsInJvb20iOiI1ZmRhMjlmM2M4NjVlMDNmMDA5YWM0NGQiLCJwYXNzd29yZCI6IiQyYSQxMCRpMTl1emJvbTNsSGlBWm5HTEFoU0F1bnhtRVNXajJ4WEdUbmF4d000azhkclQ5S0ltaGYubSIsImNyZWF0ZWRBdCI6IjIwMjAtMTItMTdUMDY6NTE6MDYuNzk2WiIsInVwZGF0ZUF0IjoiMjAyMC0xMi0xN1QwNjo1MTowNi43OTZaIiwiX192IjowfSwiaWF0IjoxNjA4MzEwNjgyLCJleHAiOjE2MDgzMTI0ODJ9.3VGXc3rcdSZ9XbsiG2Ln3yrfcsGxdHPDm9bkcB41NVI";
     const url = Global.server + "service/getservicebyadminid";
     const options = {
       method: "POST",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${token}`,
+        // "Authorization": `Bearer ${token}`,
+        "Authorization": token,
       },
       url,
       data: qs.stringify(data),
