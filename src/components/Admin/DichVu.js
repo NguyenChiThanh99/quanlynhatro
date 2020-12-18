@@ -1,7 +1,18 @@
-import React from "react";
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import React, {useState} from "react";
 
 export default function DichVu() {
+  const [input, setInput] = useState({dien: "vnd/kWh", nuoc: "vnd/m3"})
+
+  const onChange = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
   return (
     <div className="dichvu">
       <div className="row">
@@ -39,9 +50,9 @@ export default function DichVu() {
                 </td>
                 <td>
                   <input type="text" className="ghichu" />
-                  <select value="Radish" className="dropdown-diennuoc">
-                    <option value="vnd / kWh">VND / kWh</option>
-                    <option value="vnd / thang">VND / Tháng</option>
+                  <select value={input.dien} onChange={onChange} className="dropdown-diennuoc" name="dien">
+                  <option value="vnd/kWh">VND / kWh</option>
+                    <option value="vnd/thang">VND / Tháng</option>
                   </select>
                 </td>
               </tr>
@@ -51,9 +62,9 @@ export default function DichVu() {
                 </td>
                 <td>
                   <input type="text" className="ghichu" disabled />
-                  <select value="Radish" className="dropdown-diennuoc" disabled>
-                    <option value="vnd / kWh">VND / kWh</option>
-                    <option value="vnd / thang">VND / Tháng</option>
+                  <select value={input.nuoc} onChange={onChange} className="dropdown-diennuoc" name="nuoc" disabled>
+                  <option value="vnd/m3">VND / m3</option>
+                    <option value="vnd/thang">VND / Tháng</option>
                   </select>
                 </td>
               </tr>

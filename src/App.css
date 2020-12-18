@@ -668,29 +668,31 @@ span {
 .thanhtoan {
   width: 83vw;
 }
-.thanhtoan .table{
+.thanhtoan .nav {
+  background-color: #ee6f57;
+  float: left;
+  width: 20%;
+  height: 800px;
+}
+.thanhtoan .table {
   display: flex;
   padding: 24px;
 }
-.thanhtoan .table p{
+.thanhtoan .table p {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-.thanhtoan .month {
-  font-family: Roboto-Medium;
-  color: #4f4f4f;
-}
-.thanhtoan .chotchiso {
-  font-family: Roboto-Regular;
-}
-.thanhtoan .table td{
+.thanhtoan .table td {
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 8px;
+  padding-top: 16px;
   padding-bottom: 8px;
   color: #828282;
 }
-.thanhtoan .table th{
+.thanhtoan .table .tongcong {
+  padding-top: 8px;
+}
+.thanhtoan .table th {
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 8px;
@@ -699,32 +701,37 @@ span {
   color: #4f4f4f;
   font-family: Roboto-Medium;
 }
-.thanhtoan .table p{
+.thanhtoan .table p {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-.thanhtoan .table table, tr{
-  border: 1px solid #BDBDBD;
+.thanhtoan .table table,
+tr {
+  border: 1px solid #bdbdbd;
 }
-.thanhtoan .table table{
+.thanhtoan .table table {
   border-collapse: collapse;
   background-color: #ffffff;
 }
-.thanhtoan .sort{
+.thanhtoan .sort {
   display: table-cell;
   white-space: nowrap;
 }
-.thanhtoan .sort_text{
+.thanhtoan .sort_text {
   display: inline-block;
-  margin-right: 4px;
+  margin-right: 2px;
 }
-.thanhtoan .table .icon{
+.thanhtoan .table .icon {
   font-size: 20px;
   vertical-align: middle;
 }
-.thanhtoan .chiso{
+.thanhtoan .chiso {
   display: inline;
   font-family: Roboto-Regular;
+}
+.ngaychot {
+  font-family: Roboto-Regular;
+  font-size: 18px;
 }
 .thanhtoan .box-btn {
   margin-top: 8px;
@@ -734,43 +741,39 @@ span {
 }
 
 .thanhtoan .box-btn .btn {
-  font-size: 14px;
+  font-size: 13px;
+  font-family: Roboto-Regular;
   background: #1f3c88;
   position: absolute;
   color: white;
   border-width: 0px;
-  width: 150px;
+  width: 120px;
 }
 
 .thanhtoan .box-btn .btn2 {
   background: #070D59;
-  width: 150px;
+  width: 120px;
   height: 36px;
   margin-left: 5px;
   margin-top: 5px;
   border-width: 0;
 }
-
-.thanhtoan .text-top{
+.thanhtoan .text-top {
   vertical-align: text-top;
 }
-
-.thanhtoan .tien{
-  color: #1F3C88 !important;
+.thanhtoan .tien {
+  color: #1f3c88 !important;
   font-family: Roboto-Medium;
 }
-
-.thanhtoan .padbot4px{
+.thanhtoan .status {
+  font-family: Roboto-Regular;
+}
+.thanhtoan .padbot4px {
   padding-bottom: 4px;
 }
-
-.thanhtoan .colorblack{
+.thanhtoan .colorblack {
   color: #4f4f4f;
   font-family: Roboto-Medium;
-}
-
-.thanhtoan .thanhtoan-status {
-  font-family: Roboto-Regular;
 }
 
   /* ---------------------------------------------------------------------THÔNG TIN CHUNG*/
