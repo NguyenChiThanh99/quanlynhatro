@@ -38,8 +38,7 @@ export function Home() {
       method: "POST",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        // "Authorization": `Bearer ${token}`,
-        "Authorization": token,
+        "authorization": `Bearer ${token}`,
       },
       url,
       data: qs.stringify(data),
