@@ -1,10 +1,9 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import routesLogin from "./routesLogin";
+import { Provider } from "react-redux";
+
+import store from './store/store';
 
 function App() {
   function showContent(routes) {
@@ -25,11 +24,13 @@ function App() {
   }
 
   return (
-    <Router>
-      <div>
-        <Switch>{showContent(routesLogin)}</Switch>
-      </div>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <div>
+          <Switch>{showContent(routesLogin)}</Switch>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 

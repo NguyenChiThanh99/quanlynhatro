@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import Rodal from "rodal";
+
+import "rodal/lib/rodal.css";
+
+import ModalLogin from "../ModalLogin";
 
 export default function YeuCau() {
+  const [tokenStatus, setTokenStatus] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [input, setInput] = useState({
+    content: '',
+  });
+
+  const onChange = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
+  const closeModal = () => {
+    setInput({
+      content: '',
+    });
+    setModal(false);
+  };
+  
   return (
     <div className="yeucau">
       <div className="row">
         <h3>Danh sách yêu cầu</h3>
         <div className="row">
           {/* Compoent button */}
-          <div className="box-btn">
+          <div className="box-btn" onClick={() => setModal(true)}>
             <div className="btn2"></div>
             <button className="btn">
               <i className="material-icons-round" id="icon-btn">
@@ -18,7 +46,7 @@ export default function YeuCau() {
           </div>
         </div>
       </div>
-      <div className="body" style={{ height: '80vh', overflowY: 'scroll' }}>
+      <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
         <div className="table">
           <table>
             <tbody>
@@ -48,7 +76,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -72,7 +102,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -84,7 +116,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -108,7 +142,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -120,7 +156,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -144,7 +182,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -156,7 +196,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -180,7 +222,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -192,7 +236,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -216,7 +262,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -228,7 +276,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -252,7 +302,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -264,7 +316,9 @@ export default function YeuCau() {
                 </td>
                 <td>Đã fix</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -288,13 +342,70 @@ export default function YeuCau() {
                 </td>
                 <td>Đang sửa chữa</td>
                 <td>
-                  <span className="material-icons-round icon3">check_circle</span>
+                  <span className="material-icons-round icon3">
+                    check_circle
+                  </span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+      <Rodal
+        visible={modal}
+        animation={"slideUp"}
+        customStyles={{
+          marginTop: 50,
+          width: 425,
+          height: 300,
+          backgroundColor: "white",
+          borderRadius: 12,
+        }}
+        showCloseButton={false}
+        onClose={() => {}}
+      >
+        <div className="title-box">
+          <p className="title-text">Thêm yêu cầu</p>
+          <span
+            onClick={() => closeModal()}
+            className="material-icons icon"
+            style={{ fontSize: "22px", color: "#828282", cursor: "default" }}
+          >
+            close
+          </span>
+        </div>
+        <div className="model-box">
+          <div className="textarea-box">
+            <textarea
+              className="model-textarea"
+              rows={5}
+              cols={60}
+              name="content"
+              value={input.content}
+              type="text"
+              onChange={onChange}
+              placeholder="Nội dung"
+            />
+            <span
+              className="material-icons icon"
+              style={{ fontSize: "22px", color: "#828282" }}
+            >
+              edit
+            </span>
+          </div>
+          <div className="input-box">
+            <p className="text-huy" onClick={() => closeModal()}>
+              Hủy
+            </p>
+            <div className="box-btn">
+              <button className="btn2"></button>
+              <button className="btn">Thêm</button>
+            </div>
+          </div>
+        </div>
+      </Rodal>
+      <ModalLogin status={tokenStatus} />
     </div>
   );
 }

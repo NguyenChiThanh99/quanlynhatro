@@ -1,25 +1,21 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-import {useDispatch} from 'react-redux';
 
 import Global from "../Global";
-import {updateID} from '../../actions';
-import Notification from '../Notification';
+import Notification from "../Notification";
 
 import logo from "../../images/logo.jpg";
 
 export function Home() {
   let history = useHistory();
-  const dispatch = useDispatch();
 
-  const login = () => {
+  const forgotPass = () => {
     const data = {
       email: input.email,
-      password: input.password,
     };
-    const url = Global.server + "user/login";
+    const url = Global.server + "user/forgetpassword";
     const options = {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
@@ -29,23 +25,17 @@ export function Home() {
     axios(options)
       .then((res) => {
         if (res.data.status === false) {
-          setError(res.data.message)
+          setError(res.data.message);
         } else {
-          dispatch(updateID({user: res.data}));
-          if (res.data.user.role === "User") {
-            history.push("/user");
-          } else {
-            history.push("/admin");
-          }
+          history.push("/");
         }
       })
       .catch((error) => {});
   };
 
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [input, setInput] = useState({
     email: "",
-    password: "",
   });
 
   const onChange = (event) => {
@@ -69,29 +59,31 @@ export function Home() {
         <div className="formlogin">
           <p className="title">TRANG QUẢN LÝ NHÀ TRỌ CỦA BẠN</p>
           <div className="form">
-            <p className="dangnhap">ĐĂNG NHẬP</p>
+            <p className="dangnhap">QUÊN MẬT KHẨU</p>
+            <p
+              style={{
+                fontFamily: "Roboto-Regular",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              Nhập email đã đăng ký để nhận mật khẩu mới<br />
+              Mật khẩu sẽ được gửi đến email của bạn
+            </p>
             <div className="input" style={{ marginBottom: "24px" }}>
-              <input className="inputtext" type="email" placeholder="Email" name="email"
-                value={input.email}
-                onChange={onChange}/>
-              <span className="material-icons icon">person</span>
-            </div>
-            <div className="input" style={{ marginBottom: "8px" }}>
               <input
                 className="inputtext"
-                type="password"
-                placeholder="Mật khẩu"
-                name="password"
-                value={input.password}
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={input.email}
                 onChange={onChange}
               />
-              <span className="material-icons icon">lock</span>
+              <span className="material-icons icon">person</span>
             </div>
-            <div className="quenmatkhau" onClick={() => history.push("/forgotpassword")}>
-              <span className="material-icons icon2">help</span>
-              <p className="quenmktext">Quên mật khẩu</p>
-            </div>
-            {error !== "" ? (<Notification type="error" content={error} />) : null}
+            {error !== "" ? (
+              <Notification type="error" content={error} />
+            ) : null}
             <div
               style={{
                 justifyContent: "center",
@@ -105,10 +97,10 @@ export function Home() {
                 <button
                   className="btn"
                   onClick={() => {
-                    login();
+                    forgotPass();
                   }}
                 >
-                  Đăng nhập
+                  Nhận lại mật khẩu
                 </button>
               </div>
             </div>

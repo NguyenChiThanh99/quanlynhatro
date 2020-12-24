@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
+
+import ModalLogin from "../ModalLogin";
 
 export default function ThanhToan() {
+  const [tokenStatus, setTokenStatus] = useState(false);
   return (
     <div className="thanhtoan">
       <div className="row">
@@ -351,6 +354,8 @@ export default function ThanhToan() {
           </table>
         </div>
       </div>
+
+      <ModalLogin status={tokenStatus} />
     </div>
   );
 }

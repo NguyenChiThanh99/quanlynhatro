@@ -1,36 +1,36 @@
 @font-face {
-  font-family: 'Roboto-Black';
-  src: local('Roboto'), url(./fonts/Roboto-Black.ttf) format('truetype');
+  font-family: "Roboto-Black";
+  src: local("Roboto"), url(./fonts/Roboto-Black.ttf) format("truetype");
 }
 
 @font-face {
-    font-family: 'Roboto-Bold';
-    font-weight: 900;
-    src: local('Roboto'), url(./fonts/Roboto-Bold.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'Roboto-Light';
-    font-weight: 900;
-    src: local('Roboto'), url(./fonts/Roboto-Light.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Roboto-Medium';
+  font-family: "Roboto-Bold";
   font-weight: 900;
-  src: local('Roboto'), url(./fonts/Roboto-Medium.ttf) format('truetype');
+  src: local("Roboto"), url(./fonts/Roboto-Bold.ttf) format("truetype");
 }
 
 @font-face {
-  font-family: 'Roboto-Regular';
+  font-family: "Roboto-Light";
   font-weight: 900;
-  src: local('Roboto'), url(./fonts/Roboto-Regular.ttf) format('truetype');
+  src: local("Roboto"), url(./fonts/Roboto-Light.ttf) format("truetype");
 }
 
 @font-face {
-  font-family: 'Roboto-Thin';
+  font-family: "Roboto-Medium";
   font-weight: 900;
-  src: local('Roboto'), url(./fonts/Roboto-Thin.ttf) format('truetype');
+  src: local("Roboto"), url(./fonts/Roboto-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Regular";
+  font-weight: 900;
+  src: local("Roboto"), url(./fonts/Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Thin";
+  font-weight: 900;
+  src: local("Roboto"), url(./fonts/Roboto-Thin.ttf) format("truetype");
 }
 
 body {
@@ -54,7 +54,7 @@ span {
 
 .home {
   display: flex;
-}   
+}
 
 .header {
   width: 100%;
@@ -73,6 +73,7 @@ span {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  cursor: pointer;
 }
 
 .header .search {
@@ -83,7 +84,7 @@ span {
 
 .header .logo {
   justify-content: flex-start;
-  flex : 1;
+  flex: 1;
   display: flex;
 }
 
@@ -103,12 +104,11 @@ span {
   width: 40px;
   height: 40px;
   border-radius: 24px;
-
 }
 
 .header #input-search {
   border: 0px;
-  background: #F6F5F5;
+  background: #f6f5f5;
   border-radius: 8px;
   width: 90%;
   height: 40px;
@@ -126,10 +126,9 @@ span {
   border: 0px;
 }
 
-
 .header #input-search:focus {
   outline: none !important;
-  border:0px;
+  border: 0px;
   box-shadow: 0 0 4px #ff5346;
 }
 
@@ -137,44 +136,46 @@ span {
   color: #aaaaaa;
   position: absolute;
   align-self: center;
-  padding-left:20px;
+  padding-left: 20px;
 }
 
-
 .header .form-account {
-  display: none;
   width: 200px;
-  height: 90px;
   background-color: white;
-  border: 1px solid #E0E0E0;
+  border: 1px solid #e0e0e0;
   box-sizing: border-box;
   box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   position: absolute;
-  top: 90px;
-  right: 0px;
+  top: 55px;
+  z-index: 10;
+  padding: 5px 0px;
 }
 
-.header .form-account p {
-  margin: 5;
-}
-
-.header .form-account .row {
-  flex-direction: row;
-  display: flex;
+.header .form-account .row-dropdown {
   align-items: center;
-  margin-left: 30px;
-  height: 45px;
+  margin: 5px 0px;
+  padding: 0px 20px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
 }
 
+.header .form-account .title-dropdown {
+  font-family: Roboto-Regular;
+  margin-left: 15px;
+  color: #828282;
+  font-size: 18px;
+}
 
-                                                      /* Thanh Nav cho trang home */
+/* Thanh Nav cho trang home */
 .nav {
   display: flex;
   flex-direction: column;
   width: 17vw;
   margin-right: 0px;
-  background-color: #EE6F57;
+  background-color: #ee6f57;
   height: 90vh;
 }
 
@@ -196,21 +197,21 @@ span {
   background-color: white;
 }
 
-.nav .nav-item-click .icon-right{
+.nav .nav-item-click .icon-right {
   color: #333333;
 }
 
-.nav .nav-item-click .text-nav{
+.nav .nav-item-click .text-nav {
   color: #333333;
 }
 
-.nav .nav-item span{
+.nav .nav-item span {
   cursor: default;
 }
 
 .nav .icon-left {
   margin-right: 2px;
-  color: #EE6F57;
+  color: #ee6f57;
 }
 
 .nav .icon-right {
@@ -220,7 +221,7 @@ span {
 
 .nav .text-nav {
   font-style: normal;
-  font-weight:500;
+  font-weight: 500;
   font-size: 18px;
   line-height: 21px;
   color: white;
@@ -237,7 +238,7 @@ span {
 .nav .title .box {
   height: 50px;
   width: 80%;
-  background: #EE6F57;
+  background: #ee6f57;
   box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.1);
   border-radius: 64px;
   align-items: center;
@@ -264,31 +265,39 @@ span {
 }
 
 .nav .line {
-  border-bottom: 0.5px solid #FFFFFF;
+  border-bottom: 0.5px solid #ffffff;
   background-color: white;
   width: 80%;
   align-self: center;
   display: flex;
 }
 
-
-                                                      /* Màn hình quản lý dãy trọ*/
+/* Màn hình quản lý dãy trọ*/
 .quanlydaytro {
   width: 83vw;
-  background-color: #F6F5F5;
+  background-color: #f6f5f5;
 }
 .quanlydaytro h4 {
   margin: 5px 0px;
 }
 .quanlydaytro .row {
   height: 60px;
-  background-color: white ;
-  border-bottom: 1px solid #E0E0E0;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-left: 50px;
   padding-right: 4%;
+}
+
+.quanlydaytro .block {
+  color: white;
+  background-color: #EE6F57;
+  font-family: Roboto-Medium;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: default;
 }
 
 .quanlydaytro .array-item {
@@ -333,7 +342,6 @@ span {
   font-family: Roboto-Medium;
 }
 
-
 .quanlydaytro .card .box-name span {
   color: #828282;
   font-size: 16px;
@@ -342,8 +350,8 @@ span {
 
 .row {
   height: 60px;
-  background-color: white ;
-  border-bottom: 1px solid #E0E0E0;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -351,11 +359,56 @@ span {
   padding-right: 4%;
 }
 
+.quanlydaytro .option {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
 
-                                                      /* Màn hình quản lý người thuê*/
+.option .option-title {
+  color: #828282;
+  font-family: Roboto-Medium;
+}
+
+.quanlydaytro .option-click {
+  border-bottom: 3px solid #ee6f57;
+}
+
+.quanlydaytro .option .option-title-click {
+  color: #151515;
+}
+
+.quanlydaytro .check-box {
+  font-family: Roboto-Regular;
+  font-size: 18px;
+  margin-left: 10px;
+  color: #151515;
+}
+
+.quanlydaytro .check-box-input {
+  width: 25px;
+}
+
+.quanlydaytro .check-box-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+input[type="checkbox"] {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
+}
+
+/* Màn hình quản lý người thuê*/
 .quanlynguoithue {
   width: 83vw;
-  background-color: #F6F5F5;
+  background-color: #f6f5f5;
 }
 
 .quanlynguoithue h4 {
@@ -363,8 +416,8 @@ span {
 }
 .quanlynguoithue .row {
   height: 60px;
-  background-color: white ;
-  border-bottom: 1px solid #E0E0E0;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -423,7 +476,7 @@ span {
   color: #828282;
 }
 
-                                                      /* Componnent button */
+/* Componnent button */
 .box-btn {
   display: inline-grid;
   align-items: center;
@@ -435,7 +488,7 @@ span {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  background: #1F3C88;
+  background: #1f3c88;
   width: 170px;
   height: 36px;
   align-items: center;
@@ -448,7 +501,7 @@ span {
 }
 
 .box-btn .btn2 {
-  background: #070D59;
+  background: #070d59;
   width: 170px;
   height: 36px;
   align-items: center;
@@ -533,6 +586,11 @@ span {
 .login .quenmatkhau {
   display: flex;
   justify-content: flex-end;
+  cursor: pointer;
+}
+.login .quenmktext:hover {
+  text-decoration: underline;
+  text-decoration-color: white;
 }
 .login .quenmatkhau .icon2 {
   color: #ffffff;
@@ -595,18 +653,18 @@ span {
 /*admin yêu cầu, thông báo */
 .yeucau {
   width: 83vw;
-} 
+}
 
-.yeucau .table{
+.yeucau .table {
   display: flex;
   padding: 24px;
 }
-.yeucau .table p{
+.yeucau .table p {
   margin-top: 0px;
   margin-bottom: 0px;
   font-family: Roboto-Medium;
 }
-.yeucau .table td{
+.yeucau .table td {
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 8px;
@@ -614,7 +672,7 @@ span {
   color: #828282;
   font-family: Roboto-Regular;
 }
-.yeucau .table th{
+.yeucau .table th {
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 8px;
@@ -622,46 +680,47 @@ span {
   text-align: left;
   color: #4f4f4f;
 }
-.yeucau .table .icon{
+.yeucau .table .icon {
   font-size: 20px;
   vertical-align: middle;
 }
-.yeucau .table .icon2{
-  color: #EB5757;
+.yeucau .table .icon2 {
+  color: #eb5757;
   align-items: center;
   justify-content: center;
   display: flex;
 }
-.yeucau .table .icon3{
+.yeucau .table .icon3 {
   color: #219653;
   align-items: center;
   justify-content: center;
   display: flex;
 }
-.yeucau .sort{
+.yeucau .sort {
   display: table-cell;
   white-space: nowrap;
 }
-.yeucau .sort_text{
+.yeucau .sort_text {
   display: inline-block;
   margin-right: 4px;
 }
-.yeucau .table table, tr{
-  border: 1px solid #BDBDBD;
+.yeucau .table table,
+tr {
+  border: 1px solid #bdbdbd;
 }
-.yeucau .table table{
+.yeucau .table table {
   border-collapse: collapse;
   background-color: #ffffff;
 }
-.yeucau .table .ghichu{
+.yeucau .table .ghichu {
   border: none;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid #bdbdbd;
   font-size: 16px;
   color: #828282;
 }
-.yeucau .table input[type=text]:focus{
+.yeucau .table input[type="text"]:focus {
   outline: none;
-  color: #070D59;
+  color: #070d59;
 }
 
 /* thanh toán */
@@ -751,7 +810,7 @@ tr {
 }
 
 .thanhtoan .box-btn .btn2 {
-  background: #070D59;
+  background: #070d59;
   width: 120px;
   height: 36px;
   margin-left: 5px;
@@ -776,228 +835,228 @@ tr {
   font-family: Roboto-Medium;
 }
 
-  /* ---------------------------------------------------------------------THÔNG TIN CHUNG*/
-  .thongtinchung {
-    width: 83vw;
-  }
+/* ---------------------------------------------------------------------THÔNG TIN CHUNG*/
+.thongtinchung {
+  width: 83vw;
+}
 
-  .thongtinchung .row {
-    justify-content: left;
-  }
+.thongtinchung .row {
+  justify-content: left;
+}
 
-  .thongtinchung .option {
-    margin-right: 16px;
-    display: flex;
-    align-items: center;
-    cursor: default;
-  }
+.thongtinchung .option {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
 
-  .option .option-title {
-    color: #828282;
-    font-family: Roboto-Medium;
-  }
+.option .option-title {
+  color: #828282;
+  font-family: Roboto-Medium;
+}
 
-  .thongtinchung .option-click {
-    border-bottom: 3px solid #EE6F57;
-  }
+.thongtinchung .option-click {
+  border-bottom: 3px solid #ee6f57;
+}
 
-  .thongtinchung .option .option-title-click {
-    color: #151515;
-  }
+.thongtinchung .option .option-title-click {
+  color: #151515;
+}
 
-  .thongtinchung .background {
-    background-color: #E5E5E5;
-    padding: 25px;
-  }
+.thongtinchung .background {
+  background-color: #e5e5e5;
+  padding: 25px;
+}
 
-  .thongtinchung .option-ca-nhan {
-    background-color: white;
-    height: 100%;
-    display: flex;
-  }
+.thongtinchung .option-ca-nhan {
+  background-color: white;
+  height: 100%;
+  display: flex;
+}
 
-  .thongtinchung .option-o-tro {
-    background-color: white;
-    height: 100%;
-  }
+.thongtinchung .option-o-tro {
+  background-color: white;
+  height: 100%;
+}
 
-  .thongtinchung .option-thanh-vien {
-    background-color: white;
-  }
+.thongtinchung .option-thanh-vien {
+  background-color: white;
+}
 
-  .thongtinchung .box-avatar {
-    padding: 25px 25px;
-  }
+.thongtinchung .box-avatar {
+  padding: 25px 25px;
+}
 
-  .thongtinchung .avatar {
-    width: 245px;
-    height: 245px;
-    border-radius: 8px;
-  }
+.thongtinchung .avatar {
+  width: 245px;
+  height: 245px;
+  border-radius: 8px;
+}
 
-  .thongtinchung .avatar-small {
-    width: 30px;
-    height: 30px;
-    border-radius: 3px;
-  }
+.thongtinchung .avatar-small {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+}
 
-  .thongtinchung .display-flex {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-  }
+.thongtinchung .display-flex {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
 
-  .thongtinchung #icon-edit {
-    color: #828282;
-  }
+.thongtinchung #icon-edit {
+  color: #828282;
+}
 
-  .thongtinchung .text-change-avatar {
-    color: #828282;
-    font-size: 16px;
-    margin-left: 6px;
-    font-family: Roboto-Regular;
-  }
+.thongtinchung .text-change-avatar {
+  color: #828282;
+  font-size: 16px;
+  margin-left: 6px;
+  font-family: Roboto-Regular;
+}
 
-  .thongtinchung .box-thongtin {
-    padding: 25px 25px;
-    width: 100%;
-  }
+.thongtinchung .box-thongtin {
+  padding: 25px 25px;
+  width: 100%;
+}
 
-  .thongtinchung #user-name {
-    font-size: 26px;
-    line-height: 33px;
-    color: #333333;
-    font-family: Roboto-Bold;
-  }
+.thongtinchung #user-name {
+  font-size: 26px;
+  line-height: 33px;
+  color: #333333;
+  font-family: Roboto-Bold;
+}
 
-  .thongtinchung #roommate-name {
-    font-size: 18px;
-    color: #333333;
-    font-family: Roboto-Medium;
-    margin-left: 8px;
-  }
+.thongtinchung #roommate-name {
+  font-size: 18px;
+  color: #333333;
+  font-family: Roboto-Medium;
+  margin-left: 8px;
+}
 
-  .thongtinchung .box-thongtin-row {
-    display: inline-grid;
-    grid-template-columns: auto auto auto;
-    margin-right: 20%;
-    margin-left: -60px;
-  }
+.thongtinchung .box-thongtin-row {
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  margin-right: 20%;
+  margin-left: -60px;
+}
 
-  .thongtinchung .box-thongtin-row2{
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin-right: 20%;
-  }
+.thongtinchung .box-thongtin-row2 {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-right: 20%;
+}
 
-  .thongtinchung .row-item3 {
-    height: 60px;
-    width: max-content;
-    display: grid;
-    margin-top: 20px;
-  }
+.thongtinchung .row-item3 {
+  height: 60px;
+  width: max-content;
+  display: grid;
+  margin-top: 20px;
+}
 
-  .thongtinchung .item-title2{
-    color: #4F4F4F;
-    font-weight: bold;
-    font-size: 20px;
-  }
+.thongtinchung .item-title2 {
+  color: #4f4f4f;
+  font-weight: bold;
+  font-size: 20px;
+}
 
-  .thongtinchung .item-infor2{
-    color: #828282;
-    font-size: 18px;
-  }
+.thongtinchung .item-infor2 {
+  color: #828282;
+  font-size: 18px;
+}
 
-  .thongtinchung .row-item {
-    padding: 10px 60px;
-  }
+.thongtinchung .row-item {
+  padding: 10px 60px;
+}
 
-  .thongtinchung .row-item2 {
-    padding: 10px 0px;
-  }
+.thongtinchung .row-item2 {
+  padding: 10px 0px;
+}
 
-  .thongtinchung .item-title{
-    color: #4F4F4F;
-    font-family: Roboto-Medium;
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
+.thongtinchung .item-title {
+  color: #4f4f4f;
+  font-family: Roboto-Medium;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
 
-  .thongtinchung .item-infor{
-    color: #828282;
-    font-size: 18px;
-    font-family: Roboto-Regular;
-  }
+.thongtinchung .item-infor {
+  color: #828282;
+  font-size: 18px;
+  font-family: Roboto-Regular;
+}
 
-  .thongtinchung .btn-edit-infor {
-    display: flex;
-    width: 80%;
-    justify-content: flex-end;
-    font-family: Roboto-Regular;
-  }
+.thongtinchung .btn-edit-infor {
+  display: flex;
+  width: 80%;
+  justify-content: flex-end;
+  font-family: Roboto-Regular;
+}
 
-  .thongtinchung .box-column {
-    display: flex;
-  }
+.thongtinchung .box-column {
+  display: flex;
+}
 
-  .thongtinchung .column-title {
-    display: grid;
-    height: 240px;
-  }
+.thongtinchung .column-title {
+  display: grid;
+  height: 240px;
+}
 
-  .thongtinchung .column-infor {
-    margin-left: 120px;
-    display: grid;
-    height: 240px;
-  }
+.thongtinchung .column-infor {
+  margin-left: 120px;
+  display: grid;
+  height: 240px;
+}
 
-  .thongtinchung .box-thong-tin-o-tro {
-    padding: 30px 50px 0px 50px;
-  }
+.thongtinchung .box-thong-tin-o-tro {
+  padding: 30px 50px 0px 50px;
+}
 
-  .thongtinchung .thong-tin-phong {
-    margin: 25px;
-    border: 1px solid #828282;
-    padding: 25px 25px 15px 25px;
-    border-radius: 10px;
-  }
+.thongtinchung .thong-tin-phong {
+  margin: 25px;
+  border: 1px solid #828282;
+  padding: 25px 25px 15px 25px;
+  border-radius: 10px;
+}
 
-  .thongtinchung #title-phong {
-    background: rgba(238, 111, 87, 0.8);
-    padding: 5px;
-    font-family: Roboto-Bold;
-    color: white;
-    border-radius: 6px;
-    display: inline;
-    margin-left: -5px;
-  }
+.thongtinchung #title-phong {
+  background: rgba(238, 111, 87, 0.8);
+  padding: 5px;
+  font-family: Roboto-Bold;
+  color: white;
+  border-radius: 6px;
+  display: inline;
+  margin-left: -5px;
+}
 
-  .thongtinchung .table{
-    display: flex;
-    justify-content: space-between;
-  }
+.thongtinchung .table {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .thongtinchung .option-thanh-vien .table{
-    background-color: white;
-  }
+.thongtinchung .option-thanh-vien .table {
+  background-color: white;
+}
 
-  .thongtinchung .option-thanh-vien table{
-    width: 100%;
-  }
+.thongtinchung .option-thanh-vien table {
+  width: 100%;
+}
 
-  .thongtinchung .option-thanh-vien .sort{
-    display: flex;
-    }
+.thongtinchung .option-thanh-vien .sort {
+  display: flex;
+}
 
-  .thongtinchung .option-thanh-vien .table td{
+.thongtinchung .option-thanh-vien .table td {
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 8px;
   padding-bottom: 8px;
   color: #828282;
-  }
-  .thongtinchung .option-thanh-vien .table th{
+}
+.thongtinchung .option-thanh-vien .table th {
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 8px;
@@ -1005,19 +1064,20 @@ tr {
   text-align: left;
   color: #4f4f4f;
   font-family: Roboto-Medium;
-  }
-  .thongtinchung p {
-    margin: 0;
-  }
-  .thongtinchung .table table, tr{
-    border: 1px solid #BDBDBD;
-  }
-  .thongtinchung .table table{
-    border-collapse: collapse;
-    background-color: #ffffff;
-  }
+}
+.thongtinchung p {
+  margin: 0;
+}
+.thongtinchung .table table,
+tr {
+  border: 1px solid #bdbdbd;
+}
+.thongtinchung .table table {
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
 
-                                                                          /* dịch vụ */
+/* dịch vụ */
 .dichvu {
   width: 83vw;
 }
@@ -1100,7 +1160,15 @@ tr {
   border-radius: 4px;
   color: #4f4f4f;
   margin-left: 10px;
-  outline: none;
+  width: 8vw;
+  font-size: 14px;
+  font-family: Roboto-Regular;
+}
+.dichvu .menu-diennuoc {
+  width: 8vw;
+  margin-left: 10px;
+  font-size: 15px;
+  font-family: Roboto-Regular;
 }
 .dichvu .box-btn {
   display: inline-grid;
@@ -1112,7 +1180,7 @@ tr {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  background: #1F3C88;
+  background: #1f3c88;
   width: 130px;
   height: 36px;
   align-items: center;
@@ -1124,7 +1192,7 @@ tr {
   font-family: Roboto-Regular;
 }
 .dichvu .box-btn .btn2 {
-  background: #070D59;
+  background: #070d59;
   width: 130px;
   height: 36px;
   align-items: center;
@@ -1132,4 +1200,274 @@ tr {
   margin-left: 5px;
   margin-top: 5px;
   border-width: 0;
+}
+
+/*----------------------------------------------------------------------------------------- Model */
+.model-input {
+  border: 1px solid #bdbdbd;
+  padding: 15px;
+  width: 100%;
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.model-result-input {
+  border: 1px solid #bdbdbd;
+  padding: 15px;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 8px;
+  font-family: Roboto-Light;
+}
+
+.model-textarea {
+  border: 1px solid #bdbdbd;
+  padding: 19px;
+  width: 100%;
+  font-size: 16px;
+  resize: none;
+  font-family: Roboto-Light;
+  height: 80px;
+}
+
+.textarea-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.textarea-box .icon {
+  position: absolute;
+  font-size: 24px;
+  color: #ffffff;
+  padding-right: 16px;
+  padding-top: 17px;
+}
+
+.input-box .icon {
+  position: absolute;
+  font-size: 24px;
+  color: #ffffff;
+  padding-right: 16px;
+}
+
+.model-box {
+  padding: 15px 20px 0 20px;
+}
+
+.input-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.title-box {
+  height: 80px;
+  border-bottom: 1px solid #bdbdbd;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25px;
+  align-items: center;
+}
+
+.title-text {
+  font-size: 24px;
+  text-align: center;
+  color: #151515;
+  font-family: Roboto-Medium;
+}
+
+.text-tai-anh-len {
+  font-family: Roboto-Medium;
+  font-size: 20px;
+  color: #ee6f57;
+  margin: 0;
+}
+
+.text-huy {
+  font-family: Roboto-Regular;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: #4f4f4f;
+  margin-right: 15px;
+  cursor: default;
+}
+
+.upload-img {
+  height: 120px;
+  border: 1px dashed #828282;
+  box-sizing: border-box;
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.model-them-phong-tro {
+  margin-top: 50px;
+  width: 650px;
+  height: 650px;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.model-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.model-column {
+  width: 48%;
+}
+
+.model-them-thong-bao {
+  margin-top: 50px;
+  width: 425px;
+  height: 425px;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.model-thay-doi-thong-tin {
+  margin-top: 50px;
+  width: 650px;
+  height: 425px;
+  background-color: white;
+  border-radius: 12px;
+}
+
+#input-type {
+  margin: 0;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #828282;
+  font-weight: Roboto-Light;
+}
+
+.dropzone {
+  cursor: default;
+}
+
+.displayed-image {
+  width: 150px;
+  height: 100px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.dropdown-modal {
+  border: 1px solid #828282;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  width: 293px;
+  height: 51px;
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.menu-modal {
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.arrow-modal {
+  align-items: center;
+  margin: 6px 10px;
+}
+
+.dropdown-modal-short {
+  border: 1px solid #828282;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  width: 142px;
+  height: 51px;
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.dropdown-modal-them-phong {
+  border: 1px solid #828282;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  width: 269px;
+  height: 51px;
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.menu-modal-short {
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.arrow-modal-short {
+  align-items: center;
+  margin: 6px 10px;
+}
+
+.dropdown-modal-medium {
+  border: 1px solid #828282;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  width: 173px;
+  height: 51px;
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.menu-medium {
+  font-size: 16px;
+  font-family: Roboto-Light;
+}
+
+.arrow-medium {
+  align-items: center;
+  margin: 6px 10px;
+}
+
+.modal-title {
+  font-size: 24px !important;
+  font-family: Roboto-Medium;
+  color: #151515;
+  border-bottom: 0.2px solid #bbbbbb !important;
+  padding: 10px 0 15px 0;
+  margin-bottom: 15px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-content {
+  font-family: Roboto-Light;
+  font-size: 20px !important;
+  color: #828282;
+  border: 0 !important;
+}
+
+/*                                                                              Notification */
+.notification-error {
+  margin: 10px 0;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 10px;
+  border: 1px solid transparent;
+  font-family: Roboto-Regular;
+  border-radius: 5px;
+}
+
+.notification-success {
+  margin: 10px 0;
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  padding: 10px;
+  border: 1px solid transparent;
+  font-family: Roboto-Regular;
+  border-radius: 5px;
 }

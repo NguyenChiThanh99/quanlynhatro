@@ -8,10 +8,7 @@ import ThongKe from "./components/Admin/ThongKe";
 import DichVu from "./components/Admin/DichVu"
 import YeuCau from "./components/Admin/YeuCau";
 import ThongBao from "./components/Admin/ThongBao";
-import DayTro from "./components/Admin/DayTro"
 import DayTroDetail from "./components/Admin/DayTroDetail"
-import PhongTro from "./components/Admin/PhongTro"
-import NguoiThue from "./components/Admin/NguoiThue"
 
 const routesAdmin = [
     {
@@ -25,24 +22,9 @@ const routesAdmin = [
         main: () => <QuanLyDayTro />
     },
     {
-        path: '/admin/quanlydaytro/daytro',
-        exact: true,
-        main: () => <DayTro />
-    },
-    {
         path: '/admin/quanlydaytro/daytro/daytrodetail',
         exact: false,
         main: () => <DayTroDetail />
-    },
-    {
-        path: '/admin/quanlydaytro/daytro/phongtro',
-        exact: true,
-        main: () => <PhongTro />
-    },
-    {
-        path: '/admin/quanlydaytro/daytro/phongtro/nguoithue',
-        exact: false,
-        main: () => <NguoiThue />
     },
     {
         path: '/admin/quanlyphongtro',

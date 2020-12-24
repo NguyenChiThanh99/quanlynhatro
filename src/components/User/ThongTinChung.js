@@ -1,13 +1,98 @@
 import React, { useState } from "react";
+import Rodal from "rodal";
+import Dropdown from "react-dropdown";
+import { useSelector } from "react-redux";
 
-import avatar from "../../images/avatar.png";
+import "rodal/lib/rodal.css";
+
+import Global from "../Global";
+import ModalLogin from "../ModalLogin";
+
+import avatar from "../../images/avatar.jpeg";
 
 export default function ThongTinChung() {
+  const [tokenStatus, setTokenStatus] = useState(false);
   const [menu, setMenu] = useState({
     canhan: "",
     otro: "none",
     thanhvien: "none",
   });
+  const [birthdayIcon, setBirthdayIcon] = useState(true);
+  const [modal, setModal] = useState(false);
+  const [input, setInput] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    gender: "1",
+    job: "",
+    birthday: "",
+    cmnd: "",
+  });
+  const optionsGender = [
+    { value: "1", label: "Nam" },
+    { value: "0", label: "Nữ" },
+  ];
+
+  function onSelectGender(option) {
+    setInput({ ...input, gender: option.value });
+  }
+
+  const onChange = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
+  const _onFocusBirthday = (e) => {
+    e.currentTarget.type = "date";
+    setBirthdayIcon(false);
+  };
+  const _onBlurBirthday = (e) => {
+    e.currentTarget.type = "text";
+    e.currentTarget.placeholder = "Ngày sinh";
+    setBirthdayIcon(true);
+  };
+
+  const closeModal = () => {
+    setInput({
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      gender: "1",
+      job: "",
+      birthday: "",
+      cmnd: "",
+    });
+    setModal(false);
+  };
+
+  const user = useSelector((state) => state.ID);
+  var email = "",
+    name = "",
+    phone = "",
+    address = "",
+    cmnd = "",
+    birthday = "",
+    gender = "",
+    avatar = "",
+    job = "";
+  if (user.length !== 0) {
+    email = user.user.user.email;
+    name = user.user.user.name;
+    phone = user.user.phone;
+    address = user.user.user.address;
+    cmnd = user.user.user.cmnd;
+    birthday = user.user.user.birthday;
+    gender = user.user.user.gender;
+    avatar = user.user.user.avatar;
+    job = user.user.user.job;
+  }
 
   return (
     <div className="thongtinchung">
@@ -65,11 +150,18 @@ export default function ThongTinChung() {
         </div>
       </div>
 
-      <div className="background" style={{ height: '72vh', overflowY: 'scroll' }}>
+      <div
+        className="background"
+        style={{ height: "72vh", overflowY: "scroll" }}
+      >
         {/* Màn hình ở phần thông tin cá nhân*/}
         <div className="option-ca-nhan" style={{ display: menu.canhan }}>
           <div className="box-avatar">
-            <img src={avatar} className="avatar" alt="Avatar" />
+            <img
+              src={user.length === 0 ? avatar : user.user.user.avatar}
+              className="avatar"
+              alt="Avatar"
+            />
             <div className="display-flex">
               <i
                 className="material-icons-round"
@@ -82,44 +174,49 @@ export default function ThongTinChung() {
             </div>
           </div>
           <div className="box-thongtin">
-            <p id="user-name">Nguyễn Đoàn Duy Nhựt</p>
+            <p id="user-name">{name}</p>
             {/* 1 dòng chứa 3 thông tin*/}
             <div className="box-thongtin-row">
               <div className="row-item">
                 <p className="item-title">Ngày sinh</p>
-                <p className="item-infor">04/05/1999</p>
+                <p className="item-infor">{Global.formatDate(birthday)}</p>
               </div>
               <div className="row-item">
                 <p className="item-title">Giới tính</p>
-                <p className="item-infor">Nam</p>
+                <p className="item-infor">{gender}</p>
               </div>
               <div className="row-item">
                 <p className="item-title">Nghề nghiệp</p>
-                <p className="item-infor">Tổng giám đốc</p>
+                <p className="item-infor">{job}</p>
               </div>
               <div className="row-item">
                 <p className="item-title" style={{ whiteSpace: "nowrap" }}>
                   Số điện thoại
                 </p>
-                <p className="item-infor">09391294944</p>
+                <p className="item-infor">{phone}</p>
               </div>
               <div className="row-item">
                 <p className="item-title">Email</p>
-                <p className="item-infor">ahihi@gmail.com</p>
+                <p
+                  className="item-infor"
+                  style={{ width: "12vw", overflowX: "scroll" }}
+                >
+                  {email}
+                </p>
               </div>
               <div className="row-item">
                 <p className="item-title">CMND/CCCD</p>
-                <p className="item-infor">094922985739</p>
+                <p className="item-infor">{cmnd}</p>
               </div>
             </div>
             <div className="row-item2">
               <p className="item-title">Địa chỉ</p>
-              <p className="item-infor">Quận nào đó Thành phố Hồ chí minh</p>
+              <p className="item-infor">{address}</p>
             </div>
 
             <div className="btn-edit-infor">
               {/* Compoent button */}
-              <div className="box-btn">
+              <div className="box-btn" onClick={() => setModal(true)}>
                 <div className="btn2"></div>
                 <button className="btn">
                   <i className="material-icons-round" id="icon-btn">
@@ -215,7 +312,7 @@ export default function ThongTinChung() {
                   </th>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -225,7 +322,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -235,7 +332,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -245,7 +342,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -255,7 +352,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -265,7 +362,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -275,7 +372,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -285,7 +382,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -295,7 +392,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -305,7 +402,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -315,7 +412,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -325,7 +422,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -335,7 +432,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -345,7 +442,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -355,7 +452,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -365,7 +462,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -375,7 +472,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -385,7 +482,7 @@ export default function ThongTinChung() {
                   <td>IT Developer</td>
                 </tr>
                 <tr>
-                  <td style={{alignItems: 'center', display: "flex"}}>
+                  <td style={{ alignItems: "center", display: "flex" }}>
                     <img src={avatar} className="avatar-small" alt="Avatar" />
                     <span id="roommate-name">Cameron Williamson</span>
                   </td>
@@ -399,6 +496,184 @@ export default function ThongTinChung() {
           </div>
         </div>
       </div>
+
+      <Rodal
+        visible={modal}
+        animation={"slideUp"}
+        customStyles={{
+          marginTop: 50,
+          width: 650,
+          height: 425,
+          backgroundColor: "white",
+          borderRadius: 12,
+        }}
+        showCloseButton={false}
+        onClose={() => {}}
+      >
+        <div className="title-box">
+          <p className="title-text">Thay đổi thông tin</p>
+          <span
+            onClick={() => closeModal()}
+            className="material-icons icon"
+            style={{ fontSize: "22px", color: "#828282", cursor: "default" }}
+          >
+            close
+          </span>
+        </div>
+        <div className="model-box">
+          <div className="model-flex">
+            <div className="model-column">
+              <div className="input-box">
+                <input
+                  type="text"
+                  className="model-input"
+                  placeholder="Họ và tên"
+                  name="name"
+                  value={input.name}
+                  onChange={onChange}
+                />
+                <span
+                  className="material-icons icon"
+                  style={{ fontSize: "22px", color: "#828282" }}
+                >
+                  account_box
+                </span>
+              </div>
+              <div className="input-box">
+                <input
+                  type="email"
+                  className="model-input"
+                  placeholder="Email"
+                  name="email"
+                  value={input.email}
+                  onChange={onChange}
+                />
+                <span
+                  className="material-icons icon"
+                  style={{ fontSize: "22px", color: "#828282" }}
+                >
+                  email
+                </span>
+              </div>
+              <div className="input-box">
+                <input
+                  type="tel"
+                  className="model-input"
+                  placeholder="Số điện thoại"
+                  name="phone"
+                  value={input.phone}
+                  onChange={onChange}
+                />
+                <span
+                  className="material-icons icon"
+                  style={{ fontSize: "22px", color: "#828282" }}
+                >
+                  phone
+                </span>
+              </div>
+              <div className="input-box">
+                <input
+                  type="text"
+                  className="model-input"
+                  placeholder="Địa chỉ"
+                  name="address"
+                  value={input.address}
+                  onChange={onChange}
+                />
+                <span
+                  className="material-icons icon"
+                  style={{ fontSize: "22px", color: "#828282" }}
+                >
+                  location_on
+                </span>
+              </div>
+            </div>
+            <div className="model-column">
+              <div className="input-box">
+                <Dropdown
+                  controlClassName="dropdown-modal"
+                  menuClassName="menu-modal"
+                  arrowClassName="arrow-modal"
+                  options={optionsGender}
+                  onChange={onSelectGender}
+                  value={"Nam"}
+                />
+              </div>
+              <div className="input-box">
+                <input
+                  type="text"
+                  className="model-input"
+                  placeholder="Nghề nghiệp"
+                  name="job"
+                  value={input.job}
+                  onChange={onChange}
+                />
+                <span
+                  className="material-icons icon"
+                  style={{ fontSize: "22px", color: "#828282" }}
+                >
+                  work
+                </span>
+              </div>
+              <div className="input-box">
+                <input
+                  className="model-input"
+                  placeholder="Ngày sinh"
+                  type="text"
+                  name="birthday"
+                  value={input.birthday}
+                  onChange={onChange}
+                  onFocus={_onFocusBirthday}
+                  onBlur={_onBlurBirthday}
+                />
+                {birthdayIcon ? (
+                  <span
+                    className="material-icons icon"
+                    style={{ fontSize: "22px", color: "#828282" }}
+                  >
+                    cake
+                  </span>
+                ) : null}
+              </div>
+              <div className="input-box">
+                <input
+                  type="number"
+                  className="model-input"
+                  placeholder="CMND"
+                  name="cmnd"
+                  value={input.cmnd}
+                  onChange={onChange}
+                />
+                <span
+                  className="material-icons icon"
+                  style={{ fontSize: "22px", color: "#828282" }}
+                >
+                  picture_in_picture
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="input-box">
+            <p
+              className="text-huy"
+              style={{ marginRight: 20 }}
+              onClick={() => closeModal()}
+            >
+              Hủy
+            </p>
+            <div className="box-btn">
+              <button className="btn2"></button>
+              <button className="btn">
+                <i className="material-icons" id="icon-btn">
+                  add_circle
+                </i>
+                Lưu
+              </button>
+            </div>
+          </div>
+        </div>
+      </Rodal>
+      <ModalLogin status={tokenStatus} />
     </div>
   );
 }
