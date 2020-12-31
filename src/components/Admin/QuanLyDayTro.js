@@ -17,6 +17,7 @@ export default function QuanLyDayTro() {
   const [tokenStatus, setTokenStatus] = useState(false);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState([]);
+  const [room, setRoom] = useState([]);
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [imageAlt, setImageAlt] = useState(null);
@@ -140,6 +141,7 @@ export default function QuanLyDayTro() {
           }
         } else {
           setData(res.data.Block);
+          setRoom(res.data.Room)
         }
       })
       .catch((error) => {});
@@ -160,7 +162,7 @@ export default function QuanLyDayTro() {
             <img src={block.image} alt="IMG" id="img-card" />
             <div className="box-name">
               <h4>{block.name}</h4>
-              {/* <span>Dãy trọ này xấu vcl ra</span> */}
+              <span>Dãy trọ có {room[index]} phòng trọ</span>
             </div>
           </div>
         );

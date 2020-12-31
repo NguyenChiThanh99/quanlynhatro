@@ -297,7 +297,7 @@ span {
   font-family: Roboto-Medium;
   border-radius: 8px;
   padding: 5px 10px;
-  cursor: default;
+  cursor: pointer;
 }
 
 .quanlydaytro .array-item {
@@ -444,25 +444,22 @@ input[type="checkbox"] {
 }
 
 .quanlynguoithue .card {
-  width: 30%;
+  width: 28%;
   float: left;
-  align-items: center;
   margin-bottom: 25px;
   margin-right: 25px;
 }
 
 .quanlynguoithue .card #img-card {
-  width: 20%;
+  width: 25%;
   border-radius: 5px;
   float: left;
   border: solid 0.3px #bdbdbd;
 }
 
 .quanlynguoithue .card .box-name {
-  align-items: flex-start;
   margin-left: 15px;
   float: left;
-  width: 73%;
 }
 
 .quanlynguoithue .card .box-name h4 {
@@ -471,7 +468,7 @@ input[type="checkbox"] {
 }
 
 .quanlynguoithue .card .box-name span {
-  font-size: 16px;
+  font-size: 15px;
   font-family: Roboto-Regular;
   color: #828282;
 }
@@ -880,6 +877,16 @@ tr {
   height: 100%;
 }
 
+.thongtinchung .option-ca-nhan2 {
+  background-color: white;
+  display: flex;
+}
+
+.thongtinchung .option-o-tro2 {
+  background-color: white;
+  padding-bottom: 10px;
+}
+
 .thongtinchung .option-thanh-vien {
   background-color: white;
 }
@@ -990,6 +997,8 @@ tr {
 }
 
 .thongtinchung .btn-edit-infor {
+  margin-top: 20px;
+  margin-left: 80px;
   display: flex;
   width: 80%;
   justify-content: flex-end;
@@ -1357,6 +1366,13 @@ tr {
   border-radius: 5px;
 }
 
+.displayed-avatar {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
 .dropdown-modal {
   border: 1px solid #828282;
   padding: 15px;
@@ -1470,4 +1486,136 @@ tr {
   border: 1px solid transparent;
   font-family: Roboto-Regular;
   border-radius: 5px;
+}
+
+/*                                                                              Chi tiet Day */
+.chitietday {
+  width: 83vw;
+  background-color: #f6f5f5;
+}
+.chitietday .option {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+
+.chitietday .option-click {
+  border-bottom: 3px solid #ee6f57;
+}
+
+.chitietday .option .option-title-click {
+  color: #151515;
+}
+
+.chitietday .check-box {
+  font-family: Roboto-Regular;
+  font-size: 18px;
+  margin-left: 10px;
+  color: #151515;
+}
+
+.chitietday .check-box-input {
+  width: 25px;
+}
+
+.chitietday .check-box-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.chitietday .nav {
+  background-color: #ee6f57;
+  float: left;
+  width: 20%;
+  height: 800px;
+}
+.chitietday .colorblack {
+  color: #4f4f4f;
+  font-family: Roboto-Medium;
+  font-size: 16px;
+}
+.chitietday .table {
+  display: flex;
+  padding: 24px;
+}
+.chitietday .table p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.chitietday .table td {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #828282;
+  font-family: Roboto-Regular;
+}
+.chitietday .table th {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  color: #4f4f4f;
+  font-family: Roboto-Medium;
+}
+.chitietday .table .icon {
+  font-size: 20px;
+  vertical-align: middle;
+}
+.chitietday .table .icon2 {
+  color: #eb5757;
+  vertical-align: middle;
+}
+.chitietday .sort {
+  display: table-cell;
+  white-space: nowrap;
+}
+.chitietday .sort_text {
+  display: inline-block;
+  margin-right: 4px;
+}
+.chitietday .table table,
+tr {
+  border: 1px solid #bdbdbd;
+}
+.chitietday .table table {
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+.chitietday .table .ghichu {
+  border: none;
+  border-bottom: 1px solid #bdbdbd;
+  font-size: 16px;
+  color: #4f4f4f;
+}
+.chitietday .table input[type="text"]:focus {
+  outline: none;
+  color: #070d59;
+}
+.chitietday .dropdown-chitietday {
+  padding: 4px;
+  border: 1px solid #828282;
+  border-radius: 4px;
+  color: #4f4f4f;
+  margin-left: 24px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.chitietday .dropdown-thongtinthanhtoan {
+  padding: 4px;
+  border: 1px solid #828282;
+  border-radius: 4px;
+  color: #4f4f4f;
+}
+.chitietday .chiso{
+  display: inline;
+}
+.chitietday .tien {
+  color: #828282 !important;
+  font-family: Roboto-Regular;
+  font-size: 14px;
 }

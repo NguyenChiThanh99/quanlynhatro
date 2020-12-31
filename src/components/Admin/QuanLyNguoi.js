@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Rodal from "rodal";
@@ -13,7 +14,6 @@ import ModalLogin from "../ModalLogin";
 import Global from "../Global";
 import Notification from "../Notification";
 
-import avatar from "../../images/avatar.jpeg";
 
 export default function QuanLyNguoi() {
   let history = useHistory();
@@ -21,14 +21,18 @@ export default function QuanLyNguoi() {
   const user = useSelector((state) => state.ID);
 
   useEffect(() => {
-    if (location.state !== undefined) {
-      getPerson();
-    } else {
-      getAllPerson();
+    if (user.length !== 0) {
+      if (location.state !== undefined) {
+        getPerson();
+        getBlockFromRoom();
+      } else {
+        getAllPerson();
+      }
     }
   }, []);
 
   const [Block, setBlock] = useState([]);
+  const [BlockFromRoom, setBlockFromRoom] = useState({});
   const [data, setData] = useState([]);
   const [Room, setRoom] = useState([]);
   const [tokenStatus, setTokenStatus] = useState(false);
@@ -47,7 +51,8 @@ export default function QuanLyNguoi() {
     job: "",
     birthday: "",
     startDay: "",
-    block: location.state !== undefined ? location.state.block._id : "",
+    block:
+      Object.keys(BlockFromRoom).length !== 0 ? BlockFromRoom.Block._id : "",
     room: location.state !== undefined ? location.state.room._id : "",
     price: "",
   });
@@ -73,12 +78,42 @@ export default function QuanLyNguoi() {
       job: "",
       birthday: "",
       startDay: "",
-      block: location.state !== undefined ? location.state.block._id : "",
+      block:
+        Object.keys(BlockFromRoom).length !== 0 ? BlockFromRoom.Block._id : "",
       room: location.state !== undefined ? location.state.room._id : "",
       price: "",
     });
     setModal(false);
     setError("");
+  };
+
+  const getBlockFromRoom = () => {
+    const data = {
+      roomId: location.state.room._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "block/getblockbyroomid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+          }
+        } else {
+          setBlockFromRoom(res.data);
+        }
+      })
+      .catch((error) => {});
   };
 
   const _onFocusStartDate = (e) => {
@@ -229,11 +264,11 @@ export default function QuanLyNguoi() {
           }
         } else {
           closeModal();
-          // if (location.state !== undefined) {
-          //   getRoom();
-          // } else {
-          //   getAllRoom();
-          // }
+          if (location.state !== undefined) {
+            getPerson();
+          } else {
+            getAllPerson();
+          }
         }
       })
       .catch((error) => {});
@@ -244,11 +279,22 @@ export default function QuanLyNguoi() {
     if (data.length > 0) {
       result = data.map((person, index) => {
         return (
-          <div className="card" key={index}>
-            <img src={avatar} alt="IMG" id="img-card" />
+          <div
+            className="card"
+            key={index}
+            onClick={() => {
+              history.push({
+                pathname: "/admin/quanlynguoi/nguoithue",
+                state: {user: person, from: 0}, //1 is from AllPerson; 0 is from Person
+              });
+            }}
+          >
+            <img src={person.avatar} alt="IMG" id="img-card" />
             <div className="box-name">
-              <h4>Nguyễn Đoàn Duy Nhựt</h4>
-              <span>Phòng 1</span>
+              <h4>{person.name}</h4>
+              <span>{person.phone}</span>
+              <br />
+              <span>{person.job}</span>
             </div>
           </div>
         );
@@ -257,9 +303,94 @@ export default function QuanLyNguoi() {
     return result;
   };
 
-  const getPerson = () => {};
+  const loadAllPerson = () => {
+    var result = null;
+    if (data.length > 0) {
+      result = data.map((block, index) => {
+        return block.map((user, indexUser) => {
+          return (
+            <div
+              className="card"
+              key={index * block.length + indexUser}
+              onClick={() => {
+                history.push({
+                  pathname: "/admin/quanlynguoi/nguoithue",
+                  state: {user, from: 1}, //1 is from AllPerson; 0 is from Person
+                });
+              }}
+            >
+              <img src={user.avatar} alt="IMG" id="img-card" />
+              <div className="box-name">
+                <h4>{user.name}</h4>
+                <span>{user.phone}</span>
+                <br />
+                <span>{user.job}</span>
+              </div>
+            </div>
+          );
+        });
+      });
+    }
+    return result;
+  };
 
-  const getAllPerson = () => {};
+  const getPerson = () => {
+    const data = {
+      roomId: location.state.room._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/getalluserbyroomid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModal();
+            setTokenStatus(true);
+          }
+        } else {
+          setData(res.data.User);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const getAllPerson = () => {
+    const data = {
+      userId: user.user.user._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/getuserbyadminid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModal();
+            setTokenStatus(true);
+          }
+        } else {
+          setData(res.data.User);
+        }
+      })
+      .catch((error) => {});
+  };
 
   return (
     <div className="quanlynguoithue">
@@ -301,10 +432,17 @@ export default function QuanLyNguoi() {
                 cursor: "pointer",
               }}
               onClick={() => {
-                history.push({ pathname: "/admin/quanlyphongtro", state: location.state.block });
+                if (Object.keys(BlockFromRoom).length !== 0) {
+                  history.push({
+                    pathname: "/admin/quanlyphongtro",
+                    state: BlockFromRoom.Block,
+                  });
+                }
               }}
             >
-              {location.state.block.name}
+              {Object.keys(BlockFromRoom).length !== 0
+                ? BlockFromRoom.Block.name
+                : ""}
             </h3>
             <i
               className="material-icons-round"
@@ -358,7 +496,9 @@ export default function QuanLyNguoi() {
           </div>
         </div>
       </div>
-      <div className="array-item">{loadPerson()}</div>
+      <div className="array-item">
+        {location.state !== undefined ? loadPerson() : loadAllPerson()}
+      </div>
 
       {/* Modal */}
       <Rodal
@@ -423,7 +563,8 @@ export default function QuanLyNguoi() {
                 <input
                   className="model-input"
                   placeholder="Số điện thoại"
-                  type="tel"
+                  type="text"
+                  maxLength="10"
                   name="phone"
                   value={input.phone}
                   onChange={onChange}
@@ -543,7 +684,11 @@ export default function QuanLyNguoi() {
                       <input
                         disabled
                         className="model-input"
-                        value={location.state.block.name}
+                        value={
+                          Object.keys(BlockFromRoom).length !== 0
+                            ? BlockFromRoom.Block.name
+                            : ""
+                        }
                       />
                       <span
                         className="material-icons icon"
@@ -553,15 +698,17 @@ export default function QuanLyNguoi() {
                       </span>
                     </div>
                   ) : (
-                    <Dropdown
-                      placeholder="Dãy trọ"
-                      controlClassName="dropdown-modal-short"
-                      menuClassName="menu-modal-short"
-                      arrowClassName="arrow-modal-short"
-                      options={Block}
-                      onChange={onSelectBlock}
-                      value={input.block}
-                    />
+                    <div className="input-box">
+                      <Dropdown
+                        placeholder="Dãy trọ"
+                        controlClassName="dropdown-modal-short"
+                        menuClassName="menu-modal-short"
+                        arrowClassName="arrow-modal-short"
+                        options={Block}
+                        onChange={onSelectBlock}
+                        value={input.block}
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="model-column">
@@ -635,17 +782,5 @@ export default function QuanLyNguoi() {
       </Rodal>
       <ModalLogin status={tokenStatus} />
     </div>
-    // <div>
-    //   <h3>Quan ly Nguoi</h3>
-    //   <button
-    //     type="button"
-    //     class="btn btn-dark"
-    //     onClick={() => {
-    //       history.push("/admin/quanlydaytro/daytro/phongtro/nguoithue");
-    //     }}
-    //   >
-    //     Nguoi thue
-    //   </button>
-    // </div>
   );
 }

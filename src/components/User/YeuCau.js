@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rodal from "rodal";
+import axios from "axios";
+import qs from "qs";
+import { useSelector } from "react-redux";
 
 import "rodal/lib/rodal.css";
 
 import ModalLogin from "../ModalLogin";
+import Notification from "../Notification";
+import Global from "../Global";
 
 export default function YeuCau() {
+  useEffect(() => {
+    if (user.length !== 0) {
+      getRequest();
+    }
+  }, []);
+
+  const user = useSelector((state) => state.ID);
   const [tokenStatus, setTokenStatus] = useState(false);
   const [modal, setModal] = useState(false);
+  const [data, setData] = useState(false);
+  const [error, setError] = useState("");
   const [input, setInput] = useState({
-    content: '',
+    content: "",
   });
 
   const onChange = (event) => {
@@ -24,11 +38,104 @@ export default function YeuCau() {
 
   const closeModal = () => {
     setInput({
-      content: '',
+      content: "",
     });
+    setError("");
     setModal(false);
   };
-  
+
+  const CreateRequest = () => {
+    const data = {
+      content: input.content,
+      userId: user.user.user._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "request/create";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModal();
+            setTokenStatus(true);
+          } else {
+            setError(res.data.message);
+          }
+        } else {
+          getRequest();
+          closeModal();
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const getRequest = () => {
+    const data = {
+      userId: user.user.user._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "request/getrequestbyuserid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModal();
+            setTokenStatus(true);
+          }
+        } else {
+          setData(res.data.Request);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const loadRequest = () => {
+    var result = null;
+    if (data.length > 0) {
+      result = data.map((request, index) => {
+        return (
+          <tr key={index}>
+            {/* <td>13:09 11/11/2020</td> */}
+            <td>{Global.formatFullDate(request.createdAt)}</td>
+            <td>
+              {request.content}
+            </td>
+            <td>{request.note}</td>
+            <td>
+              <span
+                className={
+                  request.isSolved
+                    ? "material-icons-round icon3"
+                    : "material-icons-round icon2"
+                }
+              >
+                {request.isSolved ? "check_circle" : "cancel"}
+              </span>
+            </td>
+          </tr>
+        );
+      });
+    }
+    return result;
+  };
+
   return (
     <div className="yeucau">
       <div className="row">
@@ -46,6 +153,7 @@ export default function YeuCau() {
           </div>
         </div>
       </div>
+      
       <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
         <div className="table">
           <table>
@@ -67,286 +175,7 @@ export default function YeuCau() {
                   <p>Trạng thái</p>
                 </th>
               </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đã fix</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td></td>
-                <td>
-                  <span className="material-icons-round icon2">cancel</span>
-                </td>
-              </tr>
-              <tr>
-                <td>13:09 11/11/2020</td>
-                <td>
-                  Kiểm tra đường ống nước vì chỉ số tăng đường ống nước đường
-                  ống nước đường ống nước đường ống nước đường ống nước đường
-                  ống nước đường ống nước
-                </td>
-                <td>Đang sửa chữa</td>
-                <td>
-                  <span className="material-icons-round icon3">
-                    check_circle
-                  </span>
-                </td>
-              </tr>
+              {loadRequest()}
             </tbody>
           </table>
         </div>
@@ -356,9 +185,9 @@ export default function YeuCau() {
         visible={modal}
         animation={"slideUp"}
         customStyles={{
-          marginTop: 50,
-          width: 425,
-          height: 300,
+          marginTop: 100,
+          width: 450,
+          height: 340,
           backgroundColor: "white",
           borderRadius: 12,
         }}
@@ -394,13 +223,21 @@ export default function YeuCau() {
               edit
             </span>
           </div>
+
+          {error === "" ? null : <Notification type="error" content={error} />}
+
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>
               Hủy
             </p>
-            <div className="box-btn">
+            <div
+              className="box-btn"
+              onClick={() => {
+                CreateRequest();
+              }}
+            >
               <button className="btn2"></button>
-              <button className="btn">Thêm</button>
+              <button className="btn">Gửi</button>
             </div>
           </div>
         </div>

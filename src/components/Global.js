@@ -3,10 +3,19 @@ module.exports = {
   formatDate: (date) => {
     var d = new Date(date);
     var datestring =
-      d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
+    ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
     return datestring;
   },
-  currencyFormat: num => {
-    return num.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+
+  formatFullDate: (date) => {
+    var d = new Date(date);
+    var datestring =
+    ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+    var timestring = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+    return timestring + " " + datestring;
+  },
+
+  currencyFormat: (num) => {
+    return num.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
   },
 };

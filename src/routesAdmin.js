@@ -9,6 +9,7 @@ import DichVu from "./components/Admin/DichVu"
 import YeuCau from "./components/Admin/YeuCau";
 import ThongBao from "./components/Admin/ThongBao";
 import DayTroDetail from "./components/Admin/DayTroDetail"
+import NguoiThue from "./components/Admin/NguoiThue.js"
 
 const routesAdmin = [
     {
@@ -22,7 +23,7 @@ const routesAdmin = [
         main: () => <QuanLyDayTro />
     },
     {
-        path: '/admin/quanlydaytro/daytro/daytrodetail',
+        path: '/admin/quanlydaytro/daytrodetail',
         exact: false,
         main: () => <DayTroDetail />
     },
@@ -33,8 +34,13 @@ const routesAdmin = [
     },
     {
         path: '/admin/quanlynguoi',
-        exact: false,
+        exact: true,
         main: () => <QuanLyNguoi />
+    },
+    {
+        path: '/admin/quanlynguoi/nguoithue',
+        exact: false,
+        main: () => <NguoiThue />
     },
     {
         path: '/admin/thongke',

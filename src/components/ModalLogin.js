@@ -87,7 +87,7 @@ export default function ModalLogin(props) {
       <div className="title-box">
         <p className="title-text">Đăng nhập</p>
       </div>
-      <p style={{fontFamily: 'Roboto-Light', marginBottom: 0, marginLeft: 20, color: '#828282'}}>Phiên hiện tại đã kết thúc, vui lòng đăng nhập lại để tiếp tục</p>
+      <p style={{fontFamily: 'Roboto-Light', marginBottom: 0, marginLeft: 20, color: '#828282', marginTop: 20}}>Phiên hiện tại đã kết thúc, vui lòng đăng nhập lại để tiếp tục</p>
       <div className="model-box">
       <div className="input-box">
           <input

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Dropdown from "react-dropdown";
 import Rodal from "rodal";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import qs from "qs";
 
 import "react-dropdown/style.css";
@@ -14,7 +14,6 @@ import ModalLogin from "../ModalLogin";
 
 export default function DichVu() {
   const user = useSelector((state) => state.ID);
-  const dispatch = useDispatch();
   const [input, setInput] = useState({
     type: "",
     price: "",

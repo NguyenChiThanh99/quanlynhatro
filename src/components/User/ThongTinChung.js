@@ -1,17 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rodal from "rodal";
 import Dropdown from "react-dropdown";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import qs from "qs";
+import Dropzone from "react-dropzone";
 
 import "rodal/lib/rodal.css";
 
 import Global from "../Global";
+import { updateID } from "../../actions";
 import ModalLogin from "../ModalLogin";
-
-import avatar from "../../images/avatar.jpeg";
+import Notification from "../Notification";
 
 export default function ThongTinChung() {
+  const user = useSelector((state) => state.ID);
+  useEffect(() => {
+    if (user.length !== 0) {
+      getData();
+      var date = new Date(user.user.user.birthday);
+      var newBirthday =
+        date.getFullYear() +
+        "-" +
+        ("0" + (date.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + date.getDate()).slice(-2);
+      setInput({
+        name: user.user.user.name,
+        email: user.user.user.email,
+        phone: user.user.user.phone,
+        address: user.user.user.address,
+        gender: user.user.user.gender,
+        job: user.user.user.job,
+        birthday: newBirthday,
+        cmnd: user.user.user.cmnd,
+      });
+    }
+  }, []);
+
+  const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState(null);
+  const [imageAlt, setImageAlt] = useState(null);
+  const [file, setFile] = useState({ name: "*PNG, JPG, JPEG" });
+  const [modalAvatar, setModalAvatar] = useState(false);
   const [tokenStatus, setTokenStatus] = useState(false);
+  const [data, setData] = useState([]);
+  const [roomMate, setRoomMate] = useState([]);
   const [menu, setMenu] = useState({
     canhan: "",
     otro: "none",
@@ -19,19 +53,20 @@ export default function ThongTinChung() {
   });
   const [birthdayIcon, setBirthdayIcon] = useState(true);
   const [modal, setModal] = useState(false);
+  const [error, setError] = useState("");
   const [input, setInput] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
-    gender: "1",
+    gender: "Male",
     job: "",
     birthday: "",
     cmnd: "",
   });
   const optionsGender = [
-    { value: "1", label: "Nam" },
-    { value: "0", label: "Nữ" },
+    { value: "Male", label: "Nam" },
+    { value: "Female", label: "Nữ" },
   ];
 
   function onSelectGender(option) {
@@ -58,21 +93,242 @@ export default function ThongTinChung() {
     setBirthdayIcon(true);
   };
 
-  const closeModal = () => {
-    setInput({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      gender: "1",
-      job: "",
-      birthday: "",
-      cmnd: "",
-    });
+  const closeModal = (status) => {
+    if (status !== 1) {
+      var date = new Date(user.user.user.birthday);
+      var newBirthday =
+        date.getFullYear() +
+        "-" +
+        ("0" + (date.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + date.getDate()).slice(-2);
+      setInput({
+        name: user.user.user.name,
+        email: user.user.user.email,
+        phone: user.user.user.phone,
+        address: user.user.user.address,
+        gender: user.user.user.gender,
+        job: user.user.user.job,
+        birthday: newBirthday,
+        cmnd: user.user.user.cmnd,
+      });
+    }
     setModal(false);
   };
 
-  const user = useSelector((state) => state.ID);
+  const getData = () => {
+    const data = {
+      email: user.user.user.email,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/getuserbyemail";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal(0);
+            closeModalAvatar()
+          }
+        } else {
+          setData(res.data.User);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const getRoomMate = () => {
+    const data = {
+      roomId: user.user.user.room,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/getalluserbyroomid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModal(0);
+            setTokenStatus(true);
+            closeModalAvatar()
+          }
+        } else {
+          setRoomMate(res.data.User);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const loadRoomMate = () => {
+    var result = null;
+    if (roomMate.length > 0) {
+      result = roomMate.map((roommate, index) => {
+        if (roommate._id !== user.user.user._id) {
+          return (
+            <tr key={index}>
+              <td style={{ alignItems: "center", display: "flex" }}>
+                <img
+                  src={roommate.avatar}
+                  className="avatar-small"
+                  alt="Avatar"
+                />
+                <span id="roommate-name">{roommate.name}</span>
+              </td>
+              <td>{Global.formatDate(roommate.birthday)}</td>
+              <td>{roommate.phone}</td>
+              <td>{roommate.email}</td>
+              <td>{roommate.job}</td>
+            </tr>
+          );
+        } else {
+          return null;
+        }
+      });
+    }
+    return result;
+  };
+
+  const monthDiff = (d1, d2) => {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth() + 1;
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+  };
+
+  const editUser = () => {
+    const data = {
+      userId: user.user.user._id,
+      name: input.name,
+      phone: input.phone,
+      address: input.address,
+      cmnd: input.cmnd,
+      birthday: input.birthday,
+      gender: input.gender,
+      job: input.job,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/updatecustomer";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModal(0);
+            setTokenStatus(true);
+            closeModalAvatar()
+          } else {
+            setError(res.data.message);
+          }
+        } else {
+          dispatch(
+            updateID({ user: { token: user.user.token, user: res.data.User } })
+          );
+          closeModal(1);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const handleImageUpload = () => {
+    var f = file;
+    const formData = new FormData();
+    formData.append("file", f);
+    // replace this with your upload preset name
+    formData.append("upload_preset", "quanlynhatro");
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+
+    // replace cloudname with your Cloudinary cloud_name
+    return fetch(
+      "https://api.Cloudinary.com/v1_1/dep0t5tcf/image/upload",
+      options
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setImageUrl(res.secure_url);
+        setImageAlt(`An image of ${res.original_filename}`);
+        editAvatar(res.secure_url);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDrop = (acceptedFiles) => {
+    setFile(acceptedFiles[0]);
+    const objectUrl = URL.createObjectURL(acceptedFiles[0]);
+    setImageUrl(objectUrl);
+  };
+
+  const closeModalAvatar = () => {
+    setImageUrl(null);
+    setImageAlt(null);
+    setFile({ name: "*PNG, JPG, JPEG" });
+    setModalAvatar(false);
+    setError("");
+  };
+
+  const editAvatar = (image) => {
+    const data = {
+      userId: user.user.user._id,
+      avatar: image,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/updateavatarcustomer";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            closeModalAvatar();
+            setTokenStatus(true);
+          } else {
+            setError(res.data.message);
+          }
+        } else {
+          dispatch(
+            updateID({ user: { token: user.user.token, user: res.data.User } })
+          );
+          closeModalAvatar();
+        }
+      })
+      .catch((error) => {});
+  };
+
   var email = "",
     name = "",
     phone = "",
@@ -81,17 +337,37 @@ export default function ThongTinChung() {
     birthday = "",
     gender = "",
     avatar = "",
-    job = "";
+    job = "",
+    roomName = "",
+    blockName = "",
+    createdAt = "",
+    startDate = "",
+    tienCoc = 0,
+    area = 0,
+    tienPhong = 0,
+    gac = false,
+    device = "";
   if (user.length !== 0) {
     email = user.user.user.email;
     name = user.user.user.name;
-    phone = user.user.phone;
+    phone = user.user.user.phone;
     address = user.user.user.address;
     cmnd = user.user.user.cmnd;
     birthday = user.user.user.birthday;
     gender = user.user.user.gender;
     avatar = user.user.user.avatar;
     job = user.user.user.job;
+  }
+  if (data.length !== 0) {
+    roomName = data.room.name;
+    blockName = data.block.name;
+    createdAt = data.createdAt;
+    startDate = data.startDate;
+    tienCoc = data.price;
+    area = data.room.area;
+    tienPhong = data.room.price;
+    gac = data.room.rooftop;
+    device = data.room.device;
   }
 
   return (
@@ -136,6 +412,7 @@ export default function ThongTinChung() {
           }
           onClick={() => {
             setMenu({ canhan: "none", otro: "none", thanhvien: "" });
+            getRoomMate();
           }}
         >
           <h3
@@ -162,7 +439,13 @@ export default function ThongTinChung() {
               className="avatar"
               alt="Avatar"
             />
-            <div className="display-flex">
+            <div
+              className="display-flex"
+              style={{ cursor: "default" }}
+              onClick={() => {
+                setModalAvatar(true);
+              }}
+            >
               <i
                 className="material-icons-round"
                 id="icon-edit"
@@ -183,7 +466,7 @@ export default function ThongTinChung() {
               </div>
               <div className="row-item">
                 <p className="item-title">Giới tính</p>
-                <p className="item-infor">{gender}</p>
+                <p className="item-infor">{gender === "Male" ? "Nam" : "Nữ"}</p>
               </div>
               <div className="row-item">
                 <p className="item-title">Nghề nghiệp</p>
@@ -242,42 +525,47 @@ export default function ThongTinChung() {
                 <p className="item-title">Tiền cọc</p>
               </div>
               <div className="column-infor">
-                <p className="item-infor">Phòng A</p>
-                <p className="item-infor">Dãy A</p>
-                <p className="item-infor">23/12/2099</p>
-                <p className="item-infor">04/05/1999</p>
-                <p className="item-infor">4 tháng</p>
-                <p className="item-infor">2.000.000 đ</p>
+                <p className="item-infor">{roomName}</p>
+                <p className="item-infor">{blockName}</p>
+                <p className="item-infor">{Global.formatDate(createdAt)}</p>
+                <p className="item-infor">{Global.formatDate(startDate)}</p>
+                <p className="item-infor">
+                  {monthDiff(new Date(startDate), new Date()) + 1} tháng
+                </p>
+                <p className="item-infor">
+                  {Global.currencyFormat(tienCoc.toString())} VND
+                </p>
               </div>
             </div>
           </div>
           <div className="thong-tin-phong">
-            <p id="title-phong">Thông tin phòng A1</p>
+            <p id="title-phong">Thông tin {roomName}</p>
             <div className="box-thongtin-row2">
               <div className="row-item3">
                 <p className="item-title2">Diện tích</p>
                 <p className="item-infor2">
-                  22 m<sup style={{ fontSize: "12px" }}>2</sup>
+                  {area} m<sup style={{ fontSize: "12px" }}>2</sup>
                 </p>
               </div>
               <div className="row-item3">
                 <p className="item-title2">Tiền phòng</p>
-                <p className="item-infor2">4.000.000 đ</p>
+                <p className="item-infor2">
+                  {Global.currencyFormat(tienPhong.toString())} VND
+                </p>
               </div>
               <div className="row-item3">
-                <p className="item-title2">Gác</p>
+                <p className="item-title2">Gác mái</p>
                 <i
                   className="material-icons-round"
                   id="icon-edit"
                   style={{ fontSize: "24px" }}
                 >
-                  check
-                  {/* close */}
+                  {gac ? "check" : "close"}
                 </i>
               </div>
               <div className="row-item3">
                 <p className="item-title2">Thiết bị</p>
-                <p className="item-infor2">Tử lạnh, máy giặt, máy sấy</p>
+                <p className="item-infor2">{device}</p>
               </div>
             </div>
           </div>
@@ -311,186 +599,7 @@ export default function ThongTinChung() {
                     <p>Nghề nghiệp</p>
                   </th>
                 </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
-                <tr>
-                  <td style={{ alignItems: "center", display: "flex" }}>
-                    <img src={avatar} className="avatar-small" alt="Avatar" />
-                    <span id="roommate-name">Cameron Williamson</span>
-                  </td>
-                  <td>24/7/1998</td>
-                  <td>0834999373</td>
-                  <td>nguyenchithanh1999@gmail.com</td>
-                  <td>IT Developer</td>
-                </tr>
+                {loadRoomMate()}
               </tbody>
             </table>
           </div>
@@ -503,7 +612,7 @@ export default function ThongTinChung() {
         customStyles={{
           marginTop: 50,
           width: 650,
-          height: 425,
+          height: 470,
           backgroundColor: "white",
           borderRadius: 12,
         }}
@@ -513,7 +622,7 @@ export default function ThongTinChung() {
         <div className="title-box">
           <p className="title-text">Thay đổi thông tin</p>
           <span
-            onClick={() => closeModal()}
+            onClick={() => closeModal(0)}
             className="material-icons icon"
             style={{ fontSize: "22px", color: "#828282", cursor: "default" }}
           >
@@ -540,14 +649,7 @@ export default function ThongTinChung() {
                 </span>
               </div>
               <div className="input-box">
-                <input
-                  type="email"
-                  className="model-input"
-                  placeholder="Email"
-                  name="email"
-                  value={input.email}
-                  onChange={onChange}
-                />
+                <input className="model-input" value={email} readOnly />
                 <span
                   className="material-icons icon"
                   style={{ fontSize: "22px", color: "#828282" }}
@@ -557,9 +659,10 @@ export default function ThongTinChung() {
               </div>
               <div className="input-box">
                 <input
-                  type="tel"
                   className="model-input"
                   placeholder="Số điện thoại"
+                  type="number"
+                  maxLength="10"
                   name="phone"
                   value={input.phone}
                   onChange={onChange}
@@ -596,7 +699,7 @@ export default function ThongTinChung() {
                   arrowClassName="arrow-modal"
                   options={optionsGender}
                   onChange={onSelectGender}
-                  value={"Nam"}
+                  value={input.gender === "Male" ? "Nam" : "Nữ"}
                 />
               </div>
               <div className="input-box">
@@ -653,15 +756,21 @@ export default function ThongTinChung() {
               </div>
             </div>
           </div>
+          {error === "" ? null : <Notification type="error" content={error} />}
           <div className="input-box">
             <p
               className="text-huy"
               style={{ marginRight: 20 }}
-              onClick={() => closeModal()}
+              onClick={() => closeModal(0)}
             >
               Hủy
             </p>
-            <div className="box-btn">
+            <div
+              className="box-btn"
+              onClick={() => {
+                editUser();
+              }}
+            >
               <button className="btn2"></button>
               <button className="btn">
                 <i className="material-icons" id="icon-btn">
@@ -673,6 +782,98 @@ export default function ThongTinChung() {
           </div>
         </div>
       </Rodal>
+
+      <Rodal
+        visible={modalAvatar}
+        animation={"slideUp"}
+        customStyles={{
+          width: 425,
+          height: 425,
+          background: "white",
+          borderRadius: 8,
+          padding: 0,
+        }}
+        showCloseButton={false}
+        onClose={() => {}}
+      >
+        <div className="title-box">
+          <p className="title-text">Đổi ảnh đại diện</p>
+          <span
+            className="material-icons icon"
+            style={{ fontSize: "22px", color: "#828282", cursor: "pointer" }}
+            onClick={() => closeModalAvatar()}
+          >
+            close
+          </span>
+        </div>
+        <div className="model-box">
+          <Dropzone onDrop={handleDrop}>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps({ className: "dropzone" })}>
+                <input
+                  {...getInputProps()}
+                  accept="image/jpg, image/jpeg, image/png"
+                  multiple={false}
+                />
+                <div className="upload-img">
+                  {file.name === "*PNG, JPG, JPEG" ? (
+                    <div>
+                      <span
+                        className="material-icons icon"
+                        style={{
+                          fontSize: "40px",
+                          color: "#EE6F57",
+                          margin: "10px",
+                        }}
+                      >
+                        cloud_upload
+                      </span>
+                      <p className="text-tai-anh-len">Tải ảnh lên</p>
+                      <p id="input-type">*PNG, JPG, JPEG</p>
+                    </div>
+                  ) : (
+                    <img
+                      src={imageUrl}
+                      alt={imageAlt}
+                      className="displayed-avatar"
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+          </Dropzone>
+
+          <div className="input-box">
+            <span className="model-result-input">{file.name}</span>
+            {file.name !== "*PNG, JPG, JPEG" ? (
+              <span
+                className="material-icons icon"
+                style={{ fontSize: "22px", color: "green" }}
+              >
+                check_circle
+              </span>
+            ) : null}
+          </div>
+
+          {error === "" ? null : <Notification type="error" content={error} />}
+
+          <div className="input-box">
+            <p className="text-huy" onClick={() => closeModalAvatar()}>
+              Hủy
+            </p>
+            <div className="box-btn" style={{ marginLeft: 20 }}>
+              <div className="btn2"></div>
+              <button className="btn" onClick={handleImageUpload}>
+                <i className="material-icons" id="icon-btn">
+                  edit
+                </i>
+                Đổi ảnh đại diện
+              </button>
+            </div>
+          </div>
+        </div>
+      </Rodal>
+
       <ModalLogin status={tokenStatus} />
     </div>
   );

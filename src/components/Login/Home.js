@@ -42,6 +42,12 @@ export function Home() {
       .catch((error) => {});
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      login()
+    }
+  }
+
   const [error, setError] = useState("")
   const [input, setInput] = useState({
     email: "",
@@ -59,7 +65,7 @@ export function Home() {
   };
 
   return (
-    <div className="login">
+    <div className="login" onKeyDown={handleKeyDown}>
       <div className="header">
         <div className="logo">
           <img id="img-logo" src={logo} alt="Logo" />

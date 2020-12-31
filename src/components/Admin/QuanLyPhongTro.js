@@ -20,10 +20,12 @@ export default function QuanLyPhongTro() {
   const user = useSelector((state) => state.ID);
 
   useEffect(() => {
-    if (location.state !== undefined) {
-      getRoom();
-    } else {
-      getAllRoom();
+    if (user.length !== 0) {
+      if (location.state !== undefined) {
+        getRoom();
+      } else {
+        getAllRoom();
+      }
     }
   }, []);
 
@@ -165,33 +167,33 @@ export default function QuanLyPhongTro() {
   };
 
   const getAllRoom = () => {
-    // const data = {
-    //   blockId: location.state._id,
-    // };
-    // const token = user.user.token;
-    // const url = Global.server + "room/getroombyblockid";
-    // const options = {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/x-www-form-urlencoded",
-    //     authorization: `Bearer ${token}`,
-    //   },
-    //   url,
-    //   data: qs.stringify(data),
-    // };
-    // axios(options)
-    //   .then((res) => {
-    //     if (res.data.status === false) {
-    //       if (res.data.message === "Unauthorized user!") {
-    //         setTokenStatus(true);
-    //         closeModal();
-    //       }
-    //     } else {
-    //       setData(res.data.Room);
-    //       setPerson(res.data.Person);
-    //     }
-    //   })
-    //   .catch((error) => {});
+    const data = {
+      userId: user.user.user._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "room/getallroombyuserid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+          }
+        } else {
+          setData(res.data.Room);
+          setPerson(res.data.Person);
+        }
+      })
+      .catch((error) => {});
   };
 
   const loadRoom = () => {
@@ -205,7 +207,7 @@ export default function QuanLyPhongTro() {
             onClick={() => {
               history.push({
                 pathname: "/admin/quanlynguoi",
-                state: { block: location.state, room: room },
+                state: { room: room },
               });
             }}
           >
@@ -221,13 +223,42 @@ export default function QuanLyPhongTro() {
     return result;
   };
 
+  const loadAllRoom = () => {
+    var result = null;
+    if (data.length > 0 && person.length > 0) {
+      result = data.map((block, index) => {
+        return block.map((room, indexRoom) => {
+          return (
+            <div
+              className="card"
+              key={index * block.length + indexRoom}
+              onClick={() => {
+                history.push({
+                  pathname: "/admin/quanlynguoi",
+                  state: { room: room },
+                });
+              }}
+            >
+              <img src={room.image} alt="IMG" id="img-card" />
+              <div className="box-name">
+                <h4>{room.name}</h4>
+                <span>Phòng trọ có {person[0][0]} thành viên</span>
+              </div>
+            </div>
+          );
+        });
+      });
+    }
+    return result;
+  };
+
   const loadService = () => {
     var result = null;
     if (Service.length > 0) {
       result = Service.map((service, index) => {
         var serviceID = service._id;
         return (
-          <div className="check-box-box">
+          <div className="check-box-box" key={index}>
             <input
               className="check-box-input"
               name={serviceID}
@@ -392,7 +423,15 @@ export default function QuanLyPhongTro() {
             >
               chevron_right
             </i>
-            <h3 className="block" onClick={() => {}}>
+            <h3
+              className="block"
+              onClick={() => {
+                history.push({
+                  pathname: "/admin/quanlydaytro/daytrodetail",
+                  state: location.state,
+                });
+              }}
+            >
               {location.state.name}
             </h3>
           </div>
@@ -431,7 +470,9 @@ export default function QuanLyPhongTro() {
           </div>
         </div>
       </div>
-      <div className="array-item">{loadRoom()}</div>
+      <div className="array-item">
+        {location.state !== undefined ? loadRoom() : loadAllRoom()}
+      </div>
 
       {/* Modal */}
       <Rodal
