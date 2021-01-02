@@ -17,6 +17,7 @@ export default function YeuCau() {
   const [data, setData] = useState([]);
   const [input, setInput] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     if (user.length !== 0) {
@@ -30,7 +31,7 @@ export default function YeuCau() {
   };
 
   const getRequest = () => {
-    setLoading(true)
+    setLoading(true);
     const data = {
       userId: user.user.user._id,
     };
@@ -51,7 +52,7 @@ export default function YeuCau() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal();
-            setLoading(false)
+            setLoading(false);
           }
         } else {
           setData(res.data.Request);
@@ -64,7 +65,7 @@ export default function YeuCau() {
             }
           }
           setInput(result);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch((error) => {});
@@ -259,8 +260,20 @@ export default function YeuCau() {
           Bạn có chắc muốn thay đổi trạng thái yêu cầu thành "Đã xử lý"?
         </span>
 
-        
-        <div className="input-box" style={{ marginTop: 70 }}>
+        {loading2 ? (
+          <div className="loading2">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"5%"}
+              width={"5%"}
+            />
+          </div>
+        ) : null}
+        <div
+          className="input-box"
+          style={loading2 ? { marginTop: 50 } : { marginTop: 70 }}
+        >
           <p
             className="text-huy"
             onClick={() => setModal({ ...modal, status: false })}
@@ -269,16 +282,7 @@ export default function YeuCau() {
           </p>
           <div className="box-btn" onClick={() => changeStatus()}>
             <button className="btn2"></button>
-            <button className="btn">Đồng ý {true ? (
-              <div className="loading2">
-                <ReactLoading
-                  type={"spin"}
-                  color={"#EE6F57"}
-                  height={"5%"}
-                  width={"5%"}
-                />
-              </div>
-            ) : null}</button>
+            <button className="btn">Đồng ý</button>
           </div>
         </div>
       </Rodal>

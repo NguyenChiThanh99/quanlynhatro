@@ -240,7 +240,7 @@ export default function ThongBao() {
             <td>
               {notification.content}
             </td>
-            <td>{notification.type === "All" ? "Tất cả" : name[index].name}</td>
+            <td>{notification.type === "All" ? "Tất cả" : name.length > 0 ? name[index].name : ""}</td>
           </tr>
         );
       });
