@@ -24,6 +24,7 @@ export default function DichVu() {
   const [modal, setModal] = useState(false);
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
+  const [modalEdit, setModalEdit] = useState({status: false, content: {name: "", price: "", calculate: ""}});
 
   useEffect(() => {
     if (user.length !== 0) {
@@ -41,9 +42,20 @@ export default function DichVu() {
     });
   };
 
+  const onChangeEdit = (event) => {
+    var target = event.target;
+    var value = target.value;
+    setModalEdit({...modalEdit, content: {...modalEdit.content, price: value}})
+  };
+
   const closeModal = () => {
     setInput({ type: "", price: "", unit: "", name: "" });
     setModal(false);
+    setError("");
+  };
+
+  const closeModalEdit = () => {
+    setModalEdit({status: false, content: {name: "", price: "", calculate: ""}});
     setError("");
   };
 
@@ -55,6 +67,10 @@ export default function DichVu() {
   function onSelectNuoc(option) {
     setInput({ ...input, unit: option.value });
   }
+  function onSelectEdit(option) {
+    setModalEdit({...modalEdit, content: {...modalEdit.content, calculate: option.value}})
+  }
+
   const optionsType = [
     [
       { value: "dien", label: "Điện" },
@@ -90,7 +106,12 @@ export default function DichVu() {
     if (option.value !== "khac") {
       setInput({ type: option.value, name: option.label, unit: "", price: "" });
     } else {
-      setInput({ type: option.value, name: "", unit: "VND / Tháng", price: "" });
+      setInput({
+        type: option.value,
+        name: "",
+        unit: "VND / Tháng",
+        price: "",
+      });
     }
   }
 
@@ -117,7 +138,7 @@ export default function DichVu() {
         if (res.data.status === false) {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
-            setTokenStatus(true)
+            setTokenStatus(true);
           } else {
             setError(res.data.message);
           }
@@ -148,8 +169,8 @@ export default function DichVu() {
       .then((res) => {
         if (res.data.status === false) {
           if (res.data.message === "Unauthorized user!") {
-            setTokenStatus(true)
-            closeModal()
+            setTokenStatus(true);
+            closeModal();
           }
         } else if (res.data.message === "Service rỗng") {
           setData([]);
@@ -175,12 +196,53 @@ export default function DichVu() {
             <td>
               <p>{service.calculate}</p>
             </td>
+            <td>
+              <span
+                className="material-icons icon"
+                style={{ cursor: "default" }}
+                onClick={() => {setModalEdit({status: true, content: service})}}
+              >
+                edit
+              </span>
+            </td>
           </tr>
         );
       });
     }
     return result;
   };
+
+  const editService = () => {
+    const data = {
+      serviceId: modalEdit.content._id,
+      price: modalEdit.content.price,
+      calculate: modalEdit.content.calculate,
+    };
+    const token = user.user.token;
+    const url = Global.server + "service/updateservice";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModalEdit();
+          }
+        } else {
+          getService()
+          closeModalEdit()
+        }
+      })
+      .catch((error) => {});
+  }
 
   return (
     <div className="dichvu">
@@ -212,6 +274,9 @@ export default function DichVu() {
                 </th>
                 <th>
                   <p>Đơn vị tính</p>
+                </th>
+                <th>
+                  <p />
                 </th>
               </tr>
 
@@ -323,6 +388,80 @@ export default function DichVu() {
           </div>
         </div>
       </Rodal>
+      
+      <Rodal
+        visible={modalEdit.status}
+        animation={"slideUp"}
+        customStyles={{
+          width: 333,
+          height: 350,
+          background: "white",
+          borderRadius: 8,
+          padding: 0,
+        }}
+        showCloseButton={false}
+        onClose={() => {}}
+      >
+        <div className="title-box">
+          <p className="title-text">Dịch vụ {modalEdit.content.name}</p>
+          <span
+            className="material-icons icon"
+            style={{ fontSize: "22px", color: "#828282", cursor: "pointer" }}
+            onClick={() => closeModalEdit()}
+          >
+            close
+          </span>
+        </div>
+        <div className="model-box">
+          <div className="input-box">
+            <input
+              type="number"
+              className="model-input"
+              placeholder="Giá tiền"
+              name="price"
+              value={modalEdit.content.price}
+              onChange={onChangeEdit}
+            />
+            <span
+              className="material-icons icon"
+              style={{ fontSize: "22px", color: "#828282" }}
+            >
+              monetization_on
+            </span>
+          </div>
+          {modalEdit.content.name === "Điện" || modalEdit.content.name === "Nước" ? (
+            <div className="input-box">
+              <Dropdown
+                placeholder="Đơn vị tính"
+                controlClassName="dropdown-modal"
+                menuClassName="menu-modal"
+                arrowClassName="arrow-modal"
+                options={modalEdit.content.name === "Điện" ? optionsDien : optionsNuoc}
+                onChange={onSelectEdit}
+                value={modalEdit.content.calculate}
+              />
+            </div>
+          ) : null}
+
+          {error === "" ? null : <Notification type="error" content={error} />}
+
+          <div className="input-box">
+            <p className="text-huy" onClick={() => closeModalEdit()}>
+              Hủy
+            </p>
+            <div className="box-btn">
+              <div className="btn2"></div>
+              <button className="btn" onClick={() => editService()}>
+                <i className="material-icons" id="icon-btn">
+                  save
+                </i>
+                Lưu
+              </button>
+            </div>
+          </div>
+        </div>
+      </Rodal>
+
       <ModalLogin status={tokenStatus} />
     </div>
   );

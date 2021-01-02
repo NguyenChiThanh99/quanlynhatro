@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import routesAdmin from "../../routesAdmin";
 import Rodal from "rodal";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import qs from "qs";
 
 import "rodal/lib/rodal.css";
 
 import Global from "../Global";
+import {updateID} from '../../actions';
 import Notification from '../Notification';
 
 import logo from "../../images/logo.jpg";
@@ -17,6 +18,7 @@ import avatar from "../../images/avatar.jpeg";
 import avatar_nhatro from "../../images/avatar_nhatro.jpg";
 
 export default function Admin() {
+  const dispatch = useDispatch();
   let history = useHistory();
   function showContent(routes) {
     var result = null;
@@ -196,6 +198,7 @@ export default function Admin() {
             setError(res.data.message);
           }
         } else {
+          dispatch(updateID({user: {status: user.user.status, token: user.user.token, user: {...user.user.user, firstlogin: true}}}));
           setModalChangePass(false);
           closeModal();
         }

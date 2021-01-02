@@ -5,6 +5,8 @@ import qs from "qs";
 import { useSelector } from "react-redux";
 import Rodal from "rodal";
 import Dropzone from "react-dropzone";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 import "rodal/lib/rodal.css";
 
@@ -18,6 +20,7 @@ export default function DayTroDetail() {
   const user = useSelector((state) => state.ID);
 
   useEffect(() => {
+    handleTime();
     if (user.length !== 0 && location.state !== undefined) {
       getRoom();
     }
@@ -52,6 +55,16 @@ export default function DayTroDetail() {
     checkGacMai: "1",
   });
   const [ServiceInput, setServiceInput] = useState({});
+  const [optionsTime, setOptionsTime] = useState({});
+  const [time, setTime] = useState("");
+  var currDay = new Date();
+  const [chotchiso, setChotchiso] = useState(
+    currDay.getFullYear() +
+      "-" +
+      ("0" + (currDay.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + currDay.getDate()).slice(-2)
+  );
 
   const getRoom = () => {
     const data = {
@@ -479,6 +492,12 @@ export default function DayTroDetail() {
     });
   };
 
+  const onChangeChotchiso = (event) => {
+    var target = event.target;
+    var value = target.value;
+    setChotchiso(value);
+  };
+
   const onChangeEdit = (event) => {
     var target = event.target;
     var value = target.type === "checkbox" ? target.checked : target.value;
@@ -526,6 +545,26 @@ export default function DayTroDetail() {
       })
       .catch((error) => {});
   };
+
+  const handleTime = () => {
+    var date = new Date();
+    var timeArr = [];
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var year = date.getFullYear();
+    timeArr.push(month + "/" + year);
+    for (let index = 0; index < 24; index++) {
+      date.setMonth(date.getMonth() - 1);
+      month = ("0" + (date.getMonth() + 1)).slice(-2);
+      year = date.getFullYear();
+      timeArr.push(month + "/" + year);
+    }
+    setOptionsTime(timeArr);
+    setTime(timeArr[0]);
+  };
+
+  function onSelectTime(option) {
+    setTime(option.value);
+  }
 
   return (
     <div className="chitietday">
@@ -676,24 +715,34 @@ export default function DayTroDetail() {
           </table>
         </div>
 
-        <div style={{ marginTop: "10px" }}>
-          <select value="Radish" className="dropdown-chitietday">
-            <option value="12/2020">12/2020</option>
-            <option value="11/2020">11/2020</option>
-            <option value="10/2020">10/2020</option>
-          </select>
+        <div style={{ marginLeft: 24 }}>
+          <div style={{ display: "inline-block", marginRight: 20 }}>
+            <Dropdown
+              controlClassName="dropdown-modal-short"
+              menuClassName="menu-modal"
+              arrowClassName="arrow-modal"
+              options={optionsTime}
+              onChange={onSelectTime}
+              value={time}
+            />
+          </div>
+
           <p
             style={{
               display: "inline",
-              paddingLeft: "10px",
+              paddingLeft: "10",
               fontFamily: "Roboto-Regular",
             }}
           >
             Ngày chốt chỉ số:{" "}
           </p>
-          <p style={{ display: "inline", fontFamily: "Roboto-Bold" }}>
-            31/12/2020
-          </p>
+          <input
+            className="ngaychotchiso"
+            type="date"
+            name="chotchiso"
+            value={chotchiso}
+            onChange={onChangeChotchiso}
+          />
         </div>
 
         <div className="table">
@@ -1422,9 +1471,9 @@ export default function DayTroDetail() {
                 <div className="btn2"></div>
                 <button className="btn" onClick={() => handleImageUpload(1)}>
                   <i className="material-icons" id="icon-btn">
-                    add_circle
+                    edit
                   </i>
-                  Thêm
+                  Chỉnh sửa
                 </button>
               </div>
             </div>

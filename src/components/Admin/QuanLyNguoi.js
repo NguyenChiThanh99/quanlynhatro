@@ -6,6 +6,7 @@ import Dropdown from "react-dropdown";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import "react-dropdown/style.css";
 import "rodal/lib/rodal.css";
@@ -41,6 +42,8 @@ export default function QuanLyNguoi() {
   const [roomStatus, setRoomStatus] = useState(false);
   const [birthdayIcon, setBirthdayIcon] = useState(true);
   const [startDayIcon, setStartDayIcon] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -226,6 +229,7 @@ export default function QuanLyNguoi() {
   };
 
   const CreatePerson = () => {
+    setLoading2(true)
     const data = {
       email: input.email,
       name: input.name,
@@ -239,8 +243,8 @@ export default function QuanLyNguoi() {
       job: input.job,
       startDate: input.startDay,
       price: input.price,
-      block: input.block,
-      room: input.room,
+      block: location.state !== undefined ? BlockFromRoom.Block._id : input.block,
+      room: location.state !== undefined ? location.state.room._id : input.room,
     };
     const token = user.user.token;
     const url = Global.server + "user/register";
@@ -259,11 +263,14 @@ export default function QuanLyNguoi() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           closeModal();
+          setLoading2(false)
           if (location.state !== undefined) {
             getPerson();
           } else {
@@ -335,6 +342,7 @@ export default function QuanLyNguoi() {
   };
 
   const getPerson = () => {
+    setLoading(true)
     const data = {
       roomId: location.state.room._id,
     };
@@ -355,15 +363,18 @@ export default function QuanLyNguoi() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading(false)
           }
         } else {
           setData(res.data.User);
+          setLoading(false)
         }
       })
       .catch((error) => {});
   };
 
   const getAllPerson = () => {
+    setLoading(true)
     const data = {
       userId: user.user.user._id,
     };
@@ -384,9 +395,11 @@ export default function QuanLyNguoi() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading(false)
           }
         } else {
           setData(res.data.User);
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -496,6 +509,17 @@ export default function QuanLyNguoi() {
           </div>
         </div>
       </div>
+      
+      {loading ? (
+        <div className="loading">
+          <ReactLoading
+            type={"spin"}
+            color={"#EE6F57"}
+            height={"4%"}
+            width={"4%"}
+          />
+        </div>
+      ) : null}
       <div className="array-item">
         {location.state !== undefined ? loadPerson() : loadAllPerson()}
       </div>
@@ -758,7 +782,19 @@ export default function QuanLyNguoi() {
               </div>
             </div>
           </div>
+
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"5%"}
+                  width={"5%"}
+                />
+              </div>
+            ) : null}
+
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>
               Hủy
@@ -780,6 +816,7 @@ export default function QuanLyNguoi() {
           </div>
         </div>
       </Rodal>
+      
       <ModalLogin status={tokenStatus} />
     </div>
   );

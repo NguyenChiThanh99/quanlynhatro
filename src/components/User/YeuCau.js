@@ -26,6 +26,7 @@ export default function YeuCau() {
     content: "",
   });
 
+
   const onChange = (event) => {
     var target = event.target;
     var value = target.value;
@@ -48,6 +49,7 @@ export default function YeuCau() {
     const data = {
       content: input.content,
       userId: user.user.user._id,
+      blockId: user.user.user.block,
     };
     const token = user.user.token;
     const url = Global.server + "request/create";

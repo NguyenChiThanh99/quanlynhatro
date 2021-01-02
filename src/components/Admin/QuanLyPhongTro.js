@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import qs from "qs";
 import Dropdown from "react-dropdown";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 import "react-dropdown/style.css";
@@ -43,6 +44,8 @@ export default function QuanLyPhongTro() {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageAlt, setImageAlt] = useState(null);
   const [file, setFile] = useState({ name: "*PNG, JPG, JPEG" });
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [input, setInput] = useState({
     name: "",
     price: "",
@@ -54,6 +57,7 @@ export default function QuanLyPhongTro() {
   const [ServiceInput, setServiceInput] = useState({});
 
   const CreateRoom = (image) => {
+    setLoading2(true)
     const data = {
       name: input.name,
       blockId: input.block,
@@ -81,11 +85,14 @@ export default function QuanLyPhongTro() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           closeModal();
+          setLoading2(false)
           if (location.state !== undefined) {
             getRoom();
           } else {
@@ -137,6 +144,7 @@ export default function QuanLyPhongTro() {
   }
 
   const getRoom = () => {
+    setLoading(true)
     const data = {
       blockId: location.state._id,
     };
@@ -156,17 +164,20 @@ export default function QuanLyPhongTro() {
         if (res.data.status === false) {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
+            setLoading(false)
             closeModal();
           }
         } else {
           setData(res.data.Room);
           setPerson(res.data.Person);
+          setLoading(false)
         }
       })
       .catch((error) => {});
   };
 
   const getAllRoom = () => {
+    setLoading(true)
     const data = {
       userId: user.user.user._id,
     };
@@ -187,10 +198,12 @@ export default function QuanLyPhongTro() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal();
+            setLoading(false)
           }
         } else {
           setData(res.data.Room);
           setPerson(res.data.Person);
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -242,7 +255,7 @@ export default function QuanLyPhongTro() {
               <img src={room.image} alt="IMG" id="img-card" />
               <div className="box-name">
                 <h4>{room.name}</h4>
-                <span>Phòng trọ có {person[0][0]} thành viên</span>
+                <span>Phòng trọ có {person[index][indexRoom]} thành viên</span>
               </div>
             </div>
           );
@@ -470,6 +483,17 @@ export default function QuanLyPhongTro() {
           </div>
         </div>
       </div>
+      
+      {loading ? (
+        <div className="loading">
+          <ReactLoading
+            type={"spin"}
+            color={"#EE6F57"}
+            height={"4%"}
+            width={"4%"}
+          />
+        </div>
+      ) : null}
       <div className="array-item">
         {location.state !== undefined ? loadRoom() : loadAllRoom()}
       </div>
@@ -746,6 +770,17 @@ export default function QuanLyPhongTro() {
             {error === "" ? null : (
               <Notification type="error" content={error} />
             )}
+            {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"5%"}
+                  width={"5%"}
+                />
+              </div>
+            ) : null}
+
             <div className="input-box">
               <p className="text-huy" onClick={() => closeModal()}>
                 Hủy

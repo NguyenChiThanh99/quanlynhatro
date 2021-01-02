@@ -293,7 +293,7 @@ span {
 
 .quanlydaytro .block {
   color: white;
-  background-color: #EE6F57;
+  background-color: #ee6f57;
   font-family: Roboto-Medium;
   border-radius: 8px;
   padding: 5px 10px;
@@ -1437,6 +1437,10 @@ tr {
   font-family: Roboto-Light;
 }
 
+.dropdown-menu-medium {
+  max-height: 120px;
+}
+
 .menu-medium {
   font-size: 16px;
   font-family: Roboto-Light;
@@ -1590,6 +1594,17 @@ tr {
   font-size: 16px;
   color: #4f4f4f;
 }
+.chitietday .ngaychotchiso {
+  border: none;
+  border-bottom: 1px solid #bdbdbd;
+  background-color: transparent;
+  font-family: "Roboto-Bold";
+  font-size: 18px;
+  margin-left: 5px;
+}
+.chitietday .ngaychotchiso:focus {
+  outline: none;
+}
 .chitietday .table input[type="text"]:focus {
   outline: none;
   color: #070d59;
@@ -1611,11 +1626,23 @@ tr {
   border-radius: 4px;
   color: #4f4f4f;
 }
-.chitietday .chiso{
+.chitietday .chiso {
   display: inline;
 }
 .chitietday .tien {
   color: #828282 !important;
   font-family: Roboto-Regular;
   font-size: 14px;
+}
+/*                                                                          Loading*/
+.loading {
+  display: flex;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+}
+.loading2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

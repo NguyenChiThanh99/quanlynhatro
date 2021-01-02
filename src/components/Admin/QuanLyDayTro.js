@@ -5,6 +5,7 @@ import Rodal from "rodal";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import "../../App.css";
 import "rodal/lib/rodal.css";
@@ -23,6 +24,8 @@ export default function QuanLyDayTro() {
   const [imageAlt, setImageAlt] = useState(null);
   const [file, setFile] = useState({ name: "*PNG, JPG, JPEG" });
   const [input, setInput] = useState({ daytro: "" });
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   let history = useHistory();
   const user = useSelector((state) => state.ID);
 
@@ -83,6 +86,7 @@ export default function QuanLyDayTro() {
   };
 
   const CreateBlock = (image) => {
+    setLoading2(true)
     const data = {
       name: input.daytro,
       image: image,
@@ -106,18 +110,22 @@ export default function QuanLyDayTro() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           getBlock();
           closeModal();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
   };
 
   const getBlock = () => {
+    setLoading(true);
     const data = {
       userId: user.user.user._id,
     };
@@ -138,10 +146,12 @@ export default function QuanLyDayTro() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading(false);
           }
         } else {
           setData(res.data.Block);
-          setRoom(res.data.Room)
+          setRoom(res.data.Room);
+          setLoading(false);
         }
       })
       .catch((error) => {});
@@ -199,6 +209,17 @@ export default function QuanLyDayTro() {
           </div>
         </div>
       </div>
+
+      {loading ? (
+        <div className="loading">
+          <ReactLoading
+            type={"spin"}
+            color={"#EE6F57"}
+            height={"4%"}
+            width={"4%"}
+          />
+        </div>
+      ) : null}
       <div className="array-item">{loadBlock()}</div>
 
       {/* Modal */}
@@ -291,6 +312,16 @@ export default function QuanLyDayTro() {
           </div>
 
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
 
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>

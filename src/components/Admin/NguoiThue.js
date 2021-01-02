@@ -70,6 +70,36 @@ export default function NguoiThue() {
     return months <= 0 ? 0 : months;
   };
 
+  const deletePerson = () => {
+    const data = {
+      userId: location.state.user._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "user/deleteuser";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+          }
+        } else {
+          closeModal();
+          history.push("/admin/quanlynguoi")
+        }
+      })
+      .catch((error) => {});
+  }
+
   var email = "",
     name = "",
     phone = "",
@@ -372,7 +402,7 @@ export default function NguoiThue() {
           <p className="text-huy" style={{marginRight: 20}} onClick={() =>closeModal()}>
             Hủy
           </p>
-          <div className="box-btn" onClick={() => console.log("Click Yes")}>
+          <div className="box-btn" onClick={() => deletePerson()}>
             <button className="btn2"></button>
             <button className="btn">Đồng ý</button>
           </div>
