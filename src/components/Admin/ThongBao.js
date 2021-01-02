@@ -4,6 +4,7 @@ import Dropdown from "react-dropdown";
 import axios from "axios";
 import qs from "qs";
 import { useSelector } from "react-redux";
+import ReactLoading from "react-loading";
 
 import "react-dropdown/style.css";
 import "rodal/lib/rodal.css";
@@ -32,8 +33,11 @@ export default function ThongBao() {
   const [data, setData] = useState([]);
   const [name, setName] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   const CreateNotification = () => {
+    setLoading2(true)
     var type = "All";
     if (input.type === "block") {
       type = "Block";
@@ -73,12 +77,15 @@ export default function ThongBao() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
-          //getNotification();
+          getNotification();
           closeModal();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
@@ -201,6 +208,7 @@ export default function ThongBao() {
   };
 
   const getNotification = () => {
+    setLoading(true)
     const data = {
       userId: user.user.user._id,
     };
@@ -221,10 +229,12 @@ export default function ThongBao() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal();
+            setLoading(false)
           }
         } else {
           setData(res.data.Notification);
           setName(res.data.Name);
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -237,10 +247,14 @@ export default function ThongBao() {
         return (
           <tr key={index}>
             <td>{Global.formatFullDate(notification.createdAt)}</td>
+            <td>{notification.content}</td>
             <td>
-              {notification.content}
+              {notification.type === "All"
+                ? "Tất cả"
+                : name.length > 0
+                ? name[index].name
+                : ""}
             </td>
-            <td>{notification.type === "All" ? "Tất cả" : name.length > 0 ? name[index].name : ""}</td>
           </tr>
         );
       });
@@ -273,27 +287,38 @@ export default function ThongBao() {
       </div>
 
       <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
-        <div className="table">
-          <table>
-            <tbody>
-              <tr>
-                <th className="sort">
-                  <p className="sort_text">Thời gian</p>
-                  <span className="material-icons-round icon">
-                    arrow_downward
-                  </span>
-                </th>
-                <th>
-                  <p>Nội dung</p>
-                </th>
-                <th style={{ whiteSpace: "nowrap" }}>
-                  <p>Người nhận</p>
-                </th>
-              </tr>
-              {loadNotification()}
-            </tbody>
-          </table>
-        </div>
+        {loading ? (
+          <div className="loading">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
+            />
+          </div>
+        ) : (
+          <div className="table">
+            <table>
+              <tbody>
+                <tr>
+                  <th className="sort">
+                    <p className="sort_text">Thời gian</p>
+                    <span className="material-icons-round icon">
+                      arrow_downward
+                    </span>
+                  </th>
+                  <th>
+                    <p>Nội dung</p>
+                  </th>
+                  <th style={{ whiteSpace: "nowrap" }}>
+                    <p>Người nhận</p>
+                  </th>
+                </tr>
+                {loadNotification()}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -368,6 +393,16 @@ export default function ThongBao() {
             </div>
           </div>
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>
               Hủy

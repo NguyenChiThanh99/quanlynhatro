@@ -4,6 +4,7 @@ import Rodal from "rodal";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 
@@ -20,6 +21,8 @@ export default function NguoiThue() {
   const [data, setData] = useState([]);
   const [tokenStatus, setTokenStatus] = useState(false);
   const [modal, setModal] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user.length !== 0) {
@@ -34,6 +37,7 @@ export default function NguoiThue() {
   };
 
   const getData = () => {
+    setLoading(true)
     const data = {
       email: location.state.user.email,
     };
@@ -53,10 +57,12 @@ export default function NguoiThue() {
         if (res.data.status === false) {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
+            setLoading(false)
             closeModal();
           }
         } else {
           setData(res.data.User);
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -71,6 +77,7 @@ export default function NguoiThue() {
   };
 
   const deletePerson = () => {
+    setLoading2(true);
     const data = {
       userId: location.state.user._id,
     };
@@ -91,14 +98,16 @@ export default function NguoiThue() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal();
+            setLoading2(false);
           }
         } else {
+          setLoading2(false);
           closeModal();
-          history.push("/admin/quanlynguoi")
+          history.push("/admin/quanlynguoi");
         }
       })
       .catch((error) => {});
-  }
+  };
 
   var email = "",
     name = "",
@@ -340,41 +349,54 @@ export default function NguoiThue() {
           </div>
         </div>
 
-        <div className="option-o-tro2">
-          <div className="thong-tin-phong" style={{ marginTop: 0 }}>
-            <p id="title-phong">Thông tin ở trọ</p>
-            <div className="box-thongtin-row2">
-              <div className="row-item3">
-                <p className="item-title2">Dãy trọ</p>
-                <p className="item-infor2">{block}</p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Phòng trọ</p>
-                <p className="item-infor2">{room}</p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Ngày đăng ký</p>
-                <p className="item-infor2">{Global.formatDate(registerDate)}</p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Ngày bắt đầu</p>
-                <p className="item-infor2">{Global.formatDate(startDate)}</p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Thời gian đã ở</p>
-                <p className="item-infor2">
-                  {monthDiff(new Date(data.startDate), new Date()) + 1} tháng
-                </p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Tiền cọc</p>
-                <p className="item-infor2">
-                  {Global.currencyFormat(price.toString())} VND
-                </p>
+        {loading ? (
+          <div className="option-o-tro2 loading2" style={{ paddingBottom: 30 }}>
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
+            />
+          </div>
+        ) : (
+          <div className="option-o-tro2">
+            <div className="thong-tin-phong" style={{ marginTop: 0 }}>
+              <p id="title-phong">Thông tin ở trọ</p>
+              <div className="box-thongtin-row2">
+                <div className="row-item3">
+                  <p className="item-title2">Dãy trọ</p>
+                  <p className="item-infor2">{block}</p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Phòng trọ</p>
+                  <p className="item-infor2">{room}</p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Ngày đăng ký</p>
+                  <p className="item-infor2">
+                    {Global.formatDate(registerDate)}
+                  </p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Ngày bắt đầu</p>
+                  <p className="item-infor2">{Global.formatDate(startDate)}</p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Thời gian đã ở</p>
+                  <p className="item-infor2">
+                    {monthDiff(new Date(data.startDate), new Date()) + 1} tháng
+                  </p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Tiền cọc</p>
+                  <p className="item-infor2">
+                    {Global.currencyFormat(price.toString())} VND
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <Rodal
@@ -395,11 +417,30 @@ export default function NguoiThue() {
         </div>
 
         <span className="modal-content">
-          Bạn có chắc chắn muốn xóa <span style={{fontFamily: 'Roboto-Bold'}}>{name}</span> khỏi {room} không?
+          Bạn có chắc chắn muốn xóa{" "}
+          <span style={{ fontFamily: "Roboto-Bold" }}>{name}</span> khỏi {room}{" "}
+          không?
         </span>
 
-        <div className="input-box" style={{ marginTop: 70 }}>
-          <p className="text-huy" style={{marginRight: 20}} onClick={() =>closeModal()}>
+        {loading2 ? (
+          <div className="loading2">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"6%"}
+              width={"6%"}
+            />
+          </div>
+        ) : null}
+        <div
+          className="input-box"
+          style={loading2 ? { marginTop: 70 } : { marginTop: 50 }}
+        >
+          <p
+            className="text-huy"
+            style={{ marginRight: 20 }}
+            onClick={() => closeModal()}
+          >
             Hủy
           </p>
           <div className="box-btn" onClick={() => deletePerson()}>

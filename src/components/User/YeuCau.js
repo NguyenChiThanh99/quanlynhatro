@@ -3,6 +3,7 @@ import Rodal from "rodal";
 import axios from "axios";
 import qs from "qs";
 import { useSelector } from "react-redux";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 
@@ -25,7 +26,8 @@ export default function YeuCau() {
   const [input, setInput] = useState({
     content: "",
   });
-
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   const onChange = (event) => {
     var target = event.target;
@@ -46,6 +48,7 @@ export default function YeuCau() {
   };
 
   const CreateRequest = () => {
+    setLoading2(true)
     const data = {
       content: input.content,
       userId: user.user.user._id,
@@ -68,11 +71,14 @@ export default function YeuCau() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           getRequest();
+          setLoading2(false)
           closeModal();
         }
       })
@@ -80,6 +86,7 @@ export default function YeuCau() {
   };
 
   const getRequest = () => {
+    setLoading(true)
     const data = {
       userId: user.user.user._id,
     };
@@ -100,9 +107,11 @@ export default function YeuCau() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading(false)
           }
         } else {
           setData(res.data.Request);
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -116,9 +125,7 @@ export default function YeuCau() {
           <tr key={index}>
             {/* <td>13:09 11/11/2020</td> */}
             <td>{Global.formatFullDate(request.createdAt)}</td>
-            <td>
-              {request.content}
-            </td>
+            <td>{request.content}</td>
             <td>{request.note}</td>
             <td>
               <span
@@ -155,32 +162,43 @@ export default function YeuCau() {
           </div>
         </div>
       </div>
-      
+
       <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
-        <div className="table">
-          <table>
-            <tbody>
-              <tr>
-                <th className="sort">
-                  <p className="sort_text">Ngày yêu cầu</p>
-                  <span className="material-icons-round icon">
-                    arrow_downward
-                  </span>
-                </th>
-                <th>
-                  <p>Nội dung</p>
-                </th>
-                <th style={{ whiteSpace: "nowrap" }}>
-                  <p>Ghi chú</p>
-                </th>
-                <th style={{ whiteSpace: "nowrap" }}>
-                  <p>Trạng thái</p>
-                </th>
-              </tr>
-              {loadRequest()}
-            </tbody>
-          </table>
-        </div>
+        {loading ? (
+          <div className="loading">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
+            />
+          </div>
+        ) : (
+          <div className="table">
+            <table>
+              <tbody>
+                <tr>
+                  <th className="sort">
+                    <p className="sort_text">Ngày yêu cầu</p>
+                    <span className="material-icons-round icon">
+                      arrow_downward
+                    </span>
+                  </th>
+                  <th>
+                    <p>Nội dung</p>
+                  </th>
+                  <th style={{ whiteSpace: "nowrap" }}>
+                    <p>Ghi chú</p>
+                  </th>
+                  <th style={{ whiteSpace: "nowrap" }}>
+                    <p>Trạng thái</p>
+                  </th>
+                </tr>
+                {loadRequest()}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       <Rodal
@@ -227,6 +245,16 @@ export default function YeuCau() {
           </div>
 
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading2 ? (
+            <div className="loading2">
+              <ReactLoading
+                type={"spin"}
+                color={"#EE6F57"}
+                height={"5%"}
+                width={"5%"}
+              />
+            </div>
+          ) : null}
 
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>

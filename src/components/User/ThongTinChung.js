@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import qs from "qs";
 import Dropzone from "react-dropzone";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 
@@ -18,6 +19,7 @@ export default function ThongTinChung() {
   useEffect(() => {
     if (user.length !== 0) {
       getData();
+      getRoomMate();
       var date = new Date(user.user.user.birthday);
       var newBirthday =
         date.getFullYear() +
@@ -46,6 +48,9 @@ export default function ThongTinChung() {
   const [tokenStatus, setTokenStatus] = useState(false);
   const [data, setData] = useState([]);
   const [roomMate, setRoomMate] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
   const [menu, setMenu] = useState({
     canhan: "",
     otro: "none",
@@ -117,6 +122,7 @@ export default function ThongTinChung() {
   };
 
   const getData = () => {
+    setLoading(true);
     const data = {
       email: user.user.user.email,
     };
@@ -137,16 +143,19 @@ export default function ThongTinChung() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal(0);
-            closeModalAvatar()
+            closeModalAvatar();
+            setLoading(false);
           }
         } else {
           setData(res.data.User);
+          setLoading(false);
         }
       })
       .catch((error) => {});
   };
 
   const getRoomMate = () => {
+    setLoading2(true);
     const data = {
       roomId: user.user.user.room,
     };
@@ -167,10 +176,12 @@ export default function ThongTinChung() {
           if (res.data.message === "Unauthorized user!") {
             closeModal(0);
             setTokenStatus(true);
-            closeModalAvatar()
+            closeModalAvatar();
+            setLoading2(false);
           }
         } else {
           setRoomMate(res.data.User);
+          setLoading2(false);
         }
       })
       .catch((error) => {});
@@ -214,6 +225,7 @@ export default function ThongTinChung() {
   };
 
   const editUser = () => {
+    setLoading3(true)
     const data = {
       userId: user.user.user._id,
       name: input.name,
@@ -241,14 +253,17 @@ export default function ThongTinChung() {
           if (res.data.message === "Unauthorized user!") {
             closeModal(0);
             setTokenStatus(true);
-            closeModalAvatar()
+            closeModalAvatar();
+            setLoading3(false)
           } else {
             setError(res.data.message);
+            setLoading3(false)
           }
         } else {
           dispatch(
             updateID({ user: { token: user.user.token, user: res.data.User } })
           );
+          setLoading3(false)
           closeModal(1);
         }
       })
@@ -295,6 +310,7 @@ export default function ThongTinChung() {
   };
 
   const editAvatar = (image) => {
+    setLoading3(true)
     const data = {
       userId: user.user.user._id,
       avatar: image,
@@ -316,13 +332,16 @@ export default function ThongTinChung() {
           if (res.data.message === "Unauthorized user!") {
             closeModalAvatar();
             setTokenStatus(true);
+            setLoading3(false)
           } else {
             setError(res.data.message);
+            setLoading3(false)
           }
         } else {
           dispatch(
             updateID({ user: { token: user.user.token, user: res.data.User } })
           );
+          setLoading3(false)
           closeModalAvatar();
         }
       })
@@ -412,7 +431,6 @@ export default function ThongTinChung() {
           }
           onClick={() => {
             setMenu({ canhan: "none", otro: "none", thanhvien: "" });
-            getRoomMate();
           }}
         >
           <h3
@@ -512,98 +530,123 @@ export default function ThongTinChung() {
           </div>
         </div>
 
-        {/*Màn hình ở phần thông tin ở trọ */}
-        <div className="option-o-tro" style={{ display: menu.otro }}>
-          <div className="box-thong-tin-o-tro">
-            <div className="box-column">
-              <div className="column-title">
-                <p className="item-title">Phòng trọ</p>
-                <p className="item-title">Dãy trọ</p>
-                <p className="item-title">Ngày đăng ký</p>
-                <p className="item-title">Ngày bắt đầu</p>
-                <p className="item-title">Thời gian đã ở</p>
-                <p className="item-title">Tiền cọc</p>
+        {loading && menu.otro === "" ? (
+          <div className="loading" style={{ backgroundColor: "white" }}>
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
+            />
+          </div>
+        ) : (
+          /* Màn hình ở phần thông tin ở trọ */
+          <div className="option-o-tro" style={{ display: menu.otro }}>
+            <div className="box-thong-tin-o-tro">
+              <div className="box-column">
+                <div className="column-title">
+                  <p className="item-title">Phòng trọ</p>
+                  <p className="item-title">Dãy trọ</p>
+                  <p className="item-title">Ngày đăng ký</p>
+                  <p className="item-title">Ngày bắt đầu</p>
+                  <p className="item-title">Thời gian đã ở</p>
+                  <p className="item-title">Tiền cọc</p>
+                </div>
+                <div className="column-infor">
+                  <p className="item-infor">{roomName}</p>
+                  <p className="item-infor">{blockName}</p>
+                  <p className="item-infor">{Global.formatDate(createdAt)}</p>
+                  <p className="item-infor">{Global.formatDate(startDate)}</p>
+                  <p className="item-infor">
+                    {monthDiff(new Date(startDate), new Date()) + 1} tháng
+                  </p>
+                  <p className="item-infor">
+                    {Global.currencyFormat(tienCoc.toString())} VND
+                  </p>
+                </div>
               </div>
-              <div className="column-infor">
-                <p className="item-infor">{roomName}</p>
-                <p className="item-infor">{blockName}</p>
-                <p className="item-infor">{Global.formatDate(createdAt)}</p>
-                <p className="item-infor">{Global.formatDate(startDate)}</p>
-                <p className="item-infor">
-                  {monthDiff(new Date(startDate), new Date()) + 1} tháng
-                </p>
-                <p className="item-infor">
-                  {Global.currencyFormat(tienCoc.toString())} VND
-                </p>
+            </div>
+            <div className="thong-tin-phong">
+              <p id="title-phong">Thông tin {roomName}</p>
+              <div className="box-thongtin-row2">
+                <div className="row-item3">
+                  <p className="item-title2">Diện tích</p>
+                  <p className="item-infor2">
+                    {area} m<sup style={{ fontSize: "12px" }}>2</sup>
+                  </p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Tiền phòng</p>
+                  <p className="item-infor2">
+                    {Global.currencyFormat(tienPhong.toString())} VND
+                  </p>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Gác mái</p>
+                  <i
+                    className="material-icons-round"
+                    id="icon-edit"
+                    style={{ fontSize: "24px" }}
+                  >
+                    {gac ? "check" : "close"}
+                  </i>
+                </div>
+                <div className="row-item3">
+                  <p className="item-title2">Thiết bị</p>
+                  <p className="item-infor2">{device}</p>
+                </div>
               </div>
             </div>
           </div>
-          <div className="thong-tin-phong">
-            <p id="title-phong">Thông tin {roomName}</p>
-            <div className="box-thongtin-row2">
-              <div className="row-item3">
-                <p className="item-title2">Diện tích</p>
-                <p className="item-infor2">
-                  {area} m<sup style={{ fontSize: "12px" }}>2</sup>
-                </p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Tiền phòng</p>
-                <p className="item-infor2">
-                  {Global.currencyFormat(tienPhong.toString())} VND
-                </p>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Gác mái</p>
-                <i
-                  className="material-icons-round"
-                  id="icon-edit"
-                  style={{ fontSize: "24px" }}
-                >
-                  {gac ? "check" : "close"}
-                </i>
-              </div>
-              <div className="row-item3">
-                <p className="item-title2">Thiết bị</p>
-                <p className="item-infor2">{device}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
 
-        {/*Màn hình ở phần thông tin thành viên */}
-        <div className="option-thanh-vien" style={{ display: menu.thanhvien }}>
-          <div className="table">
-            <table>
-              <tbody>
-                <tr>
-                  <th className="sort">
-                    <p className="sort_text">Tên</p>
-                    <span
-                      className="material-icons-round icon"
-                      style={{ fontSize: "22px" }}
-                    >
-                      arrow_downward
-                    </span>
-                  </th>
-                  <th>
-                    <p>Ngày sinh</p>
-                  </th>
-                  <th>
-                    <p>Số điện thoại</p>
-                  </th>
-                  <th>
-                    <p>Email</p>
-                  </th>
-                  <th>
-                    <p>Nghề nghiệp</p>
-                  </th>
-                </tr>
-                {loadRoomMate()}
-              </tbody>
-            </table>
+        {loading2 && menu.thanhvien === "" ? (
+          <div className="loading">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
+            />
           </div>
-        </div>
+        ) : (
+          /*Màn hình ở phần thông tin thành viên */
+          <div
+            className="option-thanh-vien"
+            style={{ display: menu.thanhvien }}
+          >
+            <div className="table">
+              <table>
+                <tbody>
+                  <tr>
+                    <th className="sort">
+                      <p className="sort_text">Tên</p>
+                      <span
+                        className="material-icons-round icon"
+                        style={{ fontSize: "22px" }}
+                      >
+                        arrow_downward
+                      </span>
+                    </th>
+                    <th>
+                      <p>Ngày sinh</p>
+                    </th>
+                    <th>
+                      <p>Số điện thoại</p>
+                    </th>
+                    <th>
+                      <p>Email</p>
+                    </th>
+                    <th>
+                      <p>Nghề nghiệp</p>
+                    </th>
+                  </tr>
+                  {loadRoomMate()}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       <Rodal
@@ -757,6 +800,16 @@ export default function ThongTinChung() {
             </div>
           </div>
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading3 ? (
+            <div className="loading2">
+              <ReactLoading
+                type={"spin"}
+                color={"#EE6F57"}
+                height={"5%"}
+                width={"5%"}
+              />
+            </div>
+          ) : null}
           <div className="input-box">
             <p
               className="text-huy"
@@ -856,6 +909,16 @@ export default function ThongTinChung() {
           </div>
 
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading3 ? (
+            <div className="loading2">
+              <ReactLoading
+                type={"spin"}
+                color={"#EE6F57"}
+                height={"5%"}
+                width={"5%"}
+              />
+            </div>
+          ) : null}
 
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModalAvatar()}>

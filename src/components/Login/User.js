@@ -6,6 +6,7 @@ import Rodal from "rodal";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 
@@ -105,8 +106,10 @@ export default function User() {
   });
   const [modalChangePass, setModalChangePass] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changePassword = () => {
+    setLoading(true)
     const data = {
       email: user.user.user.email,
       password: input.oldpass,
@@ -129,12 +132,15 @@ export default function User() {
         if (res.data.status === false) {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
+            setLoading(false)
           } else {
             setError(res.data.message);
+            setLoading(false)
           }
         } else {
           dispatch(updateID({user: {status: user.user.status, token: user.user.token, user: {...user.user.user, firstlogin: true}}}));
           setModalChangePass(false);
+          setLoading(false)
           closeModal();
         }
       })
@@ -165,7 +171,7 @@ export default function User() {
     <div>
       <div className="header">
         {/* Hiển thị logo cho header */}
-        <div className="logo">
+        <div className="logo" onClick={() => history.push("/user/thongtinchung")}>
           <img id="img-logo" src={logo} alt="Logo" />
         </div>
         <div className="account">
@@ -274,7 +280,7 @@ export default function User() {
         {/* Hiện thanh nav để lựa chọn màn hình trong trang home */}
         <div className="nav">
           <div className="title">
-            <div className="box">
+            <div className="box" onClick={() => history.push("/user/thongtinchung")}>
               <img id="img-nhatro" src={avatar_nhatro} alt="Img Nhà trọ" />
               <span id="ten-nha-tro">Đông Dương</span>
             </div>
@@ -399,6 +405,16 @@ export default function User() {
             </span>
           </div>
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>
               Hủy
@@ -477,6 +493,16 @@ export default function User() {
             </span>
           </div>
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
           <div className="input-box">
             <div className="box-btn" onClick={() => changePassword()}>
               <button className="btn2"></button>

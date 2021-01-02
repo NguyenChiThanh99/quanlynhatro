@@ -5,9 +5,10 @@ import qs from "qs";
 import { useSelector } from "react-redux";
 import Rodal from "rodal";
 import Dropzone from "react-dropzone";
+import ReactLoading from "react-loading";
 import Dropdown from "react-dropdown";
-import "react-dropdown/style.css";
 
+import "react-dropdown/style.css";
 import "rodal/lib/rodal.css";
 
 import Notification from "../Notification";
@@ -65,8 +66,35 @@ export default function DayTroDetail() {
       "-" +
       ("0" + currDay.getDate()).slice(-2)
   );
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
+  const testAPI = {
+    "month" : 1,
+    "year": 2021,
+    "blockId": "5fe0dfa63335b10024062ad3",
+     "ngaychot": "01/01/2021",
+    "content" : [{
+      "roomId": "5fda29f3c865e03f009ac44d",
+      "dien": [1222, 1300, 6000, "VND / kwh"],
+      "nuoc": [952, 1001, 100000, "VND / Tháng"],
+      "service": ["wifi", 300000, "giữ xe", 500000],
+      "tiền phòng": 5000000,
+      "total": 5000000,
+      "status": false
+    },{
+      "roomId": "5fda2a19c865e03f009ac44e",
+      "dien": [1022, 1100, 6000, "VND / kwh"],
+      "nuoc": [158, 201, 3000, "VND / m3"],
+      "service": ["giữ xe", 500000],
+      "tiền phòng": 5000000,
+      "total": 5000000,
+      "status": false
+    }]
+  }
 
   const getRoom = () => {
+    setLoading(true)
     const data = {
       blockId: location.state._id,
     };
@@ -89,15 +117,18 @@ export default function DayTroDetail() {
             closeModal();
             closeModalEdit();
             setModalDelete(false);
+            setLoading(false)
           }
         } else {
           setData(res.data.Room);
+          setLoading(false)
         }
       })
       .catch((error) => {});
   };
 
   const editRoom = (image) => {
+    setLoading2(true)
     const data = {
       roomId: modalEdit.content._id,
       name: modalEdit.content.name,
@@ -128,18 +159,22 @@ export default function DayTroDetail() {
             closeModalEdit();
             setTokenStatus(true);
             setModalDelete(false);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           closeModalEdit();
           getRoom();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
   };
 
   const deleteRoom = (room) => {
+    setLoading2(true)
     const data = {
       roomId: modalDelete.content._id,
     };
@@ -162,10 +197,12 @@ export default function DayTroDetail() {
             closeModal();
             closeModalEdit();
             setModalDelete(false);
+            setLoading2(false)
           }
         } else {
           setModalDelete({ id: "", content: { name: "", id: "" } });
           getRoom();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
@@ -442,6 +479,7 @@ export default function DayTroDetail() {
   };
 
   const CreateRoom = (image) => {
+    setLoading2(true)
     const data = {
       name: input.name,
       blockId: input.block,
@@ -471,12 +509,15 @@ export default function DayTroDetail() {
             closeModalEdit();
             setTokenStatus(true);
             setModalDelete(false);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           closeModal();
           getRoom();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
@@ -683,235 +724,269 @@ export default function DayTroDetail() {
       </div>
 
       <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
-        <div className="table">
-          <table>
-            <tbody>
-              <tr>
-                <th className="sort">
-                  <p className="sort_text">Phòng</p>
-                  <span className="material-icons icon">arrow_downward</span>
-                </th>
-                <th>
-                  <p>Diện tích</p>
-                </th>
-                <th>
-                  <p>Giá</p>
-                </th>
-                <th>
-                  <p>Gác mái</p>
-                </th>
-                <th style={{ whiteSpace: "nowrap" }}>
-                  <p>Thiết bị</p>
-                </th>
-                <th>
-                  <p />
-                </th>
-                <th>
-                  <p />
-                </th>
-              </tr>
-              {loadRoom()}
-            </tbody>
-          </table>
-        </div>
-
-        <div style={{ marginLeft: 24 }}>
-          <div style={{ display: "inline-block", marginRight: 20 }}>
-            <Dropdown
-              controlClassName="dropdown-modal-short"
-              menuClassName="menu-modal"
-              arrowClassName="arrow-modal"
-              options={optionsTime}
-              onChange={onSelectTime}
-              value={time}
+        {loading ? (
+          <div className="loading">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
             />
           </div>
+        ) : (
+          <div>
+            <div className="table">
+              <table>
+                <tbody>
+                  <tr>
+                    <th className="sort">
+                      <p className="sort_text">Phòng</p>
+                      <span className="material-icons icon">
+                        arrow_downward
+                      </span>
+                    </th>
+                    <th>
+                      <p>Diện tích</p>
+                    </th>
+                    <th>
+                      <p>Giá</p>
+                    </th>
+                    <th>
+                      <p>Gác mái</p>
+                    </th>
+                    <th style={{ whiteSpace: "nowrap" }}>
+                      <p>Thiết bị</p>
+                    </th>
+                    <th>
+                      <p />
+                    </th>
+                    <th>
+                      <p />
+                    </th>
+                  </tr>
+                  {loadRoom()}
+                </tbody>
+              </table>
+            </div>
 
-          <p
-            style={{
-              display: "inline",
-              paddingLeft: "10",
-              fontFamily: "Roboto-Regular",
-            }}
-          >
-            Ngày chốt chỉ số:{" "}
-          </p>
-          <input
-            className="ngaychotchiso"
-            type="date"
-            name="chotchiso"
-            value={chotchiso}
-            onChange={onChangeChotchiso}
-          />
-        </div>
+            <div style={{ marginLeft: 24 }}>
+              <div style={{ display: "inline-block", marginRight: 20 }}>
+                <Dropdown
+                  controlClassName="dropdown-modal-short"
+                  menuClassName="menu-modal"
+                  arrowClassName="arrow-modal"
+                  options={optionsTime}
+                  onChange={onSelectTime}
+                  value={time}
+                />
+              </div>
 
-        <div className="table">
-          <table>
-            {/* 2 hàng đầu */}
-            <tbody>
-              <tr>
-                <th rowSpan={2}>
-                  <p className="sort_text">Phòng</p>
-                </th>
-                <th rowSpan={2}>{/* trống */}</th>
-                <th
-                  colSpan={4}
-                  style={{ textAlign: "center", fontSize: "20px" }}
-                >
-                  <p
-                    style={{
-                      display: "inline",
-                      color: "#EE6F57",
-                      fontFamily: "Roboto-Bold",
-                    }}
-                  >
-                    ĐIỆN
-                  </p>
-                  <p style={{ display: "inline", fontFamily: "Roboto-Bold" }}>
-                    /
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      color: "#1F3C88",
-                      fontFamily: "Roboto-Bold",
-                    }}
-                  >
-                    NƯỚC
-                  </p>
-                </th>
-                <th rowSpan={2}>
-                  <p>Dịch vụ khác</p>
-                </th>
-                <th rowSpan={2}>
-                  <p>Tiền phòng</p>
-                </th>
-                <th rowSpan={2}>
-                  <p>Tổng tiền</p>
-                </th>
-                <th rowSpan={2}>
-                  <p>Thông tin thanh toán</p>
-                </th>
-              </tr>
-              <tr>
-                <th>Chỉ số đầu</th>
-                <th>Chỉ số cuối</th>
-                <th style={{ whiteSpace: "nowrap" }}>Sử dụng</th>
-                <th style={{ whiteSpace: "nowrap" }}>Số tiền</th>
-              </tr>
-              {/* row */}
-              <tr>
-                <td rowSpan={2} style={{ fontSize: "14px" }}>
-                  A1
-                </td>
-                <td
-                  style={{
-                    borderBottom: "1px solid #ffffff",
-                    color: "#4f4f4f",
-                    fontFamily: "Roboto-Medium",
-                  }}
-                >
-                  Điện
-                </td>
-                <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                  14,283 Kw/h
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    style={{
-                      width: "80px",
-                      fontSize: "14px",
-                      fontFamily: "Roboto-Bold",
-                    }}
-                    className="ghichu"
-                  />
-                </td>
-                <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                  110 Kw/h
-                </td>
-                <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                  205,194 đ
-                </td>
-                <td
-                  rowSpan={2}
-                  style={{ whiteSpace: "nowrap", fontSize: "14px" }}
-                >
-                  <div>
-                    <div className="padbot4px" style={{ whiteSpace: "nowrap" }}>
-                      <p className="chiso colorblack">Wifi: </p>
-                      <p className="chiso tien">150.000 đ</p>
-                    </div>
-                    <div className="padbot4px" style={{ whiteSpace: "nowrap" }}>
-                      <p className="chiso colorblack">Vệ sinh: </p>
-                      <p className="chiso tien">100.000 đ</p>
-                    </div>
-                    <div className="padbot4px" style={{ whiteSpace: "nowrap" }}>
-                      <p className="chiso colorblack">An ninh: </p>
-                      <p className="chiso tien">50.000 đ</p>
-                    </div>
-                    <div className="padbot4px" style={{ whiteSpace: "nowrap" }}>
-                      <p className="chiso colorblack">Gửi xe: </p>
-                      <p className="chiso tien">70.000 đ đ</p>
-                    </div>
-                  </div>
-                </td>
-                <td
-                  rowSpan={2}
-                  style={{ whiteSpace: "nowrap", fontSize: "14px" }}
-                >
-                  4,000,000 đ
-                </td>
-                <td
-                  rowSpan={2}
-                  style={{
-                    whiteSpace: "nowrap",
-                    fontSize: "16px",
-                    color: "#333333",
-                    fontFamily: "Roboto-Medium",
-                  }}
-                >
-                  4,723,435 đ
-                </td>
-                <td rowSpan={2}>
-                  <select value="Radish" className="dropdown-thongtinthanhtoan">
-                    <option value="chưa" style={{ fontSize: "14px" }}>
-                      Chưa
-                    </option>
-                    <option value="rồi" style={{ fontSize: "14px" }}>
-                      Rồi
-                    </option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td style={{ color: "#4f4f4f", fontFamily: "Roboto-Medium" }}>
-                  Nước
-                </td>
-                <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                  3,041 Kw/h
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    style={{
-                      width: "80px",
-                      fontSize: "14px",
-                      fontFamily: "Roboto-Bold",
-                    }}
-                    className="ghichu"
-                  />
-                </td>
-                <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                  14 Kw/h
-                </td>
-                <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                  76,780 đ
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+              <p
+                style={{
+                  display: "inline",
+                  paddingLeft: "10",
+                  fontFamily: "Roboto-Regular",
+                }}
+              >
+                Ngày chốt chỉ số:{" "}
+              </p>
+              <input
+                className="ngaychotchiso"
+                type="date"
+                name="chotchiso"
+                value={chotchiso}
+                onChange={onChangeChotchiso}
+              />
+            </div>
+
+            <div className="table">
+              <table>
+                {/* 2 hàng đầu */}
+                <tbody>
+                  <tr>
+                    <th rowSpan={2}>
+                      <p className="sort_text">Phòng</p>
+                    </th>
+                    <th rowSpan={2}>{/* trống */}</th>
+                    <th
+                      colSpan={4}
+                      style={{ textAlign: "center", fontSize: "20px" }}
+                    >
+                      <p
+                        style={{
+                          display: "inline",
+                          color: "#EE6F57",
+                          fontFamily: "Roboto-Bold",
+                        }}
+                      >
+                        ĐIỆN
+                      </p>
+                      <p
+                        style={{ display: "inline", fontFamily: "Roboto-Bold" }}
+                      >
+                        /
+                      </p>
+                      <p
+                        style={{
+                          display: "inline",
+                          color: "#1F3C88",
+                          fontFamily: "Roboto-Bold",
+                        }}
+                      >
+                        NƯỚC
+                      </p>
+                    </th>
+                    <th rowSpan={2}>
+                      <p>Dịch vụ khác</p>
+                    </th>
+                    <th rowSpan={2}>
+                      <p>Tiền phòng</p>
+                    </th>
+                    <th rowSpan={2}>
+                      <p>Tổng tiền</p>
+                    </th>
+                    <th rowSpan={2}>
+                      <p>Thông tin thanh toán</p>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>Chỉ số đầu</th>
+                    <th>Chỉ số cuối</th>
+                    <th style={{ whiteSpace: "nowrap" }}>Sử dụng</th>
+                    <th style={{ whiteSpace: "nowrap" }}>Số tiền</th>
+                  </tr>
+                  {/* row */}
+                  <tr>
+                    <td rowSpan={2} style={{ fontSize: "14px" }}>
+                      A1
+                    </td>
+                    <td
+                      style={{
+                        borderBottom: "1px solid #ffffff",
+                        color: "#4f4f4f",
+                        fontFamily: "Roboto-Medium",
+                      }}
+                    >
+                      Điện
+                    </td>
+                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+                      14,283 Kw/h
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        style={{
+                          width: "80px",
+                          fontSize: "14px",
+                          fontFamily: "Roboto-Bold",
+                        }}
+                        className="ghichu"
+                      />
+                    </td>
+                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+                      110 Kw/h
+                    </td>
+                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+                      205,194 đ
+                    </td>
+                    <td
+                      rowSpan={2}
+                      style={{ whiteSpace: "nowrap", fontSize: "14px" }}
+                    >
+                      <div>
+                        <div
+                          className="padbot4px"
+                          style={{ whiteSpace: "nowrap" }}
+                        >
+                          <p className="chiso colorblack">Wifi: </p>
+                          <p className="chiso tien">150.000 đ</p>
+                        </div>
+                        <div
+                          className="padbot4px"
+                          style={{ whiteSpace: "nowrap" }}
+                        >
+                          <p className="chiso colorblack">Vệ sinh: </p>
+                          <p className="chiso tien">100.000 đ</p>
+                        </div>
+                        <div
+                          className="padbot4px"
+                          style={{ whiteSpace: "nowrap" }}
+                        >
+                          <p className="chiso colorblack">An ninh: </p>
+                          <p className="chiso tien">50.000 đ</p>
+                        </div>
+                        <div
+                          className="padbot4px"
+                          style={{ whiteSpace: "nowrap" }}
+                        >
+                          <p className="chiso colorblack">Gửi xe: </p>
+                          <p className="chiso tien">70.000 đ đ</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td
+                      rowSpan={2}
+                      style={{ whiteSpace: "nowrap", fontSize: "14px" }}
+                    >
+                      4,000,000 đ
+                    </td>
+                    <td
+                      rowSpan={2}
+                      style={{
+                        whiteSpace: "nowrap",
+                        fontSize: "16px",
+                        color: "#333333",
+                        fontFamily: "Roboto-Medium",
+                      }}
+                    >
+                      4,723,435 đ
+                    </td>
+                    <td rowSpan={2}>
+                      <select
+                        value="Radish"
+                        className="dropdown-thongtinthanhtoan"
+                      >
+                        <option value="chưa" style={{ fontSize: "14px" }}>
+                          Chưa
+                        </option>
+                        <option value="rồi" style={{ fontSize: "14px" }}>
+                          Rồi
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{ color: "#4f4f4f", fontFamily: "Roboto-Medium" }}
+                    >
+                      Nước
+                    </td>
+                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+                      3,041 Kw/h
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        style={{
+                          width: "80px",
+                          fontSize: "14px",
+                          fontFamily: "Roboto-Bold",
+                        }}
+                        className="ghichu"
+                      />
+                    </td>
+                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+                      14 Kw/h
+                    </td>
+                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+                      76,780 đ
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -1175,6 +1250,17 @@ export default function DayTroDetail() {
             {error === "" ? null : (
               <Notification type="error" content={error} />
             )}
+            {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
+
             <div className="input-box">
               <p className="text-huy" onClick={() => closeModal()}>
                 Hủy
@@ -1463,6 +1549,17 @@ export default function DayTroDetail() {
             {error === "" ? null : (
               <Notification type="error" content={error} />
             )}
+            {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
+
             <div className="input-box">
               <p className="text-huy" onClick={() => closeModalEdit()}>
                 Hủy
@@ -1505,7 +1602,17 @@ export default function DayTroDetail() {
           {location.state.name}?
         </span>
 
-        <div className="input-box" style={{ marginTop: 70 }}>
+        {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"5%"}
+                  width={"5%"}
+                />
+              </div>
+            ) : null}
+        <div className="input-box" style={loading2 ? { marginTop: 70 } : { marginTop: 50 }}>
           <p
             className="text-huy"
             onClick={() =>

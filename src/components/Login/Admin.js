@@ -6,6 +6,7 @@ import Rodal from "rodal";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 
@@ -20,6 +21,7 @@ import avatar_nhatro from "../../images/avatar_nhatro.jpg";
 export default function Admin() {
   const dispatch = useDispatch();
   let history = useHistory();
+
   function showContent(routes) {
     var result = null;
     if (routes.length > 0) {
@@ -49,6 +51,7 @@ export default function Admin() {
   const [dropdown, setDropdown] = useState(false);
   const [hoverChangePass, setHoverChangePass] = useState(false);
   const [hoverLogout, setHoverLogout] = useState(false);
+  const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.ID);
 
   useEffect(() => {
@@ -172,6 +175,7 @@ export default function Admin() {
   };
 
   const changePassword = () => {
+    setLoading(true)
     const data = {
       email: user.user.user.email,
       password: input.oldpass,
@@ -194,13 +198,16 @@ export default function Admin() {
         if (res.data.status === false) {
           if (res.data.message === 'Unauthorized user!') {
             closeModal()
+            setLoading(false)
           } else {
             setError(res.data.message);
+            setLoading(false)
           }
         } else {
           dispatch(updateID({user: {status: user.user.status, token: user.user.token, user: {...user.user.user, firstlogin: true}}}));
           setModalChangePass(false);
           closeModal();
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -210,7 +217,7 @@ export default function Admin() {
     <div>
       <div className="header">
         {/* Hiển thị logo cho header */}
-        <div className="logo">
+        <div className="logo" onClick={() => history.push("/admin/quanlydaytro")}>
           <img id="img-logo" src={logo} alt="Logo" />
         </div>
         <div className="search">
@@ -322,8 +329,8 @@ export default function Admin() {
       <div className="home">
         {/* Hiện thanh nav để lựa chọn màn hình trong trang home */}
         <div className="nav">
-          <div className="title">
-            <div className="box">
+          <div className="title" >
+            <div className="box" onClick={() => history.push("/admin/quanlydaytro")}>
               <img id="img-nhatro" src={avatar_nhatro} alt="Img Nhà trọ" />
               <span id="ten-nha-tro">Đông Dương</span>
             </div>
@@ -478,6 +485,16 @@ export default function Admin() {
             </span>
           </div>
           {error === '' ? null : (<Notification type="error" content={error} />)}
+          {loading ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>
               Hủy
@@ -556,6 +573,16 @@ export default function Admin() {
             </span>
           </div>
           {error === '' ? null : (<Notification type="error" content={error} />)}
+          {loading ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
+            ) : null}
           <div className="input-box">
             <div className="box-btn" onClick={() => changePassword()}>
               <button className="btn2"></button>

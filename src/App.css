@@ -169,6 +169,22 @@ span {
   font-size: 18px;
 }
 
+#return-home {
+  text-align: center;
+  margin-left: 13vw;
+  width: 10vw;
+  color: white;
+  background-color: #ee6f57;
+  font-family: Roboto-Medium;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+#return-home:hover{
+  text-decoration: underline;
+}
+
 /* Thanh Nav cho trang home */
 .nav {
   display: flex;
@@ -244,6 +260,7 @@ span {
   align-items: center;
   justify-content: center;
   display: flex;
+  cursor: default;
 }
 
 .nav #img-nhatro {
@@ -251,6 +268,7 @@ span {
   height: 36px;
   border-radius: 20px;
   border: 2px solid white;
+  cursor: default;
 }
 
 .nav #ten-nha-tro {
@@ -262,6 +280,7 @@ span {
   color: white;
   padding-left: 14px;
   font-family: Roboto-Medium;
+  cursor: default;
 }
 
 .nav .line {

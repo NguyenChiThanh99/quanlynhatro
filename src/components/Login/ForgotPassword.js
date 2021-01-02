@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import Global from "../Global";
 import Notification from "../Notification";
@@ -11,7 +12,14 @@ import logo from "../../images/logo.jpg";
 export function Home() {
   let history = useHistory();
 
+  const [error, setError] = useState("");
+  const [input, setInput] = useState({
+    email: "",
+  });
+  const [loading, setLoading] = useState(false);
+
   const forgotPass = () => {
+    setLoading(true)
     const data = {
       email: input.email,
     };
@@ -26,17 +34,14 @@ export function Home() {
       .then((res) => {
         if (res.data.status === false) {
           setError(res.data.message);
+          setLoading(false)
         } else {
           history.push("/");
+          setLoading(false)
         }
       })
       .catch((error) => {});
   };
-
-  const [error, setError] = useState("");
-  const [input, setInput] = useState({
-    email: "",
-  });
 
   const onChange = (event) => {
     var target = event.target;
@@ -51,7 +56,7 @@ export function Home() {
   return (
     <div className="login">
       <div className="header">
-        <div className="logo">
+        <div className="logo" onClick={() => history.push("/")}>
           <img id="img-logo" src={logo} alt="Logo" />
         </div>
       </div>
@@ -67,7 +72,8 @@ export function Home() {
                 textAlign: "center",
               }}
             >
-              Nhập email đã đăng ký để nhận mật khẩu mới<br />
+              Nhập email đã đăng ký để nhận mật khẩu mới
+              <br />
               Mật khẩu sẽ được gửi đến email của bạn
             </p>
             <div className="input" style={{ marginBottom: "24px" }}>
@@ -83,6 +89,16 @@ export function Home() {
             </div>
             {error !== "" ? (
               <Notification type="error" content={error} />
+            ) : null}
+            {loading ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#FFFFFF"}
+                  height={"6%"}
+                  width={"6%"}
+                />
+              </div>
             ) : null}
             <div
               style={{

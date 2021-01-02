@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import qs from "qs";
 import Rodal from "rodal";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import ReactLoading from "react-loading";
 
 import "rodal/lib/rodal.css";
 
 import Global from "./Global";
-import {updateID} from '../actions';
+import { updateID } from "../actions";
 import Notification from "./Notification";
 
 export default function ModalLogin(props) {
@@ -21,6 +21,7 @@ export default function ModalLogin(props) {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const onChange = (event) => {
     var target = event.target;
@@ -42,6 +43,7 @@ export default function ModalLogin(props) {
   };
 
   const login = () => {
+    setLoading(true)
     const data = {
       email: input.email,
       password: input.password,
@@ -56,14 +58,16 @@ export default function ModalLogin(props) {
     axios(options)
       .then((res) => {
         if (res.data.status === false) {
-          setError(res.data.message)
+          setError(res.data.message);
+          setLoading(false)
         } else {
+          setLoading(false)
           closeModal();
-          dispatch(updateID({user: res.data}));
+          dispatch(updateID({ user: res.data }));
           if (res.data.user.role === "User") {
-            history.push("/user");
+            history.push("/user/thongtinchung");
           } else {
-            history.push("/admin");
+            history.push("/admin/quanlydaytro");
           }
         }
       })
@@ -87,9 +91,19 @@ export default function ModalLogin(props) {
       <div className="title-box">
         <p className="title-text">Đăng nhập</p>
       </div>
-      <p style={{fontFamily: 'Roboto-Light', marginBottom: 0, marginLeft: 20, color: '#828282', marginTop: 20}}>Phiên hiện tại đã kết thúc, vui lòng đăng nhập lại để tiếp tục</p>
+      <p
+        style={{
+          fontFamily: "Roboto-Light",
+          marginBottom: 0,
+          marginLeft: 20,
+          color: "#828282",
+          marginTop: 20,
+        }}
+      >
+        Phiên hiện tại đã kết thúc, vui lòng đăng nhập lại để tiếp tục
+      </p>
       <div className="model-box">
-      <div className="input-box">
+        <div className="input-box">
           <input
             type="email"
             className="model-input"
@@ -121,8 +135,18 @@ export default function ModalLogin(props) {
             lock
           </span>
         </div>
-        
+
         {error === "" ? null : <Notification type="error" content={error} />}
+        {loading ? (
+          <div className="loading2">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"6%"}
+              width={"6%"}
+            />
+          </div>
+        ) : null}
         <div className="input-box">
           <div className="box-btn" onClick={() => login()}>
             <button className="btn2"></button>

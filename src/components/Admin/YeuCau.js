@@ -130,6 +130,7 @@ export default function YeuCau() {
   };
 
   const changeStatus = () => {
+    setLoading2(true)
     const data = {
       requestId: modal.content._id,
       isSolved: true,
@@ -151,10 +152,12 @@ export default function YeuCau() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal();
+            setLoading2(false)
           }
         } else {
           getRequest();
           closeModal();
+          setLoading2(false)
         }
       })
       .catch((error) => {});

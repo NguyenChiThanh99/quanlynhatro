@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 import {useDispatch} from 'react-redux';
+import ReactLoading from "react-loading";
 
 import Global from "../Global";
 import {updateID} from '../../actions';
@@ -14,7 +15,15 @@ export function Home() {
   let history = useHistory();
   const dispatch = useDispatch();
 
+  const [error, setError] = useState("")
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+
   const login = () => {
+    setLoading(true)
     const data = {
       email: input.email,
       password: input.password,
@@ -30,8 +39,10 @@ export function Home() {
       .then((res) => {
         if (res.data.status === false) {
           setError(res.data.message)
+          setLoading(false)
         } else {
           dispatch(updateID({user: res.data}));
+          setLoading(false)
           if (res.data.user.role === "User") {
             history.push("/user");
           } else {
@@ -47,12 +58,6 @@ export function Home() {
       login()
     }
   }
-
-  const [error, setError] = useState("")
-  const [input, setInput] = useState({
-    email: "",
-    password: "",
-  });
 
   const onChange = (event) => {
     var target = event.target;
@@ -98,6 +103,16 @@ export function Home() {
               <p className="quenmktext">Quên mật khẩu</p>
             </div>
             {error !== "" ? (<Notification type="error" content={error} />) : null}
+            {loading ? (
+        <div className="loading2">
+          <ReactLoading
+            type={"spin"}
+            color={"#FFFFFF"}
+            height={"6%"}
+            width={"6%"}
+          />
+        </div>
+      ) : null}
             <div
               style={{
                 justifyContent: "center",

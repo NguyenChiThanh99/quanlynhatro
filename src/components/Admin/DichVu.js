@@ -4,6 +4,7 @@ import Rodal from "rodal";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import qs from "qs";
+import ReactLoading from "react-loading";
 
 import "react-dropdown/style.css";
 import "rodal/lib/rodal.css";
@@ -24,7 +25,12 @@ export default function DichVu() {
   const [modal, setModal] = useState(false);
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
-  const [modalEdit, setModalEdit] = useState({status: false, content: {name: "", price: "", calculate: ""}});
+  const [modalEdit, setModalEdit] = useState({
+    status: false,
+    content: { name: "", price: "", calculate: "" },
+  });
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     if (user.length !== 0) {
@@ -45,7 +51,10 @@ export default function DichVu() {
   const onChangeEdit = (event) => {
     var target = event.target;
     var value = target.value;
-    setModalEdit({...modalEdit, content: {...modalEdit.content, price: value}})
+    setModalEdit({
+      ...modalEdit,
+      content: { ...modalEdit.content, price: value },
+    });
   };
 
   const closeModal = () => {
@@ -55,7 +64,10 @@ export default function DichVu() {
   };
 
   const closeModalEdit = () => {
-    setModalEdit({status: false, content: {name: "", price: "", calculate: ""}});
+    setModalEdit({
+      status: false,
+      content: { name: "", price: "", calculate: "" },
+    });
     setError("");
   };
 
@@ -68,7 +80,10 @@ export default function DichVu() {
     setInput({ ...input, unit: option.value });
   }
   function onSelectEdit(option) {
-    setModalEdit({...modalEdit, content: {...modalEdit.content, calculate: option.value}})
+    setModalEdit({
+      ...modalEdit,
+      content: { ...modalEdit.content, calculate: option.value },
+    });
   }
 
   const optionsType = [
@@ -116,6 +131,7 @@ export default function DichVu() {
   }
 
   const CreateService = () => {
+    setLoading2(true)
     const data = {
       name: input.name,
       price: input.price,
@@ -139,18 +155,22 @@ export default function DichVu() {
           if (res.data.message === "Unauthorized user!") {
             closeModal();
             setTokenStatus(true);
+            setLoading2(false)
           } else {
             setError(res.data.message);
+            setLoading2(false)
           }
         } else {
           getService();
           closeModal();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
   };
 
   const getService = () => {
+    setLoading(true)
     const data = {
       userId: user.user.user._id,
     };
@@ -171,11 +191,14 @@ export default function DichVu() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModal();
+            setLoading(false)
           }
         } else if (res.data.message === "Service rỗng") {
+          setLoading(false)
           setData([]);
         } else {
           setData(res.data.Service);
+          setLoading(false)
         }
       })
       .catch((error) => {});
@@ -200,7 +223,9 @@ export default function DichVu() {
               <span
                 className="material-icons icon"
                 style={{ cursor: "default" }}
-                onClick={() => {setModalEdit({status: true, content: service})}}
+                onClick={() => {
+                  setModalEdit({ status: true, content: service });
+                }}
               >
                 edit
               </span>
@@ -213,6 +238,7 @@ export default function DichVu() {
   };
 
   const editService = () => {
+    setLoading2(true)
     const data = {
       serviceId: modalEdit.content._id,
       price: modalEdit.content.price,
@@ -235,14 +261,16 @@ export default function DichVu() {
           if (res.data.message === "Unauthorized user!") {
             setTokenStatus(true);
             closeModalEdit();
+            setLoading2(false)
           }
         } else {
-          getService()
-          closeModalEdit()
+          getService();
+          closeModalEdit();
+          setLoading2(false)
         }
       })
       .catch((error) => {});
-  }
+  };
 
   return (
     <div className="dichvu">
@@ -261,29 +289,41 @@ export default function DichVu() {
           </div>
         </div>
       </div>
+      
       <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
-        <div className="table">
-          <table>
-            <tbody>
-              <tr>
-                <th>
-                  <p>Dịch vụ</p>
-                </th>
-                <th>
-                  <p>Giá tiền</p>
-                </th>
-                <th>
-                  <p>Đơn vị tính</p>
-                </th>
-                <th>
-                  <p />
-                </th>
-              </tr>
+        {loading ? (
+          <div className="loading">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"4%"}
+              width={"4%"}
+            />
+          </div>
+        ) : (
+          <div className="table">
+            <table>
+              <tbody>
+                <tr>
+                  <th>
+                    <p>Dịch vụ</p>
+                  </th>
+                  <th>
+                    <p>Giá tiền</p>
+                  </th>
+                  <th>
+                    <p>Đơn vị tính</p>
+                  </th>
+                  <th>
+                    <p />
+                  </th>
+                </tr>
 
-              {loadService()}
-            </tbody>
-          </table>
-        </div>
+                {loadService()}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -371,6 +411,16 @@ export default function DichVu() {
           ) : null}
 
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"5%"}
+                  width={"5%"}
+                />
+              </div>
+            ) : null}
 
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModal()}>
@@ -388,7 +438,7 @@ export default function DichVu() {
           </div>
         </div>
       </Rodal>
-      
+
       <Rodal
         visible={modalEdit.status}
         animation={"slideUp"}
@@ -429,14 +479,17 @@ export default function DichVu() {
               monetization_on
             </span>
           </div>
-          {modalEdit.content.name === "Điện" || modalEdit.content.name === "Nước" ? (
+          {modalEdit.content.name === "Điện" ||
+          modalEdit.content.name === "Nước" ? (
             <div className="input-box">
               <Dropdown
                 placeholder="Đơn vị tính"
                 controlClassName="dropdown-modal"
                 menuClassName="menu-modal"
                 arrowClassName="arrow-modal"
-                options={modalEdit.content.name === "Điện" ? optionsDien : optionsNuoc}
+                options={
+                  modalEdit.content.name === "Điện" ? optionsDien : optionsNuoc
+                }
                 onChange={onSelectEdit}
                 value={modalEdit.content.calculate}
               />
@@ -444,6 +497,16 @@ export default function DichVu() {
           ) : null}
 
           {error === "" ? null : <Notification type="error" content={error} />}
+          {loading2 ? (
+              <div className="loading2">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"5%"}
+                  width={"5%"}
+                />
+              </div>
+            ) : null}
 
           <div className="input-box">
             <p className="text-huy" onClick={() => closeModalEdit()}>
