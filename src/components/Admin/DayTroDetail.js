@@ -160,7 +160,6 @@ export default function DayTroDetail() {
       };
       axios(options)
         .then((res) => {
-          console.log(res.data);
           if (res.data.status === false) {
             if (res.data.message === "Unauthorized user!") {
               setTokenStatus(true);
@@ -171,6 +170,12 @@ export default function DayTroDetail() {
                 content: { name: "", id: "" },
               });
               setLoading3(false);
+            } else if (res.data.message === "Tháng trước chưa được nhập") {
+              setError(res.data.message);
+              setLoading3(false);
+              setTimeout(() => {
+                setError("");
+              }, 3000);
             }
           } else {
             getPaymentOfMonth(time);
@@ -654,37 +659,39 @@ export default function DayTroDetail() {
   };
 
   const changeStatusPayment = (id, status) => {
-    const data = {
-      paymentroomId: id,
-      status: status,
-    };
-    const token = user.user.token;
-    const url = Global.server + "payment/changestatuspayment";
-    const options = {
-      method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        authorization: `Bearer ${token}`,
-      },
-      url,
-      data: qs.stringify(data),
-    };
-    axios(options)
-      .then((res) => {
-        if (res.data.status === false) {
-          if (res.data.message === "Unauthorized user!") {
-            setTokenStatus(true);
-            closeModal();
-            closeModalEdit();
-            setModalDelete({
-              status: false,
-              content: { name: "", id: "" },
-            });
+    if (!(Object.keys(paymentOfMonth).length === 0 && !loading4)) {
+      const data = {
+        paymentroomId: id,
+        status: status,
+      };
+      const token = user.user.token;
+      const url = Global.server + "payment/changestatuspayment";
+      const options = {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          authorization: `Bearer ${token}`,
+        },
+        url,
+        data: qs.stringify(data),
+      };
+      axios(options)
+        .then((res) => {
+          if (res.data.status === false) {
+            if (res.data.message === "Unauthorized user!") {
+              setTokenStatus(true);
+              closeModal();
+              closeModalEdit();
+              setModalDelete({
+                status: false,
+                content: { name: "", id: "" },
+              });
+            }
+          } else {
           }
-        } else {
-        }
-      })
-      .catch((error) => {});
+        })
+        .catch((error) => {});
+    }
   };
 
   const getRoom = () => {
@@ -1519,6 +1526,12 @@ export default function DayTroDetail() {
               />
             </div>
           )}
+
+          {error !== "" ? (
+            <div style={{ marginLeft: 24, marginRight: "40vw" }}>
+              <Notification type="error" content={error} />
+            </div>
+          ) : null}
 
           {loading4 ? (
             <div className="loading4">

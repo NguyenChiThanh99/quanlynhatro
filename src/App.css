@@ -529,6 +529,22 @@ input[type="checkbox"] {
   justify-content: center;
   align-items: center;
 }
+.btn4 {
+  border: 0;
+  color: white;
+  background-color: #ee6f57;
+  border-radius: 8px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-family: Roboto-Regular;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn4 :hover {
+  text-decoration: underline;
+  text-decoration-color: white;
+}
 
 .box-btn .btn2 {
   background: #070d59;
@@ -1693,4 +1709,28 @@ tr {
   height: 30vh;
   justify-content: center;
   align-items: center;
+}
+
+/*                                                                            Chart */
+.chartCard {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-left: 25px;
+  margin-top: 25px;
+  border: 1px solid #E0E0E0;
+}
+
+.chartTitle {
+  color: #333333;
+  font-family: Roboto-Medium;
+  font-size: 24px;
+}
+
+.chart-border-title {
+  border-bottom: 1px solid #E0E0E0;
+  width: 100%;
+  margin: -20px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
