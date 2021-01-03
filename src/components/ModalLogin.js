@@ -74,6 +74,12 @@ export default function ModalLogin(props) {
       .catch((error) => {});
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      login()
+    }
+  }
+
   return (
     <Rodal
       visible={props.status && modal}
@@ -87,6 +93,7 @@ export default function ModalLogin(props) {
       }}
       showCloseButton={false}
       onClose={() => {}}
+      onKeyDown={handleKeyDown}
     >
       <div className="title-box">
         <p className="title-text">Đăng nhập</p>

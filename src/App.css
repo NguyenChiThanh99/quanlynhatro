@@ -516,6 +516,20 @@ input[type="checkbox"] {
   font-family: Roboto-Regular;
 }
 
+.btn3 {
+  border: 0;
+  margin-left: 5vw;
+  color: white;
+  background-color: #ee6f57;
+  border-radius: 8px;
+  padding: 8px 20px;
+  cursor: default;
+  font-family: Roboto-Regular;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .box-btn .btn2 {
   background: #070d59;
   width: 170px;
@@ -1624,6 +1638,9 @@ tr {
 .chitietday .ngaychotchiso:focus {
   outline: none;
 }
+.chitietday .ghichu:focus {
+  outline: none;
+}
 .chitietday .table input[type="text"]:focus {
   outline: none;
   color: #070d59;
@@ -1662,6 +1679,18 @@ tr {
 }
 .loading2 {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loading3 {
+  width: 1.5vw;
+  height: 1.5vw; 
+  display: inline-flex;
+  margin-left: 2vw;
+}
+.loading4 {
+  display: flex;
+  height: 30vh;
   justify-content: center;
   align-items: center;
 }

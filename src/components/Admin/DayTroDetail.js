@@ -24,6 +24,11 @@ export default function DayTroDetail() {
     handleTime();
     if (user.length !== 0 && location.state !== undefined) {
       getRoom();
+      getServiceOfBlock();
+      var date = new Date();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var year = date.getFullYear();
+      getPaymentOfMonth(month + "/" + year);
     }
   }, []);
 
@@ -68,33 +73,622 @@ export default function DayTroDetail() {
   );
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+  const [loading4, setLoading4] = useState(false);
+  const [allService, setAllService] = useState([]);
+  const [selectPayment, setSelectPayment] = useState({});
+  const [paymentOfMonth, setPaymentOfMonth] = useState({});
+  const [inputElecF, setInputElecF] = useState({});
+  const [inputElecL, setInputElecL] = useState({});
+  const [inputWaterF, setInputWaterF] = useState({});
+  const [inputWaterL, setInputWaterL] = useState({});
+  const [statusInput, setStatusInput] = useState(false);
 
-  const testAPI = {
-    "month" : 1,
-    "year": 2021,
-    "blockId": "5fe0dfa63335b10024062ad3",
-     "ngaychot": "01/01/2021",
-    "content" : [{
-      "roomId": "5fda29f3c865e03f009ac44d",
-      "dien": [1222, 1300, 6000, "VND / kwh"],
-      "nuoc": [952, 1001, 100000, "VND / Tháng"],
-      "service": ["wifi", 300000, "giữ xe", 500000],
-      "tiền phòng": 5000000,
-      "total": 5000000,
-      "status": false
-    },{
-      "roomId": "5fda2a19c865e03f009ac44e",
-      "dien": [1022, 1100, 6000, "VND / kwh"],
-      "nuoc": [158, 201, 3000, "VND / m3"],
-      "service": ["giữ xe", 500000],
-      "tiền phòng": 5000000,
-      "total": 5000000,
-      "status": false
-    }]
-  }
+  const handleContent = () => {
+    var content = [];
+    if (data.length > 0) {
+      data.map((room, index) => {
+        var serviceAll = allService.find((element) => element._id === room._id)
+          .service;
+        var elec = serviceAll.find((element) => element.name === "Điện");
+        var water = serviceAll.find((element) => element.name === "Nước");
+        var servive = [];
+        var total = room.price;
+        serviceAll.map((ser, index) => {
+          if (ser.name !== "Điện" && ser.name !== "Nước") {
+            servive.push(ser.name);
+            servive.push(parseInt(ser.price));
+            total += parseInt(ser.price);
+          }
+        });
+        var elecF = parseInt(inputElecF[room._id]);
+        var elecL = parseInt(inputElecL[room._id]);
+        var waterF = parseInt(inputWaterF[room._id]);
+        var waterL = parseInt(inputWaterL[room._id]);
+        if (isNaN(elecF) || isNaN(elecL) || isNaN(waterF) || isNaN(waterL)) {
+          setStatusInput(true);
+        }
+        elec.calculate !== "VND / Tháng"
+          ? (total += (elecL - elecF) * elec.price)
+          : (total += elec.price);
+        water.calculate !== "VND / Tháng"
+          ? (total += (waterL - waterF) * water.price)
+          : (total += water.price);
+
+        content.push({
+          roomId: room._id,
+          elec: [elecF, elecL, elec.price, elec.calculate],
+          water: [waterF, waterL, water.price, water.calculate],
+          service: servive,
+          price: room.price,
+          total: total,
+          status: selectPayment[room._id],
+        });
+      });
+    }
+    return content;
+  };
+
+  const savePayment = () => {
+    setLoading3(true);
+    if (time !== "") {
+      var selectTime = time.split("/");
+      const data = {
+        blockId: location.state._id,
+        month: parseInt(selectTime[0]),
+        year: parseInt(selectTime[1]),
+        date: chotchiso,
+        content: handleContent(),
+      };
+      if (statusInput) {
+        setTimeout(() => {
+          setStatusInput(false);
+          setLoading3(false);
+        }, 3000);
+        return;
+      }
+      const token = user.user.token;
+      const url = Global.server + "payment/create";
+      const options = {
+        method: "POST",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          authorization: `Bearer ${token}`,
+        },
+        url,
+        data: qs.stringify(data),
+      };
+      axios(options)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.status === false) {
+            if (res.data.message === "Unauthorized user!") {
+              setTokenStatus(true);
+              closeModal();
+              closeModalEdit();
+              setModalDelete({
+                status: false,
+                content: { name: "", id: "" },
+              });
+              setLoading3(false);
+            }
+          } else {
+            getPaymentOfMonth(time);
+            setLoading3(false);
+          }
+        })
+        .catch((error) => {});
+    }
+  };
+
+  const getPaymentOfMonth = (time) => {
+    setLoading4(true);
+    var selectTime = time.split("/");
+    const data = {
+      blockId: location.state._id,
+      month: parseInt(selectTime[0]),
+      year: parseInt(selectTime[1]),
+    };
+    const token = user.user.token;
+    const url = Global.server + "payment/getpaymentbyblockid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+            closeModalEdit();
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+            setLoading4(false);
+          } else if (res.data.message === "Không tìm thấy payment") {
+            getPaymentOfPreMonth(time);
+          }
+        } else {
+          var paymentroom = res.data.Payment.paymentroom;
+          var selectPay = {};
+          for (let index = 0; index < paymentroom.length; index++) {
+            selectPay = {
+              ...selectPay,
+              [paymentroom[index]._id]: paymentroom[index].status,
+            };
+          }
+          setSelectPayment(selectPay);
+          setPaymentOfMonth(res.data.Payment);
+          setLoading4(false);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const loadPaymentToRead = () => {
+    var result = null;
+    if (Object.keys(paymentOfMonth).length > 0) {
+      result = paymentOfMonth.paymentroom.map((room, index) => {
+        var idPayment = room._id;
+        var totalElec =
+          room.elec[3] !== "VND / Tháng"
+            ? (room.elec[1] - room.elec[0]) * room.elec[2]
+            : room.elec[2];
+        var totalWater =
+          room.water[3] !== "VND / Tháng"
+            ? (room.water[1] - room.water[0]) * room.water[2]
+            : room.water[2];
+        var newSer = [];
+        var total = totalElec + totalWater + room.price;
+
+        if (room.service !== null) {
+          for (let index = 0; index < room.service.length; index += 2) {
+            newSer.push({
+              name: room.service[index],
+              price: room.service[index + 1],
+            });
+          }
+        }
+        var service = newSer.map((ser, index) => {
+          total += parseInt(ser.price);
+          return (
+            <div
+              className="padbot4px"
+              style={{ whiteSpace: "nowrap" }}
+              key={index}
+            >
+              <p className="chiso colorblack">{ser.name}: </p>
+              <p className="chiso tien">
+                {Global.currencyFormat(ser.price)} VND
+              </p>
+            </div>
+          );
+        });
+
+        var JSX1 = (
+          <tr key={index * 1000}>
+            <td rowSpan={2} style={{ fontSize: "14px" }}>
+              {data.find((element) => element._id === room.roomId).name}
+            </td>
+            <td
+              style={{
+                borderBottom: "1px solid #ffffff",
+                color: "#4f4f4f",
+                fontFamily: "Roboto-Medium",
+              }}
+            >
+              Điện
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(room.elec[0].toString())} kWh
+            </td>
+            <td>
+              <td
+                style={{ whiteSpace: "nowrap", fontSize: "14px", padding: 0 }}
+              >
+                {Global.currencyFormat(room.elec[1].toString())} kWh
+              </td>
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat((room.elec[1] - room.elec[0]).toString())}{" "}
+              kWh
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(totalElec.toString())} VND
+            </td>
+            <td rowSpan={2} style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              <div>{service}</div>
+            </td>
+            <td rowSpan={2} style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(room.price.toString())} VND
+            </td>
+            <td
+              rowSpan={2}
+              style={{
+                whiteSpace: "nowrap",
+                fontSize: "16px",
+                color: "#333333",
+                fontFamily: "Roboto-Medium",
+              }}
+            >
+              {Global.currencyFormat(total.toString())} VND
+            </td>
+            <td rowSpan={2}>
+              <select
+                value={selectPayment[idPayment]}
+                name={idPayment}
+                onChange={onChangePayment}
+                className="dropdown-thongtinthanhtoan"
+              >
+                <option value={false} style={{ fontSize: "14px" }}>
+                  Chưa thanh toán
+                </option>
+                <option value={true} style={{ fontSize: "14px" }}>
+                  Đã thanh toán
+                </option>
+              </select>
+            </td>
+          </tr>
+        );
+
+        var JSX2 = (
+          <tr key={index * 10}>
+            <td style={{ color: "#4f4f4f", fontFamily: "Roboto-Medium" }}>
+              Nước
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(room.water[0].toString())} m3
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(room.water[1].toString())} m3
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(
+                (room.water[1] - room.water[0]).toString()
+              )}{" "}
+              m3
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(totalWater.toString())} VND
+            </td>
+          </tr>
+        );
+
+        return [JSX1, JSX2];
+      });
+    }
+    return result;
+  };
+
+  const loadPaymentToWriteFull = () => {
+    var result = null;
+    if (Object.keys(paymentOfMonth).length === 0 && allService.length) {
+      result = data.map((room, index) => {
+        var elecF = parseInt(inputElecF[room._id]);
+        var elecL = parseInt(inputElecL[room._id]);
+        var waterF = parseInt(inputWaterF[room._id]);
+        var waterL = parseInt(inputWaterL[room._id]);
+        var elec = isNaN(elecL - elecF)
+          ? 0
+          : Global.currencyFormat((elecL - elecF).toString());
+        var water = isNaN(waterL - waterF)
+          ? 0
+          : Global.currencyFormat((waterL - waterF).toString());
+        var service = allService.find((element) => element._id === room._id);
+        var price = data.find((element) => element._id === room._id).price;
+        var serviceElec = 0;
+        var serviceWater = 0;
+        var Total = price;
+
+        var serviceJSX = service.service.map((ser, index) => {
+          if (ser.name === "Điện") {
+            ser.calculate !== "VND / Tháng"
+              ? (serviceElec = elec * parseInt(ser.price))
+              : (serviceElec = parseInt(ser.price));
+            Total += serviceElec;
+            return null;
+          } else if (ser.name === "Nước") {
+            ser.calculate !== "VND / Tháng"
+              ? (serviceWater = water * parseInt(ser.price))
+              : (serviceWater = parseInt(ser.price));
+            Total += serviceWater;
+            return null;
+          } else {
+            Total += parseInt(ser.price);
+            return (
+              <div
+                className="padbot4px"
+                style={{ whiteSpace: "nowrap" }}
+                key={index}
+              >
+                <p className="chiso colorblack">{ser.name}: </p>
+                <p className="chiso tien">
+                  {Global.currencyFormat(ser.price)} VND
+                </p>
+              </div>
+            );
+          }
+        });
+
+        var JSX1 = (
+          <tr>
+            <td rowSpan={2} style={{ fontSize: "14px" }}>
+              {room.name}
+            </td>
+            <td
+              style={{
+                borderBottom: "1px solid #ffffff",
+                color: "#4f4f4f",
+                fontFamily: "Roboto-Medium",
+              }}
+            >
+              Điện
+            </td>
+            <td>
+              <input
+                type="number"
+                name={room._id}
+                value={elecF}
+                onChange={onChangeElecF}
+                style={{
+                  width: "80px",
+                  fontSize: "14px",
+                  fontFamily: "Roboto-Bold",
+                }}
+                className="ghichu"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name={room._id}
+                value={elecL}
+                onChange={onChangeElecL}
+                style={{
+                  width: "80px",
+                  fontSize: "14px",
+                  fontFamily: "Roboto-Bold",
+                }}
+                className="ghichu"
+              />
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {elec} kWh
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(serviceElec.toString())} VND
+            </td>
+            <td rowSpan={2} style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              <div>{serviceJSX}</div>
+            </td>
+            <td rowSpan={2} style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(price.toString())} VND
+            </td>
+            <td
+              rowSpan={2}
+              style={{
+                whiteSpace: "nowrap",
+                fontSize: "16px",
+                color: "#333333",
+                fontFamily: "Roboto-Medium",
+              }}
+            >
+              {Global.currencyFormat(Total.toString())} VND
+            </td>
+            <td rowSpan={2}>
+              <select
+                value={selectPayment[room._id]}
+                name={room._id}
+                onChange={onChangePayment}
+                className="dropdown-thongtinthanhtoan"
+              >
+                <option value={false} style={{ fontSize: "14px" }}>
+                  Chưa thanh toán
+                </option>
+                <option value={true} style={{ fontSize: "14px" }}>
+                  Đã thanh toán
+                </option>
+              </select>
+            </td>
+          </tr>
+        );
+        var JSX2 = (
+          <tr>
+            <td style={{ color: "#4f4f4f", fontFamily: "Roboto-Medium" }}>
+              Nước
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              <input
+                type="number"
+                name={room._id}
+                value={waterF}
+                onChange={onChangeWaterF}
+                style={{
+                  width: "80px",
+                  fontSize: "14px",
+                  fontFamily: "Roboto-Bold",
+                }}
+                className="ghichu"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name={room._id}
+                value={waterL}
+                onChange={onChangeWaterL}
+                style={{
+                  width: "80px",
+                  fontSize: "14px",
+                  fontFamily: "Roboto-Bold",
+                }}
+                className="ghichu"
+              />
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {water} m3
+            </td>
+            <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
+              {Global.currencyFormat(serviceWater.toString())} VND
+            </td>
+          </tr>
+        );
+        return [JSX1, JSX2];
+      });
+    }
+    return result;
+  };
+
+  const getPaymentOfPreMonth = (time) => {
+    var selectTime = time.split("/");
+    var date = new Date(selectTime[0] + "/01/" + selectTime[1]);
+    date.setMonth(date.getMonth() - 1);
+    const dataPost = {
+      blockId: location.state._id,
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    };
+    const token = user.user.token;
+    const url = Global.server + "payment/getpaymentbyblockid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(dataPost),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+            closeModalEdit();
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+            setLoading4(false);
+          } else if (res.data.message === "Không tìm thấy payment") {
+            var selectPay = {};
+            for (let index = 0; index < data.length; index++) {
+              selectPay = {
+                ...selectPay,
+                [data[index]._id]: false,
+              };
+            }
+            setSelectPayment(selectPay);
+            setLoading4(false);
+          }
+        } else {
+          var selectPay = {};
+          for (let index = 0; index < data.length; index++) {
+            selectPay = {
+              ...selectPay,
+              [data[index]._id]: false,
+            };
+          }
+          var payment = res.data.Payment.paymentroom;
+          var elecF = {};
+          var waterF = {};
+          for (let index = 0; index < payment.length; index++) {
+            elecF = {
+              ...elecF,
+              [payment[index].roomId]: payment[index].elec[1],
+            };
+            waterF = {
+              ...waterF,
+              [payment[index].roomId]: payment[index].water[1],
+            };
+          }
+          setInputElecF(elecF);
+          setInputWaterF(waterF);
+          setSelectPayment(selectPay);
+          setLoading4(false);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const getServiceOfBlock = () => {
+    const data = {
+      blockId: location.state._id,
+    };
+    const token = user.user.token;
+    const url = Global.server + "service/getservicebyblockid";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+            closeModalEdit();
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+          }
+        } else {
+          setAllService(res.data.Service);
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const changeStatusPayment = (id, status) => {
+    const data = {
+      paymentroomId: id,
+      status: status,
+    };
+    const token = user.user.token;
+    const url = Global.server + "payment/changestatuspayment";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        authorization: `Bearer ${token}`,
+      },
+      url,
+      data: qs.stringify(data),
+    };
+    axios(options)
+      .then((res) => {
+        if (res.data.status === false) {
+          if (res.data.message === "Unauthorized user!") {
+            setTokenStatus(true);
+            closeModal();
+            closeModalEdit();
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+          }
+        } else {
+        }
+      })
+      .catch((error) => {});
+  };
 
   const getRoom = () => {
-    setLoading(true)
+    setLoading(true);
     const data = {
       blockId: location.state._id,
     };
@@ -116,19 +710,22 @@ export default function DayTroDetail() {
             setTokenStatus(true);
             closeModal();
             closeModalEdit();
-            setModalDelete(false);
-            setLoading(false)
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+            setLoading(false);
           }
         } else {
           setData(res.data.Room);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch((error) => {});
   };
 
   const editRoom = (image) => {
-    setLoading2(true)
+    setLoading2(true);
     const data = {
       roomId: modalEdit.content._id,
       name: modalEdit.content.name,
@@ -158,23 +755,26 @@ export default function DayTroDetail() {
             closeModal();
             closeModalEdit();
             setTokenStatus(true);
-            setModalDelete(false);
-            setLoading2(false)
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+            setLoading2(false);
           } else {
             setError(res.data.message);
-            setLoading2(false)
+            setLoading2(false);
           }
         } else {
           closeModalEdit();
           getRoom();
-          setLoading2(false)
+          setLoading2(false);
         }
       })
       .catch((error) => {});
   };
 
   const deleteRoom = (room) => {
-    setLoading2(true)
+    setLoading2(true);
     const data = {
       roomId: modalDelete.content._id,
     };
@@ -196,13 +796,19 @@ export default function DayTroDetail() {
             setTokenStatus(true);
             closeModal();
             closeModalEdit();
-            setModalDelete(false);
-            setLoading2(false)
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+            setLoading2(false);
           }
         } else {
-          setModalDelete({ id: "", content: { name: "", id: "" } });
+          setModalDelete({
+            status: false,
+            content: { name: "", id: "" },
+          });
           getRoom();
-          setLoading2(false)
+          setLoading2(false);
         }
       })
       .catch((error) => {});
@@ -479,7 +1085,7 @@ export default function DayTroDetail() {
   };
 
   const CreateRoom = (image) => {
-    setLoading2(true)
+    setLoading2(true);
     const data = {
       name: input.name,
       blockId: input.block,
@@ -508,16 +1114,19 @@ export default function DayTroDetail() {
             closeModal();
             closeModalEdit();
             setTokenStatus(true);
-            setModalDelete(false);
-            setLoading2(false)
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
+            setLoading2(false);
           } else {
             setError(res.data.message);
-            setLoading2(false)
+            setLoading2(false);
           }
         } else {
           closeModal();
           getRoom();
-          setLoading2(false)
+          setLoading2(false);
         }
       })
       .catch((error) => {});
@@ -529,6 +1138,57 @@ export default function DayTroDetail() {
     var name = target.name;
     setInput({
       ...input,
+      [name]: value,
+    });
+  };
+
+  const onChangeElecF = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInputElecF({
+      ...inputElecF,
+      [name]: value,
+    });
+  };
+
+  const onChangeElecL = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInputElecL({
+      ...inputElecL,
+      [name]: value,
+    });
+  };
+
+  const onChangeWaterF = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInputWaterF({
+      ...inputWaterF,
+      [name]: value,
+    });
+  };
+
+  const onChangeWaterL = (event) => {
+    var target = event.target;
+    var value = target.value;
+    var name = target.name;
+    setInputWaterL({
+      ...inputWaterL,
+      [name]: value,
+    });
+  };
+
+  const onChangePayment = (event) => {
+    var target = event.target;
+    var value = target.value === "true" ? true : false;
+    var name = target.name;
+    changeStatusPayment(name, value);
+    setSelectPayment({
+      ...selectPayment,
       [name]: value,
     });
   };
@@ -576,7 +1236,10 @@ export default function DayTroDetail() {
             setTokenStatus(true);
             closeModal();
             closeModalEdit();
-            setModalDelete(false);
+            setModalDelete({
+              status: false,
+              content: { name: "", id: "" },
+            });
           }
         } else if (res.data.message === "Service rỗng") {
           setService([]);
@@ -605,6 +1268,25 @@ export default function DayTroDetail() {
 
   function onSelectTime(option) {
     setTime(option.value);
+    setSelectPayment({});
+    setPaymentOfMonth({});
+    setInputElecF({});
+    setInputElecL({});
+    setInputWaterF({});
+    setInputWaterL({});
+    setStatusInput(false);
+    getPaymentOfMonth(option.value);
+  }
+
+  var dateStr = "";
+  if (paymentOfMonth !== null) {
+    var date = new Date(paymentOfMonth.date);
+    dateStr =
+      date.getFullYear() +
+      "-" +
+      ("0" + (date.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + date.getDate()).slice(-2);
   }
 
   return (
@@ -724,17 +1406,17 @@ export default function DayTroDetail() {
       </div>
 
       <div className="body" style={{ height: "80vh", overflowY: "scroll" }}>
-        {loading ? (
-          <div className="loading">
-            <ReactLoading
-              type={"spin"}
-              color={"#EE6F57"}
-              height={"4%"}
-              width={"4%"}
-            />
-          </div>
-        ) : (
-          <div>
+        <div>
+          {loading ? (
+            <div className="loading4">
+              <ReactLoading
+                type={"spin"}
+                color={"#EE6F57"}
+                height={"3%"}
+                width={"3%"}
+              />
+            </div>
+          ) : (
             <div className="table">
               <table>
                 <tbody>
@@ -768,37 +1450,86 @@ export default function DayTroDetail() {
                 </tbody>
               </table>
             </div>
+          )}
 
-            <div style={{ marginLeft: 24 }}>
-              <div style={{ display: "inline-block", marginRight: 20 }}>
-                <Dropdown
-                  controlClassName="dropdown-modal-short"
-                  menuClassName="menu-modal"
-                  arrowClassName="arrow-modal"
-                  options={optionsTime}
-                  onChange={onSelectTime}
-                  value={time}
-                />
-              </div>
+          <div style={{ marginLeft: 24 }}>
+            <div style={{ display: "inline-block", marginRight: 20 }}>
+              <Dropdown
+                controlClassName="dropdown-modal-short"
+                menuClassName="menu-modal"
+                arrowClassName="arrow-modal"
+                options={optionsTime}
+                onChange={onSelectTime}
+                value={time}
+              />
+            </div>
 
-              <p
-                style={{
-                  display: "inline",
-                  paddingLeft: "10",
-                  fontFamily: "Roboto-Regular",
-                }}
-              >
-                Ngày chốt chỉ số:{" "}
-              </p>
+            <p
+              style={{
+                display: "inline",
+                paddingLeft: "10",
+                fontFamily: "Roboto-Regular",
+              }}
+            >
+              Ngày chốt chỉ số:{" "}
+            </p>
+            {!loading4 ? (
               <input
                 className="ngaychotchiso"
                 type="date"
                 name="chotchiso"
-                value={chotchiso}
+                value={
+                  Object.keys(paymentOfMonth).length > 0 ? dateStr : chotchiso
+                }
                 onChange={onChangeChotchiso}
+                readOnly={Object.keys(paymentOfMonth).length > 0 ? true : false}
+              />
+            ) : null}
+
+            {Object.keys(paymentOfMonth).length === 0 && !loading4 ? (
+              <div className="btn3" onClick={() => savePayment()}>
+                <i
+                  className="material-icons-round"
+                  id="icon-btn"
+                  style={{ marginRight: 10 }}
+                >
+                  add_circle
+                </i>
+                Lưu chỉ số
+              </div>
+            ) : null}
+
+            {loading3 ? (
+              <div className="loading3">
+                <ReactLoading
+                  type={"spin"}
+                  color={"#EE6F57"}
+                  height={"100%"}
+                  width={"100%"}
+                />
+              </div>
+            ) : null}
+          </div>
+
+          {!statusInput ? null : (
+            <div style={{ marginLeft: 24, marginRight: "40vw" }}>
+              <Notification
+                type="error"
+                content={"Vui lòng nhập chỉ số của tất cả các phòng"}
               />
             </div>
+          )}
 
+          {loading4 ? (
+            <div className="loading4">
+              <ReactLoading
+                type={"spin"}
+                color={"#EE6F57"}
+                height={"3%"}
+                width={"3%"}
+              />
+            </div>
+          ) : (
             <div className="table">
               <table>
                 {/* 2 hàng đầu */}
@@ -856,137 +1587,13 @@ export default function DayTroDetail() {
                     <th style={{ whiteSpace: "nowrap" }}>Số tiền</th>
                   </tr>
                   {/* row */}
-                  <tr>
-                    <td rowSpan={2} style={{ fontSize: "14px" }}>
-                      A1
-                    </td>
-                    <td
-                      style={{
-                        borderBottom: "1px solid #ffffff",
-                        color: "#4f4f4f",
-                        fontFamily: "Roboto-Medium",
-                      }}
-                    >
-                      Điện
-                    </td>
-                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                      14,283 Kw/h
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        style={{
-                          width: "80px",
-                          fontSize: "14px",
-                          fontFamily: "Roboto-Bold",
-                        }}
-                        className="ghichu"
-                      />
-                    </td>
-                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                      110 Kw/h
-                    </td>
-                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                      205,194 đ
-                    </td>
-                    <td
-                      rowSpan={2}
-                      style={{ whiteSpace: "nowrap", fontSize: "14px" }}
-                    >
-                      <div>
-                        <div
-                          className="padbot4px"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <p className="chiso colorblack">Wifi: </p>
-                          <p className="chiso tien">150.000 đ</p>
-                        </div>
-                        <div
-                          className="padbot4px"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <p className="chiso colorblack">Vệ sinh: </p>
-                          <p className="chiso tien">100.000 đ</p>
-                        </div>
-                        <div
-                          className="padbot4px"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <p className="chiso colorblack">An ninh: </p>
-                          <p className="chiso tien">50.000 đ</p>
-                        </div>
-                        <div
-                          className="padbot4px"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <p className="chiso colorblack">Gửi xe: </p>
-                          <p className="chiso tien">70.000 đ đ</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td
-                      rowSpan={2}
-                      style={{ whiteSpace: "nowrap", fontSize: "14px" }}
-                    >
-                      4,000,000 đ
-                    </td>
-                    <td
-                      rowSpan={2}
-                      style={{
-                        whiteSpace: "nowrap",
-                        fontSize: "16px",
-                        color: "#333333",
-                        fontFamily: "Roboto-Medium",
-                      }}
-                    >
-                      4,723,435 đ
-                    </td>
-                    <td rowSpan={2}>
-                      <select
-                        value="Radish"
-                        className="dropdown-thongtinthanhtoan"
-                      >
-                        <option value="chưa" style={{ fontSize: "14px" }}>
-                          Chưa
-                        </option>
-                        <option value="rồi" style={{ fontSize: "14px" }}>
-                          Rồi
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      style={{ color: "#4f4f4f", fontFamily: "Roboto-Medium" }}
-                    >
-                      Nước
-                    </td>
-                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                      3,041 Kw/h
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        style={{
-                          width: "80px",
-                          fontSize: "14px",
-                          fontFamily: "Roboto-Bold",
-                        }}
-                        className="ghichu"
-                      />
-                    </td>
-                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                      14 Kw/h
-                    </td>
-                    <td style={{ whiteSpace: "nowrap", fontSize: "14px" }}>
-                      76,780 đ
-                    </td>
-                  </tr>
+                  {loadPaymentToRead()}
+                  {loadPaymentToWriteFull()}
                 </tbody>
               </table>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Modal */}
@@ -1590,7 +2197,10 @@ export default function DayTroDetail() {
             className="material-icons icon"
             style={{ fontSize: "22px", color: "#828282", cursor: "pointer" }}
             onClick={() =>
-              setModalDelete({ id: "", content: { name: "", id: "" } })
+              setModalDelete({
+                status: false,
+                content: { name: "", id: "" },
+              })
             }
           >
             close
@@ -1603,16 +2213,19 @@ export default function DayTroDetail() {
         </span>
 
         {loading2 ? (
-              <div className="loading2">
-                <ReactLoading
-                  type={"spin"}
-                  color={"#EE6F57"}
-                  height={"5%"}
-                  width={"5%"}
-                />
-              </div>
-            ) : null}
-        <div className="input-box" style={loading2 ? { marginTop: 70 } : { marginTop: 50 }}>
+          <div className="loading2">
+            <ReactLoading
+              type={"spin"}
+              color={"#EE6F57"}
+              height={"5%"}
+              width={"5%"}
+            />
+          </div>
+        ) : null}
+        <div
+          className="input-box"
+          style={loading2 ? { marginTop: 70 } : { marginTop: 50 }}
+        >
           <p
             className="text-huy"
             onClick={() =>
