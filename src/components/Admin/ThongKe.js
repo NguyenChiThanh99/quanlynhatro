@@ -21,10 +21,10 @@ export default function ThongKe() {
   const [tokenStatus, setTokenStatus] = useState(false);
   const [doanhthuLabel, setDoanhthuLabel] = useState([]);
   const [doanhthuValue, setDoanhthuValue] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [dien, setDien] = useState([]);
   const [nuoc, setNuoc] = useState([]);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   const data = {
     labels: doanhthuLabel,
