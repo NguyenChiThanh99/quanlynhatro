@@ -220,7 +220,7 @@ export default function Admin() {
         <div className="logo" onClick={() => history.push("/admin/quanlydaytro")}>
           <img id="img-logo" src={logo} alt="Logo" />
         </div>
-        <div className="search">
+        <div className="search" style={{display: 'none'}}>
           <i className="material-icons-round" id="icon-search">
             search
           </i>

@@ -241,7 +241,7 @@ export default function ThanhToan() {
                 <tr>
                   <th className="sort" rowSpan={2}>
                     <p className="sort_text">Tháng</p>
-                    <span className="material-icons icon">arrow_downward</span>
+                    <span className="material-icons icon" style={{display: 'none'}}>arrow_downward</span>
                   </th>
                   <th rowSpan={2}>
                     <p>Ngày chốt chỉ số</p>

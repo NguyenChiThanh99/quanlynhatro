@@ -453,13 +453,14 @@ export default function QuanLyPhongTro() {
         )}
 
         <div className="row">
-          <p className="dropdown">Mới nhất</p>
+          <p className="dropdown" style={{display: 'none'}}>Mới nhất</p>
           <i
             className="material-icons-round"
             style={{
               padding: "0px 20px 0px 10px",
               color: "#333333",
               alignSelf: "center",
+              display: "none"
             }}
           >
             arrow_drop_down

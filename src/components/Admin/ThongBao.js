@@ -303,7 +303,7 @@ export default function ThongBao() {
                 <tr>
                   <th className="sort">
                     <p className="sort_text">Thời gian</p>
-                    <span className="material-icons-round icon">
+                    <span className="material-icons-round icon" style={{display: 'none'}}>
                       arrow_downward
                     </span>
                   </th>

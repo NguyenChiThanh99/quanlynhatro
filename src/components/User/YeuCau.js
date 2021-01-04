@@ -180,7 +180,7 @@ export default function YeuCau() {
                 <tr>
                   <th className="sort">
                     <p className="sort_text">Ngày yêu cầu</p>
-                    <span className="material-icons-round icon">
+                    <span className="material-icons-round icon" style={{display: 'none'}}>
                       arrow_downward
                     </span>
                   </th>
